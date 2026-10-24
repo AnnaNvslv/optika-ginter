@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{title}}</title>
+<meta name="description" content="{{desc}}">
+{{HEAD_SEO}}
+<link rel="icon" type="image/svg+xml" href="{{FAVICON}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="{{ROOT}}img/hero-1600.webp" imagesrcset="{{ROOT}}img/hero-960.webp 960w, {{ROOT}}img/hero-1600.webp 1600w, {{ROOT}}img/hero-2400.webp 2400w" imagesizes="100vw">
+{{STYLE}}
+<style>
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+.hide-sm{ display:none; } @media(min-width:560px){ .hide-sm{ display:inline; } }
+/* ===== real photos ===== */
+.ph img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.ph.photo{ color:var(--white); background:#111; }
+.ph.photo .ph-corners::before,.ph.photo .ph-corners::after,.ph.photo .ph-corners i::before,.ph.photo .ph-corners i::after{ opacity:.8; }
+.hero .ph::after{ background:linear-gradient(180deg,rgba(0,0,0,.66),rgba(0,0,0,.55) 45%,rgba(0,0,0,.7)); z-index:1; }
+.hero img,.divider img{ filter:grayscale(1) contrast(1.05); }
+.stats{ gap:40px; }
+.divider .ph::after{ content:''; position:absolute; inset:0; background:rgba(0,0,0,.45); z-index:1; }
+.split-media .ph{ aspect-ratio:4/5; }
+
+/* ===== services price ===== */
+.acc-price{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:500; color:var(--ink-soft); white-space:nowrap; margin-left:12px; }
+@media(max-width:620px){ .acc-btn{ flex-wrap:wrap; row-gap:6px; } .acc-price{ order:3; flex-basis:100%; margin-left:60px; } }
+.pay{ margin-top:30px; color:var(--ink-soft); font-size:14px; }
+
+/* ===== team ===== */
+.team-grid{ display:grid; gap:56px; }
+@media(min-width:760px){ .team-grid{ grid-template-columns:repeat(3,1fr); gap:36px; } }
+.member .ph{ aspect-ratio:4/5; margin-bottom:26px; }
+.member h3{ font-size:30px; }
+.member .owner-role{ margin-top:8px; font-size:11px; }
+.member p{ margin-top:16px; color:var(--ink-soft); font-size:15px; }
+.team-quote{ margin:80px auto 0; max-width:760px; text-align:center; font-family:var(--serif); font-style:italic; font-size:clamp(24px,3vw,34px); line-height:1.35; }
+
+/* ===== brands ===== */
+.brands{ padding:70px 0; }
+.brand-row{ display:grid; gap:18px; align-items:baseline; padding:22px 0; border-top:1px solid var(--line); }
+.brand-row:last-child{ border-bottom:1px solid var(--line); }
+@media(min-width:900px){ .brand-row{ grid-template-columns:180px 1fr; } }
+.brand-row .kicker{ margin:0; }
+.brand-list{ display:flex; flex-wrap:wrap; gap:10px 38px; font-family:var(--serif); font-size:clamp(20px,2.2vw,26px); color:var(--ink-soft); }
+
+/* ===== faq ===== */
+.faq .acc-title{ font-size:clamp(20px,2.4vw,28px); }
+.faq .acc-panel-in{ padding-left:0; }
+.faq .acc-btn{ gap:20px; }
+
+/* ===== contacts ===== */
+.btn-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top:38px; }
+.btn-row .btn{ margin-top:0; }
+.c-note{ margin-top:16px; font-size:13.5px; color:var(--ink-faint); }
+
+/* ===== mobile call bar ===== */
+.callbar{ display:none; }
+@media(max-width:759px){
+  .callbar{ display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:50;
+    background:var(--black); color:var(--white); justify-content:center; align-items:center; gap:10px;
+    padding:16px; font-size:12px; letter-spacing:.22em; text-transform:uppercase; font-weight:600;
+    transform:translateY(140%); transition:transform .45s var(--ease); box-shadow:0 8px 30px rgba(0,0,0,.25); }
+  .callbar.show{ transform:none; }
+  body.nav-open .callbar{ transform:translateY(140%); }
+  footer{ padding-bottom:110px; }
+}
+.callbar svg{ width:16px; height:16px; fill:currentColor; }
+.f-legal{ font-size:13px; line-height:1.9; opacity:.7; }
+</style>
+<script type="application/ld+json">{{SCHEMA}}</script>
+<script type="application/ld+json">{{FAQ_SCHEMA}}</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lg-full" viewBox="{{VB_FULL}}"><path d="{{D_FULL}}"/></symbol>
+  <symbol id="lg-og" viewBox="{{VB_OG}}"><path d="{{D_OG}}"/></symbol>
+  <symbol id="lg-hz" viewBox="{{VB_HZ}}"><path d="{{D_HZ}}"/></symbol>
+</svg>
+
+<header class="site-head" id="siteHead">
+  <div class="wrap">
+    <a href="{{HOME}}" class="head-brand" aria-label="Optika Ginter">
+      <svg class="logo logo-og" style="aspect-ratio:{{AR_OG}}"><use href="#lg-og"/></svg>
+      <svg class="logo logo-hz" style="aspect-ratio:{{AR_HZ}}"><use href="#lg-hz"/></svg>
+    </a>
+    <div class="head-right">
+      {{LANG_SWITCH}}
+      <button class="menu-btn" id="menuBtn" aria-label="{{menu}}" aria-controls="overlay" aria-expanded="false"><span class="menu-word">{{menu}}</span><span class="bars"></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay">
+  <div class="wrap">
+    <ul class="nav-list">
+      <li><a href="#about"><small>01</small><span>{{nav_about}}</span></a></li>
+      <li><a href="#services"><small>02</small><span>{{nav_services}}</span></a></li>
+      <li><a href="#team"><small>03</small><span>{{nav_team}}</span></a></li>
+      <li><a href="#faq"><small>04</small><span>{{nav_faq}}</span></a></li>
+      <li><a href="#contacts"><small>05</small><span>{{nav_contacts}}</span></a></li>
+    </ul>
+    <div class="overlay-meta">
+      <svg class="logo" style="aspect-ratio:{{AR_FULL}}"><use href="#lg-full"/></svg>
+      {{ADDRESS}}, Novi Sad<br>
+      <a href="tel:{{PHONE_TEL}}">{{PHONE_DISPLAY}}</a><br>
+      <a href="{{INSTAGRAM}}" target="_blank" rel="noopener">{{INSTAGRAM_HANDLE}}</a>
+    </div>
+  </div>
+</div>
+
+<main>
+<section class="hero" id="top">
+  <div class="ph photo"><div class="ph-inner">
+    <img src="{{ROOT}}img/hero-1600.webp" srcset="{{ROOT}}img/hero-960.webp 960w, {{ROOT}}img/hero-1600.webp 1600w, {{ROOT}}img/hero-2400.webp 2400w" sizes="100vw" alt="" fetchpriority="high">
+  </div><div class="ph-corners"><i></i></div></div>
+  <div class="hero-content">
+    <h1 style="margin:0"><svg class="logo hero-logo" style="aspect-ratio:{{AR_FULL}}" aria-hidden="true"><use href="#lg-full"/></svg><span class="sr-only">{{H1}}</span></h1>
+    <p class="hero-tag">{{hero_tag}}</p>
+    <a href="tel:{{PHONE_TEL}}" class="btn light"><span>{{btn_book}}<span class="hide-sm"> · {{PHONE_DISPLAY}}</span></span></a>
+  </div>
+  <div class="hero-scroll">{{scroll}}</div>
+</section>
+
+<section id="about">
+  <div class="wrap split">
+    <div class="split-media reveal">
+      <div class="ph photo"><div class="ph-inner">
+        <img src="{{ROOT}}img/salon-800.webp" srcset="{{ROOT}}img/salon-800.webp 800w, {{ROOT}}img/salon-1400.webp 1400w" sizes="(min-width:900px) 50vw, 100vw" alt="{{alt_salon}}" loading="lazy" style="object-position:18% 50%">
+      </div><div class="ph-corners"><i></i></div></div>
+    </div>
+    <div class="split-text reveal">
+      <span class="kicker">{{about_kicker}}</span>
+      <h2 class="h-sec">{{about_h}}</h2>
+      <p class="lead">{{about_p1}}</p>
+      <p class="lead" style="margin-top:16px">{{about_p2}}</p>
+      <div class="stats">
+        <div><b>{{stat1_b}}</b><span>{{stat1}}</span></div>
+        <div><b>{{stat2_b}}</b><span>{{stat2}}</span></div>
+        <div><b>{{stat3_b}}</b><span>{{stat3}}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="divider">
+  <div class="ph photo"><div class="ph-inner">
+    <img src="{{ROOT}}img/frames-1600.webp" srcset="{{ROOT}}img/frames-800.webp 800w, {{ROOT}}img/frames-1600.webp 1600w" sizes="100vw" alt="" loading="lazy" style="object-position:50% 40%">
+  </div><div class="ph-corners"><i></i></div>
+    <p class="quote">{{quote1}}</p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">{{svc_kicker}}</span>
+        <h2 class="h-sec">{{svc_h}}</h2>
+      </div>
+      <p class="lead">{{svc_lead}}</p>
+    </div>
+    <div class="accordion reveal">
+{{SERVICES}}
+    </div>
+    <p class="pay reveal">{{pay}}</p>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">{{why_kicker}}</span>
+        <h2 class="h-sec">{{why_h}}</h2>
+      </div>
+    </div>
+    <div class="why-grid reveal">
+{{WHY}}
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">{{team_kicker}}</span>
+        <h2 class="h-sec">{{team_h}}</h2>
+      </div>
+    </div>
+    <div class="team-grid">
+{{TEAM}}
+    </div>
+  </div>
+</section>
+
+<section class="brands">
+  <div class="wrap reveal">
+    <div class="brand-row"><span class="kicker">{{brands_frames}}</span><div class="brand-list">{{FRAMES}}</div></div>
+    <div class="brand-row"><span class="kicker">{{brands_lenses}}</span><div class="brand-list">{{LENSES}}</div></div>
+  </div>
+</section>
+
+<section id="faq" class="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">{{faq_kicker}}</span>
+        <h2 class="h-sec">{{faq_h}}</h2>
+      </div>
+    </div>
+    <div class="accordion reveal">
+{{FAQ}}
+    </div>
+  </div>
+</section>
+
+<section class="contacts" id="contacts">
+  <div class="wrap contacts-grid">
+    <div class="reveal">
+      <span class="kicker">{{c_kicker}}</span>
+      <h2 class="h-sec" style="margin-bottom:44px">{{c_h}}</h2>
+      <div class="c-row"><span class="kicker">{{c_addr}}</span><div class="c-val">{{ADDRESS}}</div><div class="c-sub">{{CITY}} · {{c_entry}}</div></div>
+      <div class="c-row"><span class="kicker">{{c_phone}}</span><div class="c-val"><a href="tel:{{PHONE_TEL}}">{{PHONE_DISPLAY}}</a></div></div>
+      <div class="c-row"><span class="kicker">{{c_hours}}</span><div class="c-val">{{hours_wd}}</div><div class="c-sub">{{hours_we}}</div></div>
+      <div class="c-row"><span class="kicker">Email · Instagram</span><div class="c-val"><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></div><div class="c-sub"><a href="{{INSTAGRAM}}" target="_blank" rel="noopener">{{INSTAGRAM_HANDLE}} ↗</a></div></div>
+      <div class="btn-row">
+        <a href="tel:{{PHONE_TEL}}" class="btn"><span>{{btn_book}}</span></a>
+      </div>
+      <p class="c-note">{{c_book_note}}</p>
+    </div>
+    <div class="map-box reveal">
+      <iframe src="https://www.google.com/maps?q=Optika%20Ginter%2C%20Trg%20Republike%2025%2C%20Novi%20Sad&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{map_title}}"></iframe>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <svg class="logo f-logo" style="aspect-ratio:{{AR_FULL}}" role="img" aria-label="Optika Ginter"><use href="#lg-full"/></svg>
+      <div class="f-col">
+        <span class="kicker">{{f_nav}}</span>
+        <ul>
+          <li><a href="#about">{{nav_about}}</a></li>
+          <li><a href="#services">{{nav_services}}</a></li>
+          <li><a href="#team">{{nav_team}}</a></li>
+          <li><a href="#faq">{{nav_faq}}</a></li>
+          <li><a href="#contacts">{{nav_contacts}}</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <span class="kicker">{{c_kicker}}</span>
+        <ul>
+          <li>{{ADDRESS}}, {{CITY}}</li>
+          <li><a href="tel:{{PHONE_TEL}}">{{PHONE_DISPLAY}}</a></li>
+          <li><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></li>
+          <li><a href="{{INSTAGRAM}}" target="_blank" rel="noopener">Instagram ↗</a></li>
+        </ul>
+        <p class="f-legal" style="margin-top:22px">Optika Ginter · PIB {{PIB}} · MB {{MB}}</p>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 Optika Ginter</span>
+      <span>{{f_est}}</span>
+    </div>
+  </div>
+</footer>
+
+<a class="callbar" id="callbar" href="tel:{{PHONE_TEL}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>{{btn_call}} · {{PHONE_DISPLAY}}</a>
+
+<script>
+const head=document.getElementById('siteHead'), bar=document.getElementById('callbar');
+const onScroll=()=>{ const y=window.scrollY, h=window.innerHeight*0.8; head.classList.toggle('scrolled', y>h); bar.classList.toggle('show', y>h*0.6); };
+window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+const mb=document.getElementById('menuBtn');
+const setNav=o=>{ document.body.classList.toggle('nav-open',o); mb.setAttribute('aria-expanded',o); };
+mb.addEventListener('click',()=>setNav(!document.body.classList.contains('nav-open')));
+document.querySelectorAll('.nav-list a').forEach(a=>a.addEventListener('click',()=>setNav(false)));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') setNav(false); });
+document.querySelectorAll('.accordion').forEach(acc=>{
+  acc.querySelectorAll('.acc-item').forEach(item=>{
+    const btn=item.querySelector('.acc-btn'), panel=item.querySelector('.acc-panel');
+    if(item.classList.contains('open')) panel.style.maxHeight=panel.scrollHeight+'px';
+    btn.addEventListener('click',()=>{
+      const was=item.classList.contains('open');
+      acc.querySelectorAll('.acc-item.open').forEach(o=>{ o.classList.remove('open'); o.querySelector('.acc-btn').setAttribute('aria-expanded','false'); o.querySelector('.acc-panel').style.maxHeight=0; });
+      if(!was){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); panel.style.maxHeight=panel.scrollHeight+'px'; }
+    });
+  });
+});
+window.addEventListener('resize',()=>document.querySelectorAll('.acc-item.open .acc-panel').forEach(p=>p.style.maxHeight=p.scrollHeight+'px'));
+const rv=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{threshold:.1});
+  rv.forEach(el=>io.observe(el));
+} else rv.forEach(el=>el.classList.add('in'));
+</script>
+</body>
+</html>
