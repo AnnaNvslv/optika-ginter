@@ -9,7 +9,7 @@
 <link rel="icon" type="image/svg+xml" href="{{FAVICON}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="{{ROOT}}img/hero-1600.webp" imagesrcset="{{ROOT}}img/hero-960.webp 960w, {{ROOT}}img/hero-1600.webp 1600w, {{ROOT}}img/hero-2400.webp 2400w" imagesizes="100vw">
 {{STYLE}}
 <style>
@@ -19,11 +19,11 @@
 .ph img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .ph.photo{ color:var(--white); background:#111; }
 .ph.photo .ph-corners::before,.ph.photo .ph-corners::after,.ph.photo .ph-corners i::before,.ph.photo .ph-corners i::after{ opacity:.8; }
-.hero .ph::after{ background:linear-gradient(180deg,rgba(0,0,0,.66),rgba(0,0,0,.55) 45%,rgba(0,0,0,.7)); z-index:1; }
-.hero img,.divider img{ filter:grayscale(1) contrast(1.05); }
-.stats{ gap:40px; }
-.divider .ph::after{ content:''; position:absolute; inset:0; background:rgba(0,0,0,.45); z-index:1; }
-.split-media .ph{ aspect-ratio:4/5; }
+.hero .ph::after{ background:linear-gradient(180deg,rgba(18,16,13,.6),rgba(18,16,13,.4) 45%,rgba(18,16,13,.62)); z-index:1; }
+.divider .ph::after{ content:''; position:absolute; inset:0; background:rgba(18,16,13,.42); z-index:1; }
+/* about: salon photo shown whole */
+@media(min-width:900px){ #about .split{ grid-template-columns:1.2fr .8fr; gap:80px; } }
+#about .split-media .ph{ aspect-ratio:1400/933; }
 
 /* ===== services price ===== */
 .acc-price{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:500; color:var(--ink-soft); white-space:nowrap; margin-left:12px; }
@@ -34,12 +34,10 @@
 .team-grid{ display:grid; gap:56px; }
 @media(min-width:760px){ .team-grid{ grid-template-columns:repeat(3,1fr); gap:36px; } }
 .member .ph{ aspect-ratio:4/5; margin-bottom:26px; }
-.member .ph img{ filter:grayscale(1) contrast(1.03); transition:filter .7s var(--ease); }
-@media(hover:hover){ .member:hover .ph img{ filter:none; } }
 .member h3{ font-size:30px; }
 .member .owner-role{ margin-top:8px; font-size:11px; }
 .member p{ margin-top:16px; color:var(--ink-soft); font-size:15px; }
-.team-quote{ margin:80px auto 0; max-width:760px; text-align:center; font-family:var(--serif); font-style:italic; font-size:clamp(24px,3vw,34px); line-height:1.35; }
+.team-quote{ margin:80px auto 0; max-width:760px; text-align:center; font-family:var(--serif); font-size:clamp(24px,3vw,34px); line-height:1.35; }
 
 /* ===== brands ===== */
 .brands{ padding:70px 0; }
@@ -63,7 +61,7 @@
 .callbar{ display:none; }
 @media(max-width:759px){
   .callbar{ display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:50;
-    background:var(--black); color:var(--white); justify-content:center; align-items:center; gap:10px;
+    background:var(--black); color:var(--gold-light); justify-content:center; align-items:center; gap:10px;
     padding:16px; font-size:12px; letter-spacing:.22em; text-transform:uppercase; font-weight:600;
     transform:translateY(140%); transition:transform .45s var(--ease); box-shadow:0 8px 30px rgba(0,0,0,.25); }
   .callbar.show{ transform:none; }
@@ -91,6 +89,9 @@
       <svg class="logo logo-hz" style="aspect-ratio:{{AR_HZ}}"><use href="#lg-hz"/></svg>
     </a>
     <div class="head-right">
+      <nav class="main-nav" aria-label="{{menu}}">
+        <a href="#about">{{nav_about}}</a><a href="#services">{{nav_services}}</a><a href="#team">{{nav_team}}</a><a href="#faq">{{nav_faq}}</a><a href="#contacts">{{nav_contacts}}</a>
+      </nav>
       {{LANG_SWITCH}}
       <button class="menu-btn" id="menuBtn" aria-label="{{menu}}" aria-controls="overlay" aria-expanded="false"><span class="menu-word">{{menu}}</span><span class="bars"></span></button>
     </div>
@@ -100,14 +101,13 @@
 <div class="overlay" id="overlay">
   <div class="wrap">
     <ul class="nav-list">
-      <li><a href="#about"><small>01</small><span>{{nav_about}}</span></a></li>
-      <li><a href="#services"><small>02</small><span>{{nav_services}}</span></a></li>
-      <li><a href="#team"><small>03</small><span>{{nav_team}}</span></a></li>
-      <li><a href="#faq"><small>04</small><span>{{nav_faq}}</span></a></li>
-      <li><a href="#contacts"><small>05</small><span>{{nav_contacts}}</span></a></li>
+      <li><a href="#about">{{nav_about}}</a></li>
+      <li><a href="#services">{{nav_services}}</a></li>
+      <li><a href="#team">{{nav_team}}</a></li>
+      <li><a href="#faq">{{nav_faq}}</a></li>
+      <li><a href="#contacts">{{nav_contacts}}</a></li>
     </ul>
     <div class="overlay-meta">
-      <svg class="logo" style="aspect-ratio:{{AR_FULL}}"><use href="#lg-full"/></svg>
       {{ADDRESS}}, Novi Sad<br>
       <a href="tel:{{PHONE_TEL}}">{{PHONE_DISPLAY}}</a><br>
       <a href="{{INSTAGRAM}}" target="_blank" rel="noopener">{{INSTAGRAM_HANDLE}}</a>
@@ -132,7 +132,7 @@
   <div class="wrap split">
     <div class="split-media reveal">
       <div class="ph photo"><div class="ph-inner">
-        <img src="{{ROOT}}img/salon-800.webp" srcset="{{ROOT}}img/salon-800.webp 800w, {{ROOT}}img/salon-1400.webp 1400w" sizes="(min-width:900px) 50vw, 100vw" alt="{{alt_salon}}" loading="lazy" style="object-position:18% 50%">
+        <img src="{{ROOT}}img/salon-800.webp" srcset="{{ROOT}}img/salon-800.webp 800w, {{ROOT}}img/salon-1400.webp 1400w" sizes="(min-width:900px) 50vw, 100vw" alt="{{alt_salon}}" loading="lazy" style="object-position:50% 50%">
       </div><div class="ph-corners"><i></i></div></div>
     </div>
     <div class="split-text reveal">
@@ -140,11 +140,6 @@
       <h2 class="h-sec">{{about_h}}</h2>
       <p class="lead">{{about_p1}}</p>
       <p class="lead" style="margin-top:16px">{{about_p2}}</p>
-      <div class="stats">
-        <div><b>{{stat1_b}}</b><span>{{stat1}}</span></div>
-        <div><b>{{stat2_b}}</b><span>{{stat2}}</span></div>
-        <div><b>{{stat3_b}}</b><span>{{stat3}}</span></div>
-      </div>
     </div>
   </div>
 </section>

@@ -4,8 +4,8 @@ from content import *
 
 DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
-OUT = "/mnt/user-data/outputs/sajt"
-IMG_V = "7"  # менять при замене фото, чтобы браузер не брал старые
+OUT = os.path.dirname(BASE)  # корень репозитория
+IMG_V = "8"  # менять при замене фото, чтобы браузер не брал старые
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -44,7 +44,7 @@ def why(d):
 def team(d, root, photo_word):
     out = []
     for key, name, role, txt in d["team"]:
-        if os.path.exists(f"{BASE}/img/{key}-600.webp"):
+        if os.path.exists(f"{OUT}/img/{key}-600.webp"):
             media = f'<div class="ph photo"><div class="ph-inner"><img src="{root}img/{key}-600.webp" srcset="{root}img/{key}-600.webp 600w, {root}img/{key}-1000.webp 1000w" sizes="(min-width:760px) 33vw, 100vw" alt="{name} — Optika Ginter" loading="lazy" style="object-position:50% 25%"></div><div class="ph-corners"><i></i></div></div>'
         else:
             media = f'<div class="ph"><div class="ph-inner"></div><div class="ph-corners"><i></i></div><span class="ph-label">{d["ph_photo"]}</span></div>'
@@ -86,7 +86,7 @@ def head_seo(lang, d):
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="{LOCALE[lang]}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#000000">"""
+<meta name="theme-color" content="#12100D">"""
 
 def build(lang):
     d = dict(C[lang]); root = ROOT[lang]
@@ -113,9 +113,6 @@ def build(lang):
     assert not missing, missing
     return out
 
-if os.path.exists(OUT): shutil.rmtree(OUT)
-os.makedirs(OUT)
-shutil.copytree(f"{BASE}/img", f"{OUT}/img")
 for l in LANGS:
     p = OUT + PATH[l]; os.makedirs(p, exist_ok=True)
     open(p + "index.html", "w", encoding="utf-8").write(build(l))
