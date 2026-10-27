@@ -5,7 +5,7 @@ from content import *
 DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = "/mnt/user-data/outputs/sajt"
-IMG_V = "3"  # менять при замене фото, чтобы браузер не брал старые
+IMG_V = "4"  # менять при замене фото, чтобы браузер не брал старые
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}

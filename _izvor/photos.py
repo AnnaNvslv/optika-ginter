@@ -19,3 +19,14 @@ for w in (800,1400): save(s,'salon',w,1.0,contrast=0.9)
 f=s.crop((s.width//2,0,s.width,s.height))
 for w in (800,1600): save(f,'frames',w,1.0,contrast=0.9)
 print('ok')
+
+# Ervin & Bojana: soft-focus — смесь чёткого и размытого (детали остаются, кожа мягче)
+def glow(im, w, mix=0.35, rad=2.4):
+    r=im.resize((w, round(im.height*w/im.width)), Image.LANCZOS)
+    b=r.filter(ImageFilter.GaussianBlur(rad*w/1000))
+    r=Image.blend(r,b,mix)
+    return ImageEnhance.Color(ImageEnhance.Contrast(r).enhance(0.94)).enhance(0.95)
+for n in ('ervin','bojana'):
+    im=load(S+n+'.jpg')
+    for w in (600,1000): glow(im,w).save(f'{OUT}{n}-{w}.webp','WEBP',quality=82,method=6)
+print('glow ok')
