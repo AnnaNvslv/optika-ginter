@@ -26,7 +26,15 @@ def glow(im, w, mix=0.35, rad=2.4):
     b=r.filter(ImageFilter.GaussianBlur(rad*w/1000))
     r=Image.blend(r,b,mix)
     return ImageEnhance.Color(ImageEnhance.Contrast(r).enhance(0.94)).enhance(0.95)
-for n,src in (('ervin',S+'ervin.jpg'),('bojana',S+'bojana.jpg'),('anna',A)):
+for n,src in (('anna',A),):
     im=load(src)
     for w in (600,1000): glow(im,w).save(f'{OUT}{n}-{w}.webp','WEBP',quality=82,method=6)
 print('glow ok')
+
+# Ervin & Bojana: уже смягчены Анной — только уменьшаем, без обработки
+ATT='/mnt/user-data/attachments/bd42655e-adf2-553c-8ee4-c8b90d65e91f/'
+for n,f in (('bojana','5f2d3877-image.png'),('ervin','596889c9-image.png')):
+    im=load(ATT+f)
+    for w in (600,1000):
+        im.resize((w, round(im.height*w/im.width)), Image.LANCZOS).save(f'{OUT}{n}-{w}.webp','WEBP',quality=85,method=6)
+print('owners ok')
