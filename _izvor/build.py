@@ -5,6 +5,7 @@ from content import *
 DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = "/mnt/user-data/outputs/sajt"
+IMG_V = "3"  # менять при замене фото, чтобы браузер не брал старые
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -107,6 +108,7 @@ def build(lang):
     out = TPL
     for _ in range(2):
         out = re.sub(r"\{\{(\w+)\}\}", lambda m: v.get(m.group(1), m.group(0)), out)
+    out = re.sub(r"(img/[\w-]+\.(?:webp|jpg))", r"\1?v=" + IMG_V, out)
     missing = set(re.findall(r"\{\{(\w+)\}\}", out))
     assert not missing, missing
     return out
