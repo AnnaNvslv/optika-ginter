@@ -38,3 +38,11 @@ for n,f in (('bojana','5f2d3877-image.png'),('ervin','596889c9-image.png')):
     for w in (600,1000):
         im.resize((w, round(im.height*w/im.width)), Image.LANCZOS).save(f'{OUT}{n}-{w}.webp','WEBP',quality=85,method=6)
 print('owners ok')
+
+# Салон: без размытия — только уменьшаем (перезаписывает версии выше)
+def plain(im,name,w): im.resize((w, round(im.height*w/im.width)), Image.LANCZOS).save(f'{OUT}{name}-{w}.webp','WEBP',quality=82,method=6)
+h=load(S+'salon2.jpg'); s=load(S+'salon.jpg'); f=s.crop((s.width//2,0,s.width,s.height))
+for w in (960,1600,2400): plain(h,'hero',w)
+for w in (800,1400): plain(s,'salon',w)
+for w in (800,1600): plain(f,'frames',w)
+print('salon plain ok')

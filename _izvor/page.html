@@ -34,6 +34,8 @@
 .team-grid{ display:grid; gap:56px; }
 @media(min-width:760px){ .team-grid{ grid-template-columns:repeat(3,1fr); gap:36px; } }
 .member .ph{ aspect-ratio:4/5; margin-bottom:26px; }
+.member .ph img{ filter:grayscale(1) contrast(1.03); transition:filter .7s var(--ease); }
+@media(hover:hover){ .member:hover .ph img{ filter:none; } }
 .member h3{ font-size:30px; }
 .member .owner-role{ margin-top:8px; font-size:11px; }
 .member p{ margin-top:16px; color:var(--ink-soft); font-size:15px; }
