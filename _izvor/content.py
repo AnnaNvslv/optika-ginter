@@ -54,6 +54,7 @@ C["sr"] = dict(
     ],
     team_q="„Kvalitetan vid može biti dostupan. Radimo da biste dobro videli.”",
     ph_photo="Fotografija uskoro",
+    brands_kicker="Brendovi", brands_h="Originalni <em>brendovi</em>", brands_lead="Okviri i sočiva vodećih svetskih proizvođača. Samo originalni proizvodi.", about_more="Upoznajte naš tim",
     brands_frames="Okviri", brands_lenses="Stakla i sočiva",
     faq_kicker="Česta pitanja", faq_h="Pitajte <em>nas</em>",
     faq=[
@@ -113,6 +114,7 @@ C["hu"] = dict(
     ],
     team_q="„A minőségi látás lehet megfizethető. Azért dolgozunk, hogy Ön jól lásson.”",
     ph_photo="Fotó hamarosan",
+    brands_kicker="Márkák", brands_h="Eredeti <em>márkák</em>", brands_lead="Vezető világmárkák keretei és lencséi. Csak eredeti termékek.", about_more="Ismerje meg csapatunkat",
     brands_frames="Keretek", brands_lenses="Lencsék",
     faq_kicker="Gyakori kérdések", faq_h="Kérdezzen <em>minket</em>",
     faq=[
@@ -172,6 +174,7 @@ C["en"] = dict(
     ],
     team_q="“Good vision can be affordable. We work so that you see well.”",
     ph_photo="Photo coming soon",
+    brands_kicker="Brands", brands_h="Genuine <em>brands</em>", brands_lead="Frames and lenses from the world’s leading makers. Only original products.", about_more="Meet our team",
     brands_frames="Frames", brands_lenses="Lenses",
     faq_kicker="FAQ", faq_h="Ask <em>us</em>",
     faq=[
@@ -231,6 +234,7 @@ C["ru"] = dict(
     ],
     team_q="«Качественное зрение может быть доступным. Мы трудимся, чтобы вы хорошо видели.»",
     ph_photo="Фото скоро",
+    brands_kicker="Бренды", brands_h="Оригинальные <em>бренды</em>", brands_lead="Оправы и линзы ведущих мировых производителей. Только оригинальная продукция.", about_more="Познакомиться с командой",
     brands_frames="Оправы", brands_lenses="Линзы",
     faq_kicker="Частые вопросы", faq_h="Спросите <em>нас</em>",
     faq=[

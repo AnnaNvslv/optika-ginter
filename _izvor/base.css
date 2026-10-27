@@ -8,7 +8,7 @@
   --gold-deep:#93713D;
   --gold-light:#D2B47E;
   --ink:#1F1F1F;
-  --ink-soft:#5B5648;
+  --ink-soft:#554F44;
   --ink-faint:#8A8371;
   --line:#DED2B8;
   --panel:#F0E9DA;
@@ -31,7 +31,7 @@ button{ font-family:inherit; color:inherit; }
 .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
 @media(min-width:900px){ .wrap{ padding:0 48px; } }
 section{ padding:96px 0; }
-@media(min-width:900px){ section{ padding:140px 0; } }
+@media(min-width:900px){ section{ padding:120px 0; } }
 .kicker{ display:block; font-size:11.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:500; color:var(--gold-deep); margin-bottom:22px; }
 .h-sec{ font-size:clamp(34px,5vw,64px); }
 .h-sec em{ color:var(--gold-deep); }
@@ -130,7 +130,7 @@ body.nav-open .overlay{ opacity:1; visibility:visible; transform:none; }
 .overlay-meta .logo{ display:none; }
 
 /* ============ HERO ============ */
-.hero{ position:relative; height:100vh; min-height:620px; padding:0; color:var(--white); }
+.hero{ position:relative; padding:0; color:var(--white); }
 .hero .ph{ position:absolute; inset:0; }
 .hero .ph::after{ content:''; position:absolute; inset:0; background:rgba(0,0,0,.35); }
 .hero-content{
@@ -255,4 +255,79 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
   .hero-scroll::after{ animation:none; }
   .nav-list a{ transition:none; }
 }
+/* ============ DESIGN v2 ============ */
+/* header: always black, gold logo */
+.site-head,.site-head.scrolled,body.nav-open .site-head{ background:rgba(18,16,13,.97); color:var(--white); border-color:rgba(176,138,82,.28); backdrop-filter:blur(8px); }
+.head-brand{ color:var(--gold-light); }
+.lang a.active{ color:var(--gold-light); }
+.main-nav a:hover{ color:var(--gold-light); border-color:var(--gold-light); }
+
+/* hero: black panel + color photo */
+.hero{ display:grid; padding-top:76px; background:var(--black); }
+.hero-panel{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:72px 28px 64px; }
+.hero-logo{ width:min(400px,78vw); color:var(--gold-light); }
+.hero-rule{ display:block; width:56px; height:1px; background:var(--gold); margin:44px auto 0; }
+.hero-tag{ margin-top:26px; font-size:clamp(22px,2.1vw,30px); color:#F3EDE2; opacity:1; max-width:420px; line-height:1.3; }
+.btn.gold{ color:var(--gold-light); margin-top:40px; }
+.btn.gold::before{ background:var(--gold-light); }
+.btn.gold:hover{ color:var(--black); }
+.hero-photo{ position:relative; min-height:58vh; overflow:hidden; }
+.hero-photo img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 50%; }
+@media(min-width:900px){
+  .hero{ grid-template-columns:minmax(400px,5fr) 7fr; height:100vh; min-height:660px; }
+  .hero-photo{ min-height:0; }
+  .hero-photo::after{ content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(18,16,13,.35),rgba(18,16,13,0) 22%); }
+}
+
+/* about: large photo bleeding to the edge, gold frame */
+.about-grid{ display:grid; gap:52px; align-items:center; }
+.about-media{ position:relative; }
+.about-media img{ position:relative; z-index:1; display:block; width:100%; aspect-ratio:1400/933; object-fit:cover; }
+.about-text{ padding:0 24px; }
+.about-text .lead{ max-width:500px; }
+.about-text .lead + .lead{ margin-top:16px; }
+@media(min-width:900px){
+  .about-grid{ grid-template-columns:7fr 5fr; gap:96px; padding-right:max(48px, calc((100vw - var(--maxw))/2 + 48px)); }
+  .about-media::before{ content:''; position:absolute; z-index:0; top:-32px; right:-32px; bottom:32px; left:32px; border:1px solid var(--gold); }
+  .about-text{ padding:0; }
+}
+.link-gold{ display:inline-flex; gap:12px; margin-top:38px; font-size:12px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; color:var(--gold-deep); border-bottom:1px solid var(--gold); padding-bottom:6px; transition:gap .3s; }
+.link-gold:hover{ gap:18px; }
+
+/* divider */
+.divider .ph-corners{ display:none; }
+.divider .quote{ text-shadow:0 2px 24px rgba(0,0,0,.35); }
+
+/* services: no numbers */
+.acc-panel-in{ padding-left:0; }
+@media(max-width:620px){ .acc-price{ margin-left:0 !important; } }
+
+/* why: black block */
+.why{ background:var(--black); color:var(--white); }
+.why .kicker{ color:var(--gold-light); }
+.why .h-sec em{ color:var(--gold-light); }
+.why .why-grid{ border-top:none; }
+.why .why-item{ border-color:rgba(210,180,126,.22); }
+.why-mark{ display:block; width:40px; height:1px; background:var(--gold); margin-bottom:30px; }
+.why .why-item h3{ color:var(--white); }
+.why .why-item p{ color:rgba(255,255,255,.68); }
+
+/* brands */
+.brands{ padding:96px 0; background:var(--panel); border:none; }
+@media(min-width:900px){ .brands{ padding:120px 0; } }
+.brand-group{ margin-top:44px; }
+.brand-group:first-of-type{ margin-top:0; }
+.brand-label{ display:flex; align-items:center; gap:20px; margin-bottom:18px; font-family:var(--sans); font-size:11.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:600; color:var(--ink); line-height:1; }
+.brand-label::after{ content:''; flex:1; height:1px; background:var(--gold); }
+.brand-tiles{ display:flex; flex-wrap:wrap; gap:10px; }
+.brand-tile{ flex:1 1 96px; display:flex; align-items:center; justify-content:center; min-height:96px; padding:12px; text-align:center; background:var(--bg); border:1px solid var(--line); font-family:var(--serif); font-size:clamp(18px,1.6vw,22px); color:var(--ink); transition:border-color .3s, color .3s; }
+.brand-group + .brand-group .brand-tile{ flex-basis:96px; }
+@media(min-width:700px){ .brand-tile{ flex-basis:200px; } .brand-group + .brand-group .brand-tile{ flex-basis:170px; } }
+@media(max-width:699px){ .brand-tile{ min-height:76px; font-size:16px; padding:8px; } }
+.brand-tile:hover{ border-color:var(--gold); color:var(--gold-deep); }
+
+/* faq: two columns */
+.faq-grid{ display:grid; gap:40px; }
+.faq .sec-head{ grid-template-columns:1fr; margin-bottom:0; }
+@media(min-width:900px){ .faq-grid{ grid-template-columns:4fr 8fr; gap:80px; align-items:start; } .faq .sec-head{ position:sticky; top:130px; } }
 </style>

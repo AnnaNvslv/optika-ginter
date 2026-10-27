@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="{{ROOT}}img/hero-1600.webp" imagesrcset="{{ROOT}}img/hero-960.webp 960w, {{ROOT}}img/hero-1600.webp 1600w, {{ROOT}}img/hero-2400.webp 2400w" imagesizes="100vw">
+<link rel="preload" as="image" href="{{ROOT}}img/hero-1600.webp" imagesrcset="{{ROOT}}img/hero-960.webp 960w, {{ROOT}}img/hero-1600.webp 1600w, {{ROOT}}img/hero-2400.webp 2400w" imagesizes="(min-width:900px) 60vw, 100vw">
 {{STYLE}}
 <style>
 .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
@@ -19,11 +19,7 @@
 .ph img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .ph.photo{ color:var(--white); background:#111; }
 .ph.photo .ph-corners::before,.ph.photo .ph-corners::after,.ph.photo .ph-corners i::before,.ph.photo .ph-corners i::after{ opacity:.8; }
-.hero .ph::after{ background:linear-gradient(180deg,rgba(18,16,13,.6),rgba(18,16,13,.4) 45%,rgba(18,16,13,.62)); z-index:1; }
 .divider .ph::after{ content:''; position:absolute; inset:0; background:rgba(18,16,13,.42); z-index:1; }
-/* about: salon photo shown whole */
-@media(min-width:900px){ #about .split{ grid-template-columns:1.2fr .8fr; gap:80px; } }
-#about .split-media .ph{ aspect-ratio:1400/933; }
 
 /* ===== services price ===== */
 .acc-price{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:500; color:var(--ink-soft); white-space:nowrap; margin-left:12px; }
@@ -38,14 +34,6 @@
 .member .owner-role{ margin-top:8px; font-size:11px; }
 .member p{ margin-top:16px; color:var(--ink-soft); font-size:15px; }
 .team-quote{ margin:80px auto 0; max-width:760px; text-align:center; font-family:var(--serif); font-size:clamp(24px,3vw,34px); line-height:1.35; }
-
-/* ===== brands ===== */
-.brands{ padding:70px 0; }
-.brand-row{ display:grid; gap:18px; align-items:baseline; padding:22px 0; border-top:1px solid var(--line); }
-.brand-row:last-child{ border-bottom:1px solid var(--line); }
-@media(min-width:900px){ .brand-row{ grid-template-columns:180px 1fr; } }
-.brand-row .kicker{ margin:0; }
-.brand-list{ display:flex; flex-wrap:wrap; gap:10px 38px; font-family:var(--serif); font-size:clamp(20px,2.2vw,26px); color:var(--ink-soft); }
 
 /* ===== faq ===== */
 .faq .acc-title{ font-size:clamp(20px,2.4vw,28px); }
@@ -117,29 +105,28 @@
 
 <main>
 <section class="hero" id="top">
-  <div class="ph photo"><div class="ph-inner">
-    <img src="{{ROOT}}img/hero-1600.webp" srcset="{{ROOT}}img/hero-960.webp 960w, {{ROOT}}img/hero-1600.webp 1600w, {{ROOT}}img/hero-2400.webp 2400w" sizes="100vw" alt="" fetchpriority="high">
-  </div><div class="ph-corners"><i></i></div></div>
-  <div class="hero-content">
+  <div class="hero-panel">
     <h1 style="margin:0"><svg class="logo hero-logo" style="aspect-ratio:{{AR_FULL}}" aria-hidden="true"><use href="#lg-full"/></svg><span class="sr-only">{{H1}}</span></h1>
+    <span class="hero-rule"></span>
     <p class="hero-tag">{{hero_tag}}</p>
-    <a href="tel:{{PHONE_TEL}}" class="btn light"><span>{{btn_book}}<span class="hide-sm"> · {{PHONE_DISPLAY}}</span></span></a>
+    <a href="tel:{{PHONE_TEL}}" class="btn gold"><span>{{btn_book}}<span class="hide-sm"> · {{PHONE_DISPLAY}}</span></span></a>
   </div>
-  <div class="hero-scroll">{{scroll}}</div>
+  <div class="hero-photo">
+    <img src="{{ROOT}}img/hero-1600.webp" srcset="{{ROOT}}img/hero-960.webp 960w, {{ROOT}}img/hero-1600.webp 1600w, {{ROOT}}img/hero-2400.webp 2400w" sizes="(min-width:900px) 60vw, 100vw" alt="" fetchpriority="high">
+  </div>
 </section>
 
-<section id="about">
-  <div class="wrap split">
-    <div class="split-media reveal">
-      <div class="ph photo"><div class="ph-inner">
-        <img src="{{ROOT}}img/salon-800.webp" srcset="{{ROOT}}img/salon-800.webp 800w, {{ROOT}}img/salon-1400.webp 1400w" sizes="(min-width:900px) 50vw, 100vw" alt="{{alt_salon}}" loading="lazy" style="object-position:50% 50%">
-      </div><div class="ph-corners"><i></i></div></div>
+<section id="about" class="about">
+  <div class="about-grid">
+    <div class="about-media reveal">
+      <img src="{{ROOT}}img/salon-1400.webp" srcset="{{ROOT}}img/salon-800.webp 800w, {{ROOT}}img/salon-1400.webp 1400w" sizes="(min-width:900px) 60vw, 100vw" alt="{{alt_salon}}" loading="lazy">
     </div>
-    <div class="split-text reveal">
+    <div class="about-text reveal">
       <span class="kicker">{{about_kicker}}</span>
       <h2 class="h-sec">{{about_h}}</h2>
       <p class="lead">{{about_p1}}</p>
-      <p class="lead" style="margin-top:16px">{{about_p2}}</p>
+      <p class="lead">{{about_p2}}</p>
+      <a href="#team" class="link-gold">{{about_more}} <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -197,14 +184,21 @@
 </section>
 
 <section class="brands">
-  <div class="wrap reveal">
-    <div class="brand-row"><span class="kicker">{{brands_frames}}</span><div class="brand-list">{{FRAMES}}</div></div>
-    <div class="brand-row"><span class="kicker">{{brands_lenses}}</span><div class="brand-list">{{LENSES}}</div></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">{{brands_kicker}}</span>
+        <h2 class="h-sec">{{brands_h}}</h2>
+      </div>
+      <p class="lead">{{brands_lead}}</p>
+    </div>
+    <div class="brand-group reveal"><h3 class="brand-label">{{brands_frames}}</h3><div class="brand-tiles">{{FRAMES}}</div></div>
+    <div class="brand-group reveal"><h3 class="brand-label">{{brands_lenses}}</h3><div class="brand-tiles">{{LENSES}}</div></div>
   </div>
 </section>
 
 <section id="faq" class="faq">
-  <div class="wrap">
+  <div class="wrap faq-grid">
     <div class="sec-head reveal">
       <div>
         <span class="kicker">{{faq_kicker}}</span>

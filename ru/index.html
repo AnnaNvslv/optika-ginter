@@ -16,7 +16,7 @@
 <meta property="og:title" content="Optika Ginter — оптика в центре Нови-Сада | Trg Republike 25">
 <meta property="og:description" content="Семейная оптика на Trg Republike 25 в Нови-Саде. Бесплатное уточнение диоптрий, очки от 1 дня, контактные линзы, солнцезащитные очки. Ray-Ban, Armani Exchange, Guess.">
 <meta property="og:url" content="https://optikaginter.rs/ru/">
-<meta property="og:image" content="https://optikaginter.rs/img/og-image.jpg?v=8">
+<meta property="og:image" content="https://optikaginter.rs/img/og-image.jpg?v=9">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="../img/hero-1600.webp?v=8" imagesrcset="../img/hero-960.webp?v=8 960w, ../img/hero-1600.webp?v=8 1600w, ../img/hero-2400.webp?v=8 2400w" imagesizes="100vw">
+<link rel="preload" as="image" href="../img/hero-1600.webp?v=9" imagesrcset="../img/hero-960.webp?v=9 960w, ../img/hero-1600.webp?v=9 1600w, ../img/hero-2400.webp?v=9 2400w" imagesizes="(min-width:900px) 60vw, 100vw">
 <style>
 /* ============ BRAND TOKENS (Grafički standardi) ============ */
 :root{
@@ -36,7 +36,7 @@
   --gold-deep:#93713D;
   --gold-light:#D2B47E;
   --ink:#1F1F1F;
-  --ink-soft:#5B5648;
+  --ink-soft:#554F44;
   --ink-faint:#8A8371;
   --line:#DED2B8;
   --panel:#F0E9DA;
@@ -59,7 +59,7 @@ button{ font-family:inherit; color:inherit; }
 .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
 @media(min-width:900px){ .wrap{ padding:0 48px; } }
 section{ padding:96px 0; }
-@media(min-width:900px){ section{ padding:140px 0; } }
+@media(min-width:900px){ section{ padding:120px 0; } }
 .kicker{ display:block; font-size:11.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:500; color:var(--gold-deep); margin-bottom:22px; }
 .h-sec{ font-size:clamp(34px,5vw,64px); }
 .h-sec em{ color:var(--gold-deep); }
@@ -158,7 +158,7 @@ body.nav-open .overlay{ opacity:1; visibility:visible; transform:none; }
 .overlay-meta .logo{ display:none; }
 
 /* ============ HERO ============ */
-.hero{ position:relative; height:100vh; min-height:620px; padding:0; color:var(--white); }
+.hero{ position:relative; padding:0; color:var(--white); }
 .hero .ph{ position:absolute; inset:0; }
 .hero .ph::after{ content:''; position:absolute; inset:0; background:rgba(0,0,0,.35); }
 .hero-content{
@@ -283,6 +283,81 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
   .hero-scroll::after{ animation:none; }
   .nav-list a{ transition:none; }
 }
+/* ============ DESIGN v2 ============ */
+/* header: always black, gold logo */
+.site-head,.site-head.scrolled,body.nav-open .site-head{ background:rgba(18,16,13,.97); color:var(--white); border-color:rgba(176,138,82,.28); backdrop-filter:blur(8px); }
+.head-brand{ color:var(--gold-light); }
+.lang a.active{ color:var(--gold-light); }
+.main-nav a:hover{ color:var(--gold-light); border-color:var(--gold-light); }
+
+/* hero: black panel + color photo */
+.hero{ display:grid; padding-top:76px; background:var(--black); }
+.hero-panel{ display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:72px 28px 64px; }
+.hero-logo{ width:min(400px,78vw); color:var(--gold-light); }
+.hero-rule{ display:block; width:56px; height:1px; background:var(--gold); margin:44px auto 0; }
+.hero-tag{ margin-top:26px; font-size:clamp(22px,2.1vw,30px); color:#F3EDE2; opacity:1; max-width:420px; line-height:1.3; }
+.btn.gold{ color:var(--gold-light); margin-top:40px; }
+.btn.gold::before{ background:var(--gold-light); }
+.btn.gold:hover{ color:var(--black); }
+.hero-photo{ position:relative; min-height:58vh; overflow:hidden; }
+.hero-photo img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 50%; }
+@media(min-width:900px){
+  .hero{ grid-template-columns:minmax(400px,5fr) 7fr; height:100vh; min-height:660px; }
+  .hero-photo{ min-height:0; }
+  .hero-photo::after{ content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(18,16,13,.35),rgba(18,16,13,0) 22%); }
+}
+
+/* about: large photo bleeding to the edge, gold frame */
+.about-grid{ display:grid; gap:52px; align-items:center; }
+.about-media{ position:relative; }
+.about-media img{ position:relative; z-index:1; display:block; width:100%; aspect-ratio:1400/933; object-fit:cover; }
+.about-text{ padding:0 24px; }
+.about-text .lead{ max-width:500px; }
+.about-text .lead + .lead{ margin-top:16px; }
+@media(min-width:900px){
+  .about-grid{ grid-template-columns:7fr 5fr; gap:96px; padding-right:max(48px, calc((100vw - var(--maxw))/2 + 48px)); }
+  .about-media::before{ content:''; position:absolute; z-index:0; top:-32px; right:-32px; bottom:32px; left:32px; border:1px solid var(--gold); }
+  .about-text{ padding:0; }
+}
+.link-gold{ display:inline-flex; gap:12px; margin-top:38px; font-size:12px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; color:var(--gold-deep); border-bottom:1px solid var(--gold); padding-bottom:6px; transition:gap .3s; }
+.link-gold:hover{ gap:18px; }
+
+/* divider */
+.divider .ph-corners{ display:none; }
+.divider .quote{ text-shadow:0 2px 24px rgba(0,0,0,.35); }
+
+/* services: no numbers */
+.acc-panel-in{ padding-left:0; }
+@media(max-width:620px){ .acc-price{ margin-left:0 !important; } }
+
+/* why: black block */
+.why{ background:var(--black); color:var(--white); }
+.why .kicker{ color:var(--gold-light); }
+.why .h-sec em{ color:var(--gold-light); }
+.why .why-grid{ border-top:none; }
+.why .why-item{ border-color:rgba(210,180,126,.22); }
+.why-mark{ display:block; width:40px; height:1px; background:var(--gold); margin-bottom:30px; }
+.why .why-item h3{ color:var(--white); }
+.why .why-item p{ color:rgba(255,255,255,.68); }
+
+/* brands */
+.brands{ padding:96px 0; background:var(--panel); border:none; }
+@media(min-width:900px){ .brands{ padding:120px 0; } }
+.brand-group{ margin-top:44px; }
+.brand-group:first-of-type{ margin-top:0; }
+.brand-label{ display:flex; align-items:center; gap:20px; margin-bottom:18px; font-family:var(--sans); font-size:11.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:600; color:var(--ink); line-height:1; }
+.brand-label::after{ content:''; flex:1; height:1px; background:var(--gold); }
+.brand-tiles{ display:flex; flex-wrap:wrap; gap:10px; }
+.brand-tile{ flex:1 1 96px; display:flex; align-items:center; justify-content:center; min-height:96px; padding:12px; text-align:center; background:var(--bg); border:1px solid var(--line); font-family:var(--serif); font-size:clamp(18px,1.6vw,22px); color:var(--ink); transition:border-color .3s, color .3s; }
+.brand-group + .brand-group .brand-tile{ flex-basis:96px; }
+@media(min-width:700px){ .brand-tile{ flex-basis:200px; } .brand-group + .brand-group .brand-tile{ flex-basis:170px; } }
+@media(max-width:699px){ .brand-tile{ min-height:76px; font-size:16px; padding:8px; } }
+.brand-tile:hover{ border-color:var(--gold); color:var(--gold-deep); }
+
+/* faq: two columns */
+.faq-grid{ display:grid; gap:40px; }
+.faq .sec-head{ grid-template-columns:1fr; margin-bottom:0; }
+@media(min-width:900px){ .faq-grid{ grid-template-columns:4fr 8fr; gap:80px; align-items:start; } .faq .sec-head{ position:sticky; top:130px; } }
 </style>
 
 <style>
@@ -292,11 +367,7 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
 .ph img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .ph.photo{ color:var(--white); background:#111; }
 .ph.photo .ph-corners::before,.ph.photo .ph-corners::after,.ph.photo .ph-corners i::before,.ph.photo .ph-corners i::after{ opacity:.8; }
-.hero .ph::after{ background:linear-gradient(180deg,rgba(18,16,13,.6),rgba(18,16,13,.4) 45%,rgba(18,16,13,.62)); z-index:1; }
 .divider .ph::after{ content:''; position:absolute; inset:0; background:rgba(18,16,13,.42); z-index:1; }
-/* about: salon photo shown whole */
-@media(min-width:900px){ #about .split{ grid-template-columns:1.2fr .8fr; gap:80px; } }
-#about .split-media .ph{ aspect-ratio:1400/933; }
 
 /* ===== services price ===== */
 .acc-price{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:500; color:var(--ink-soft); white-space:nowrap; margin-left:12px; }
@@ -311,14 +382,6 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
 .member .owner-role{ margin-top:8px; font-size:11px; }
 .member p{ margin-top:16px; color:var(--ink-soft); font-size:15px; }
 .team-quote{ margin:80px auto 0; max-width:760px; text-align:center; font-family:var(--serif); font-size:clamp(24px,3vw,34px); line-height:1.35; }
-
-/* ===== brands ===== */
-.brands{ padding:70px 0; }
-.brand-row{ display:grid; gap:18px; align-items:baseline; padding:22px 0; border-top:1px solid var(--line); }
-.brand-row:last-child{ border-bottom:1px solid var(--line); }
-@media(min-width:900px){ .brand-row{ grid-template-columns:180px 1fr; } }
-.brand-row .kicker{ margin:0; }
-.brand-list{ display:flex; flex-wrap:wrap; gap:10px 38px; font-family:var(--serif); font-size:clamp(20px,2.2vw,26px); color:var(--ink-soft); }
 
 /* ===== faq ===== */
 .faq .acc-title{ font-size:clamp(20px,2.4vw,28px); }
@@ -344,7 +407,7 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
 .callbar svg{ width:16px; height:16px; fill:currentColor; }
 .f-legal{ font-size:13px; line-height:1.9; opacity:.7; }
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Optician", "name": "Optika Ginter", "url": "https://optikaginter.rs/ru/", "image": "https://optikaginter.rs/img/og-image.jpg?v=8", "logo": "https://optikaginter.rs/img/og-image.jpg?v=8", "telephone": "+381213832131", "email": "optikaginter@yahoo.com", "foundingDate": "2019", "priceRange": "RSD", "description": "Семейная оптика на Trg Republike 25 в Нови-Саде. Бесплатное уточнение диоптрий, очки от 1 дня, контактные линзы, солнцезащитные очки. Ray-Ban, Armani Exchange, Guess.", "address": {"@type": "PostalAddress", "streetAddress": "Trg Republike 25", "addressLocality": "Novi Sad", "postalCode": "21000", "addressCountry": "RS"}, "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "20:00"}, {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "14:00"}], "paymentAccepted": "Cash, Credit Card", "currenciesAccepted": "RSD", "knowsLanguage": ["sr", "hu", "en", "ru"], "brand": [{"@type": "Brand", "name": "Ray-Ban"}, {"@type": "Brand", "name": "Armani Exchange"}, {"@type": "Brand", "name": "Calvin Klein"}, {"@type": "Brand", "name": "Guess"}, {"@type": "Brand", "name": "Gant"}, {"@type": "Brand", "name": "Timberland"}, {"@type": "Brand", "name": "Vogue"}, {"@type": "Brand", "name": "INVU"}, {"@type": "Brand", "name": "Romeo"}], "sameAs": ["https://www.instagram.com/optika_ginter/"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Optician", "name": "Optika Ginter", "url": "https://optikaginter.rs/ru/", "image": "https://optikaginter.rs/img/og-image.jpg?v=9", "logo": "https://optikaginter.rs/img/og-image.jpg?v=9", "telephone": "+381213832131", "email": "optikaginter@yahoo.com", "foundingDate": "2019", "priceRange": "RSD", "description": "Семейная оптика на Trg Republike 25 в Нови-Саде. Бесплатное уточнение диоптрий, очки от 1 дня, контактные линзы, солнцезащитные очки. Ray-Ban, Armani Exchange, Guess.", "address": {"@type": "PostalAddress", "streetAddress": "Trg Republike 25", "addressLocality": "Novi Sad", "postalCode": "21000", "addressCountry": "RS"}, "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "20:00"}, {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "14:00"}], "paymentAccepted": "Cash, Credit Card", "currenciesAccepted": "RSD", "knowsLanguage": ["sr", "hu", "en", "ru"], "brand": [{"@type": "Brand", "name": "Ray-Ban"}, {"@type": "Brand", "name": "Armani Exchange"}, {"@type": "Brand", "name": "Calvin Klein"}, {"@type": "Brand", "name": "Guess"}, {"@type": "Brand", "name": "Gant"}, {"@type": "Brand", "name": "Timberland"}, {"@type": "Brand", "name": "Vogue"}, {"@type": "Brand", "name": "INVU"}, {"@type": "Brand", "name": "Romeo"}], "sameAs": ["https://www.instagram.com/optika_ginter/"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Можно уточнить диоптрии у вас или нужен рецепт врача?", "acceptedAnswer": {"@type": "Answer", "text": "Уточнить диоптрии у нас можно всегда, рецепт врача не обязателен. Советуем записаться заранее, чтобы оптометрист был свободен и полностью уделил вам время."}}, {"@type": "Question", "name": "А если у меня сложное зрение?", "acceptedAnswer": {"@type": "Answer", "text": "Не проблема — подбираем и изготавливаем очки любой сложности."}}, {"@type": "Question", "name": "Сколько делаются очки?", "acceptedAnswer": {"@type": "Answer", "text": "Линзы обычно приходят за 1–5 дней. Чаще всего очки готовы уже на следующий день. Сложные линзы могут ехать немного дольше."}}, {"@type": "Question", "name": "Сколько стоит работа?", "acceptedAnswer": {"@type": "Answer", "text": "Изготовление в нашу оправу — бесплатно."}}, {"@type": "Question", "name": "Можно вставить линзы в мою оправу?", "acceptedAnswer": {"@type": "Answer", "text": "Да, вставка линз в вашу оправу — 500 RSD. Оправу клиента берём в работу без гарантии."}}, {"@type": "Question", "name": "Проверяете зрение детям?", "acceptedAnswer": {"@type": "Answer", "text": "Первые детские очки делаем по рецепту детского офтальмолога."}}, {"@type": "Question", "name": "Есть ли гарантия?", "acceptedAnswer": {"@type": "Answer", "text": "Гарантия на крепление линз в оправе — 1 месяц. Сервис для наших клиентов бесплатный: замена носоупоров, выправка оправы."}}, {"@type": "Question", "name": "С какими линзами вы работаете?", "acceptedAnswer": {"@type": "Answer", "text": "Работаем с линзами POL (Германия) и Essilor (Франция)."}}, {"@type": "Question", "name": "Можно заказать контактные линзы?", "acceptedAnswer": {"@type": "Answer", "text": "Да, закажем любые контактные линзы, которые есть в Сербии."}}]}</script>
 </head>
 <body>
@@ -390,36 +453,35 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
 
 <main>
 <section class="hero" id="top">
-  <div class="ph photo"><div class="ph-inner">
-    <img src="../img/hero-1600.webp?v=8" srcset="../img/hero-960.webp?v=8 960w, ../img/hero-1600.webp?v=8 1600w, ../img/hero-2400.webp?v=8 2400w" sizes="100vw" alt="" fetchpriority="high">
-  </div><div class="ph-corners"><i></i></div></div>
-  <div class="hero-content">
+  <div class="hero-panel">
     <h1 style="margin:0"><svg class="logo hero-logo" style="aspect-ratio:429.19/132.70" aria-hidden="true"><use href="#lg-full"/></svg><span class="sr-only">Optika Ginter — оптика в центре Нови-Сада</span></h1>
+    <span class="hero-rule"></span>
     <p class="hero-tag">Хорошее зрение может быть доступным.</p>
-    <a href="tel:+381213832131" class="btn light"><span>Записаться<span class="hide-sm"> · 021 383 2131</span></span></a>
+    <a href="tel:+381213832131" class="btn gold"><span>Записаться<span class="hide-sm"> · 021 383 2131</span></span></a>
   </div>
-  <div class="hero-scroll">Листайте</div>
+  <div class="hero-photo">
+    <img src="../img/hero-1600.webp?v=9" srcset="../img/hero-960.webp?v=9 960w, ../img/hero-1600.webp?v=9 1600w, ../img/hero-2400.webp?v=9 2400w" sizes="(min-width:900px) 60vw, 100vw" alt="" fetchpriority="high">
+  </div>
 </section>
 
-<section id="about">
-  <div class="wrap split">
-    <div class="split-media reveal">
-      <div class="ph photo"><div class="ph-inner">
-        <img src="../img/salon-800.webp?v=8" srcset="../img/salon-800.webp?v=8 800w, ../img/salon-1400.webp?v=8 1400w" sizes="(min-width:900px) 50vw, 100vw" alt="Интерьер Optika Ginter на площади Республики в Нови-Саде" loading="lazy" style="object-position:50% 50%">
-      </div><div class="ph-corners"><i></i></div></div>
+<section id="about" class="about">
+  <div class="about-grid">
+    <div class="about-media reveal">
+      <img src="../img/salon-1400.webp?v=9" srcset="../img/salon-800.webp?v=9 800w, ../img/salon-1400.webp?v=9 1400w" sizes="(min-width:900px) 60vw, 100vw" alt="Интерьер Optika Ginter на площади Республики в Нови-Саде" loading="lazy">
     </div>
-    <div class="split-text reveal">
+    <div class="about-text reveal">
       <span class="kicker">О нас</span>
       <h2 class="h-sec">Семейная оптика в сердце <em>Нови-Сада</em></h2>
       <p class="lead">Optika Ginter основали Бояна и Эрвин. После многих лет работы в городских оптиках они открыли свою — с одной целью: дать жителям Нови-Сада качественные очки по доступной цене.</p>
-      <p class="lead" style="margin-top:16px">Мы работаем от души и делаем всё, чтобы клиенты оставались довольны и берегли зрение.</p>
+      <p class="lead">Мы работаем от души и делаем всё, чтобы клиенты оставались довольны и берегли зрение.</p>
+      <a href="#team" class="link-gold">Познакомиться с командой <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
 <section class="divider">
   <div class="ph photo"><div class="ph-inner">
-    <img src="../img/frames-1600.webp?v=8" srcset="../img/frames-800.webp?v=8 800w, ../img/frames-1600.webp?v=8 1600w" sizes="100vw" alt="" loading="lazy" style="object-position:50% 40%">
+    <img src="../img/frames-1600.webp?v=9" srcset="../img/frames-800.webp?v=9 800w, ../img/frames-1600.webp?v=9 1600w" sizes="100vw" alt="" loading="lazy" style="object-position:50% 40%">
   </div><div class="ph-corners"><i></i></div>
     <p class="quote">Мы трудимся, чтобы вы хорошо видели.</p>
   </div>
@@ -435,19 +497,19 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
       <p class="lead">Цены ориентировочные. Точную стоимость очков назовём в оптике, после уточнения диоптрий.</p>
     </div>
     <div class="accordion reveal">
-      <div class="acc-item open"><button class="acc-btn" aria-expanded="true"><span class="acc-num">01</span><h3 class="acc-title">Уточнение диоптрий</h3><span class="acc-price">бесплатно</span><span class="acc-icon"></span></button>
+      <div class="acc-item open"><button class="acc-btn" aria-expanded="true"><h3 class="acc-title">Уточнение диоптрий</h3><span class="acc-price">бесплатно</span><span class="acc-icon"></span></button>
         <div class="acc-panel"><div class="acc-panel-in">Уточняем диоптрии на месте, рецепт врача не нужен. Советуем записаться заранее, чтобы оптометрист был свободен и полностью уделил вам время.</div></div></div>
-      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><span class="acc-num">02</span><h3 class="acc-title">Изготовление очков</h3><span class="acc-price">от 1 дня</span><span class="acc-icon"></span></button>
+      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">Изготовление очков</h3><span class="acc-price">от 1 дня</span><span class="acc-icon"></span></button>
         <div class="acc-panel"><div class="acc-panel-in">Линзы обычно приходят за 1–5 дней, чаще всего очки готовы уже на следующий день. Изготовление в нашу оправу — бесплатно. Вставка линз в вашу оправу — 500 RSD (оправу клиента берём в работу без гарантии).</div></div></div>
-      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><span class="acc-num">03</span><h3 class="acc-title">Сложная коррекция</h3><span class="acc-icon"></span></button>
+      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">Сложная коррекция</h3><span class="acc-icon"></span></button>
         <div class="acc-panel"><div class="acc-panel-in">Астигматизм, призматическая коррекция, прогрессивные линзы — подбираем и изготавливаем очки любой сложности. Сложные линзы могут ехать немного дольше.</div></div></div>
-      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><span class="acc-num">04</span><h3 class="acc-title">Контактные линзы</h3><span class="acc-price">от 3 000 RSD</span><span class="acc-icon"></span></button>
+      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">Контактные линзы</h3><span class="acc-price">от 3 000 RSD</span><span class="acc-icon"></span></button>
         <div class="acc-panel"><div class="acc-panel-in">Air Optix в наличии, закажем любые линзы, которые есть в Сербии. Научим надевать и снимать линзы.</div></div></div>
-      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><span class="acc-num">05</span><h3 class="acc-title">Детские очки</h3><span class="acc-price">оправы от 4 500 RSD</span><span class="acc-icon"></span></button>
+      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">Детские очки</h3><span class="acc-price">оправы от 4 500 RSD</span><span class="acc-icon"></span></button>
         <div class="acc-panel"><div class="acc-panel-in">Первые детские очки делаем по рецепту детского офтальмолога. Линзы от 2 000 RSD за пару.</div></div></div>
-      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><span class="acc-num">06</span><h3 class="acc-title">Солнцезащитные очки</h3><span class="acc-price">от 7 000 RSD</span><span class="acc-icon"></span></button>
+      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">Солнцезащитные очки</h3><span class="acc-price">от 7 000 RSD</span><span class="acc-icon"></span></button>
         <div class="acc-panel"><div class="acc-panel-in">INVU, Romeo, скоро — Ray-Ban.</div></div></div>
-      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><span class="acc-num">07</span><h3 class="acc-title">Сервис</h3><span class="acc-price">бесплатно</span><span class="acc-icon"></span></button>
+      <div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">Сервис</h3><span class="acc-price">бесплатно</span><span class="acc-icon"></span></button>
         <div class="acc-panel"><div class="acc-panel-in">Для наших клиентов бесплатно: замена носоупоров и выправка оправы. Гарантия на крепление линз в оправе — 1 месяц.</div></div></div>
     </div>
     <p class="pay reveal">Оплата: наличные, карта, чеки, рассрочка, перевод на счёт фирмы.</p>
@@ -463,10 +525,10 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
       </div>
     </div>
     <div class="why-grid reveal">
-      <div class="why-item"><span class="why-mark">i.</span><h3>Как дорогого гостя</h3><p>Встречаем каждого клиента как дорогого гостя и не торопим.</p></div>
-      <div class="why-item"><span class="why-mark">ii.</span><h3>Без огромных наценок</h3><p>Качественные очки по ценам ниже сетевых оптик.</p></div>
-      <div class="why-item"><span class="why-mark">iii.</span><h3>Делаем сами</h3><p>Изготавливаем очки сами и контролируем качество на каждом шаге.</p></div>
-      <div class="why-item"><span class="why-mark">iv.</span><h3>Клиент — главное</h3><p>Спорные ситуации всегда решаем в пользу клиента. Поэтому к нам возвращаются из года в год.</p></div>
+      <div class="why-item"><span class="why-mark"></span><h3>Как дорогого гостя</h3><p>Встречаем каждого клиента как дорогого гостя и не торопим.</p></div>
+      <div class="why-item"><span class="why-mark"></span><h3>Без огромных наценок</h3><p>Качественные очки по ценам ниже сетевых оптик.</p></div>
+      <div class="why-item"><span class="why-mark"></span><h3>Делаем сами</h3><p>Изготавливаем очки сами и контролируем качество на каждом шаге.</p></div>
+      <div class="why-item"><span class="why-mark"></span><h3>Клиент — главное</h3><p>Спорные ситуации всегда решаем в пользу клиента. Поэтому к нам возвращаются из года в год.</p></div>
     </div>
   </div>
 </section>
@@ -480,22 +542,29 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
       </div>
     </div>
     <div class="team-grid">
-      <article class="member reveal"><div class="ph photo"><div class="ph-inner"><img src="../img/bojana-600.webp?v=8" srcset="../img/bojana-600.webp?v=8 600w, ../img/bojana-1000.webp?v=8 1000w" sizes="(min-width:760px) 33vw, 100vw" alt="Бояна — Optika Ginter" loading="lazy" style="object-position:50% 25%"></div><div class="ph-corners"><i></i></div></div><h3>Бояна</h3><div class="owner-role">Сооснователь · медицинский оптик и оптометрист</div><p>Идейный вдохновитель оптики. Опытный мастер по изготовлению очков и специалист по обучению ношению контактных линз. Энергия, улыбка и точность во всём.</p></article>
-      <article class="member reveal"><div class="ph photo"><div class="ph-inner"><img src="../img/ervin-600.webp?v=8" srcset="../img/ervin-600.webp?v=8 600w, ../img/ervin-1000.webp?v=8 1000w" sizes="(min-width:760px) 33vw, 100vw" alt="Эрвин Гинтер — Optika Ginter" loading="lazy" style="object-position:50% 25%"></div><div class="ph-corners"><i></i></div></div><h3>Эрвин Гинтер</h3><div class="owner-role">Сооснователь · медицинский оптик и оптометрист</div><p>Большой опыт в подборе очков и сложной коррекции: астигматизм, призматическая коррекция, прогрессивные линзы. Говорит на сербском, венгерском и английском.</p></article>
-      <article class="member reveal"><div class="ph photo"><div class="ph-inner"><img src="../img/anna-600.webp?v=8" srcset="../img/anna-600.webp?v=8 600w, ../img/anna-1000.webp?v=8 1000w" sizes="(min-width:760px) 33vw, 100vw" alt="Анна — Optika Ginter" loading="lazy" style="object-position:50% 25%"></div><div class="ph-corners"><i></i></div></div><h3>Анна</h3><div class="owner-role">Медицинский оптик и оптометрист</div><p>Большой опыт в подборе очков и сложной коррекции. Говорит на сербском и русском.</p></article>
+      <article class="member reveal"><div class="ph photo"><div class="ph-inner"><img src="../img/bojana-600.webp?v=9" srcset="../img/bojana-600.webp?v=9 600w, ../img/bojana-1000.webp?v=9 1000w" sizes="(min-width:760px) 33vw, 100vw" alt="Бояна — Optika Ginter" loading="lazy" style="object-position:50% 25%"></div><div class="ph-corners"><i></i></div></div><h3>Бояна</h3><div class="owner-role">Сооснователь · медицинский оптик и оптометрист</div><p>Идейный вдохновитель оптики. Опытный мастер по изготовлению очков и специалист по обучению ношению контактных линз. Энергия, улыбка и точность во всём.</p></article>
+      <article class="member reveal"><div class="ph photo"><div class="ph-inner"><img src="../img/ervin-600.webp?v=9" srcset="../img/ervin-600.webp?v=9 600w, ../img/ervin-1000.webp?v=9 1000w" sizes="(min-width:760px) 33vw, 100vw" alt="Эрвин Гинтер — Optika Ginter" loading="lazy" style="object-position:50% 25%"></div><div class="ph-corners"><i></i></div></div><h3>Эрвин Гинтер</h3><div class="owner-role">Сооснователь · медицинский оптик и оптометрист</div><p>Большой опыт в подборе очков и сложной коррекции: астигматизм, призматическая коррекция, прогрессивные линзы. Говорит на сербском, венгерском и английском.</p></article>
+      <article class="member reveal"><div class="ph photo"><div class="ph-inner"><img src="../img/anna-600.webp?v=9" srcset="../img/anna-600.webp?v=9 600w, ../img/anna-1000.webp?v=9 1000w" sizes="(min-width:760px) 33vw, 100vw" alt="Анна — Optika Ginter" loading="lazy" style="object-position:50% 25%"></div><div class="ph-corners"><i></i></div></div><h3>Анна</h3><div class="owner-role">Медицинский оптик и оптометрист</div><p>Большой опыт в подборе очков и сложной коррекции. Говорит на сербском и русском.</p></article>
     </div>
   </div>
 </section>
 
 <section class="brands">
-  <div class="wrap reveal">
-    <div class="brand-row"><span class="kicker">Оправы</span><div class="brand-list"><span>Ray-Ban</span><span>Armani Exchange</span><span>Calvin Klein</span><span>Guess</span><span>Gant</span><span>Timberland</span><span>Vogue</span><span>INVU</span><span>Romeo</span></div></div>
-    <div class="brand-row"><span class="kicker">Линзы</span><div class="brand-list"><span>Essilor</span><span>POL</span><span>Alcon</span><span>Bausch + Lomb</span><span>Johnson & Johnson</span><span>CooperVision</span></div></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Бренды</span>
+        <h2 class="h-sec">Оригинальные <em>бренды</em></h2>
+      </div>
+      <p class="lead">Оправы и линзы ведущих мировых производителей. Только оригинальная продукция.</p>
+    </div>
+    <div class="brand-group reveal"><h3 class="brand-label">Оправы</h3><div class="brand-tiles"><span class="brand-tile">Ray-Ban</span><span class="brand-tile">Armani Exchange</span><span class="brand-tile">Calvin Klein</span><span class="brand-tile">Guess</span><span class="brand-tile">Gant</span><span class="brand-tile">Timberland</span><span class="brand-tile">Vogue</span><span class="brand-tile">INVU</span><span class="brand-tile">Romeo</span></div></div>
+    <div class="brand-group reveal"><h3 class="brand-label">Линзы</h3><div class="brand-tiles"><span class="brand-tile">Essilor</span><span class="brand-tile">POL</span><span class="brand-tile">Alcon</span><span class="brand-tile">Bausch + Lomb</span><span class="brand-tile">Johnson & Johnson</span><span class="brand-tile">CooperVision</span></div></div>
   </div>
 </section>
 
 <section id="faq" class="faq">
-  <div class="wrap">
+  <div class="wrap faq-grid">
     <div class="sec-head reveal">
       <div>
         <span class="kicker">Частые вопросы</span>

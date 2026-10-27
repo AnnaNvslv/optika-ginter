@@ -5,7 +5,7 @@ from content import *
 DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(BASE)  # корень репозитория
-IMG_V = "8"  # менять при замене фото, чтобы браузер не брал старые
+IMG_V = "9"  # менять при замене фото, чтобы браузер не брал старые
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -29,7 +29,7 @@ def services(d):
     for i, (t, price, txt) in enumerate(d["services"]):
         op = " open" if i == 0 else ""
         pr = f'<span class="acc-price">{price}</span>' if price else ""
-        out.append(f'      <div class="acc-item{op}"><button class="acc-btn" aria-expanded="{"true" if op else "false"}"><span class="acc-num">{i+1:02d}</span><h3 class="acc-title">{t}</h3>{pr}<span class="acc-icon"></span></button>\n        <div class="acc-panel"><div class="acc-panel-in">{txt}</div></div></div>')
+        out.append(f'      <div class="acc-item{op}"><button class="acc-btn" aria-expanded="{"true" if op else "false"}"><h3 class="acc-title">{t}</h3>{pr}<span class="acc-icon"></span></button>\n        <div class="acc-panel"><div class="acc-panel-in">{txt}</div></div></div>')
     return "\n".join(out)
 
 def faq(d):
@@ -38,8 +38,7 @@ def faq(d):
         for q, a in d["faq"])
 
 def why(d):
-    marks = ["i.", "ii.", "iii.", "iv."]
-    return "\n".join(f'      <div class="why-item"><span class="why-mark">{m}</span><h3>{t}</h3><p>{p}</p></div>' for m, (t, p) in zip(marks, d["why"]))
+    return "\n".join(f'      <div class="why-item"><span class="why-mark"></span><h3>{t}</h3><p>{p}</p></div>' for t, p in d["why"])
 
 def team(d, root, photo_word):
     out = []
@@ -98,7 +97,7 @@ def build(lang):
         "FAVICON": "data:image/svg+xml," + urllib.parse.quote(fav),
         "LANG_SWITCH": f'<nav class="lang" aria-label="Language">{sw}</nav>',
         "SERVICES": services(d), "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
-        "FRAMES": "".join(f"<span>{b}</span>" for b in FRAMES), "LENSES": "".join(f"<span>{b}</span>" for b in LENSES),
+        "FRAMES": "".join(f'<span class="brand-tile">{b}</span>' for b in FRAMES), "LENSES": "".join(f'<span class="brand-tile">{b}</span>' for b in LENSES),
         "alt_salon": ALT[lang][0], "H1": d["title"].split(" | ")[0],
         "PHONE_DISPLAY": PHONE_DISPLAY, "PHONE_TEL": PHONE_TEL, "EMAIL": EMAIL, "INSTAGRAM": INSTAGRAM,
         "INSTAGRAM_HANDLE": INSTAGRAM_HANDLE, "ADDRESS": ADDRESS, "CITY": CITY, "PIB": PIB, "MB": MB,
