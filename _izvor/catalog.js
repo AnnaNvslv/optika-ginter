@@ -66,7 +66,46 @@ function render(){
       </span>
     </button>`;
   }).join('');
+  grid.querySelectorAll('.fcard-ph img').forEach(softThumb);
 }
+
+// ── meke minijature za listu ──
+// Fotografija se smanjuje u koracima po pola (svaki korak usrednjava piksele i guši zrno),
+// pa se crta u nižoj rezoluciji od ekrana i blago omekšava. Otvorena kartica koristi original.
+function softThumb(img){
+  const box = img.parentElement;
+  const draw = () => {
+    const bw = box.clientWidth, bh = box.clientHeight;
+    if (!bw || !bh || !img.naturalWidth) return;
+    const k = Math.min(window.devicePixelRatio || 1, 1.25);
+    const tw = Math.round(bw * k), th = Math.round(bh * k);
+    // izrez kao object-fit: cover
+    const sr = img.naturalWidth / img.naturalHeight, tr = tw / th;
+    let sw = img.naturalWidth, sh = img.naturalHeight, sx = 0, sy = 0;
+    if (sr > tr) { sw = sh * tr; sx = (img.naturalWidth - sw) / 2; } else { sh = sw / tr; sy = (img.naturalHeight - sh) / 2; }
+    let src = img, cw = sw, ch = sh, first = true;
+    while (cw / 2 >= tw * 1.15) {
+      const c = document.createElement('canvas');
+      c.width = Math.round(cw / 2); c.height = Math.round(ch / 2);
+      const x = c.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+      if (first) x.drawImage(src, sx, sy, sw, sh, 0, 0, c.width, c.height);
+      else x.drawImage(src, 0, 0, cw, ch, 0, 0, c.width, c.height);
+      src = c; cw = c.width; ch = c.height; first = false;
+    }
+    let out = box.querySelector('canvas');
+    if (!out) { out = document.createElement('canvas'); out.setAttribute('aria-hidden', 'true'); box.insertBefore(out, img.nextSibling); }
+    out.width = tw; out.height = th;
+    const x = out.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+    if ('filter' in x) x.filter = 'blur(0.6px)';
+    if (first) x.drawImage(src, sx, sy, sw, sh, -1, -1, tw + 2, th + 2);
+    else x.drawImage(src, 0, 0, cw, ch, -1, -1, tw + 2, th + 2);
+    box.classList.add('soft');
+  };
+  if (img.complete && img.naturalWidth) draw(); else img.addEventListener('load', draw, { once: true });
+  img._soft = draw;
+}
+let rsT;
+addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => grid.querySelectorAll('.fcard-ph img').forEach(i => i._soft && i._soft()), 200); });
 
 // ── filteri ──
 document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {

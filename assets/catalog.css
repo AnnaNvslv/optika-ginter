@@ -16,9 +16,11 @@ select.chip{ padding:8px 12px; appearance:auto; }
   font-family:var(--sans); color:var(--ink); transition:border-color .3s; }
 .fcard:hover,.fcard:focus-visible{ border-color:var(--gold); outline:none; }
 .fcard-ph{ position:relative; display:block; aspect-ratio:4/3; background:var(--panel); overflow:hidden; }
-.fcard-ph img{ display:block; width:100%; height:100%; object-fit:cover; filter:blur(.45px) saturate(.96); image-rendering:auto; transform:scale(1.01); transition:transform .8s var(--ease); }
+.fcard-ph img,.fcard-ph canvas{ display:block; width:100%; height:100%; object-fit:cover; transition:transform .8s var(--ease); }
+.fcard-ph canvas{ position:absolute; inset:0; }
+.fcard-ph.soft img{ visibility:hidden; }
 .fcard-txt{ display:block; padding:12px 14px 18px; }
-.fcard:hover .fcard-ph img{ transform:scale(1.04); }
+.fcard:hover .fcard-ph img,.fcard:hover .fcard-ph canvas{ transform:scale(1.03); }
 .fcard-brand{ display:block; font-family:var(--serif); font-size:21px; line-height:1.15; }
 .fcard-model{ display:block; font-size:12px; letter-spacing:.04em; color:var(--ink-faint); margin-top:3px; }
 .price{ display:block; margin-top:8px; font-size:15px; color:var(--gold-deep); }
