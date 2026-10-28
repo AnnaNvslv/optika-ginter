@@ -64,21 +64,15 @@
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="lg-full" viewBox="{{VB_FULL}}"><path d="{{D_FULL}}"/></symbol>
-  <symbol id="lg-og" viewBox="{{VB_OG}}"><path d="{{D_OG}}"/></symbol>
-  <symbol id="lg-hz" viewBox="{{VB_HZ}}"><path d="{{D_HZ}}"/></symbol>
-</svg>
-
 <header class="site-head" id="siteHead">
   <div class="wrap">
     <a href="{{HOME}}" class="head-brand" aria-label="Optika Ginter">
-      <svg class="logo logo-og" style="aspect-ratio:{{AR_OG}}"><use href="#lg-og"/></svg>
-      <svg class="logo logo-hz" style="aspect-ratio:{{AR_HZ}}"><use href="#lg-hz"/></svg>
+      <svg class="logo logo-og" style="aspect-ratio:{{AR_OG}}"><use href="{{SPRITE}}#lg-og"/></svg>
+      <svg class="logo logo-hz" style="aspect-ratio:{{AR_HZ}}"><use href="{{SPRITE}}#lg-hz"/></svg>
     </a>
     <div class="head-right">
       <nav class="main-nav" aria-label="{{menu}}">
-        <a href="#about">{{nav_about}}</a><a href="#services">{{nav_services}}</a><a href="#team">{{nav_team}}</a><a href="#faq">{{nav_faq}}</a><a href="#contacts">{{nav_contacts}}</a>
+        <a href="#about">{{nav_about}}</a><a href="#services">{{nav_services}}</a><a href="{{FRAMES_URL}}">{{nav_frames}}</a><a href="#team">{{nav_team}}</a><a href="#faq">{{nav_faq}}</a><a href="#contacts">{{nav_contacts}}</a>
       </nav>
       {{LANG_SWITCH}}
       <button class="menu-btn" id="menuBtn" aria-label="{{menu}}" aria-controls="overlay" aria-expanded="false"><span class="menu-word">{{menu}}</span><span class="bars"></span></button>
@@ -91,6 +85,7 @@
     <ul class="nav-list">
       <li><a href="#about">{{nav_about}}</a></li>
       <li><a href="#services">{{nav_services}}</a></li>
+      <li><a href="{{FRAMES_URL}}">{{nav_frames}}</a></li>
       <li><a href="#team">{{nav_team}}</a></li>
       <li><a href="#faq">{{nav_faq}}</a></li>
       <li><a href="#contacts">{{nav_contacts}}</a></li>
@@ -106,7 +101,7 @@
 <main>
 <section class="hero" id="top">
   <div class="hero-panel">
-    <h1 style="margin:0"><svg class="logo hero-logo" style="aspect-ratio:{{AR_FULL}}" aria-hidden="true"><use href="#lg-full"/></svg><span class="sr-only">{{H1}}</span></h1>
+    <h1 style="margin:0"><svg class="logo hero-logo" style="aspect-ratio:{{AR_FULL}}" aria-hidden="true"><use href="{{SPRITE}}#lg-full"/></svg><span class="sr-only">{{H1}}</span></h1>
     <span class="hero-rule"></span>
     <p class="hero-tag">{{hero_tag}}</p>
     <a href="tel:{{PHONE_TEL}}" class="btn gold"><span>{{btn_book}}<span class="hide-sm"> · {{PHONE_DISPLAY}}</span></span></a>
@@ -235,12 +230,13 @@
 <footer>
   <div class="wrap">
     <div class="f-top">
-      <svg class="logo f-logo" style="aspect-ratio:{{AR_FULL}}" role="img" aria-label="Optika Ginter"><use href="#lg-full"/></svg>
+      <svg class="logo f-logo" style="aspect-ratio:{{AR_FULL}}" role="img" aria-label="Optika Ginter"><use href="{{SPRITE}}#lg-full"/></svg>
       <div class="f-col">
         <span class="kicker">{{f_nav}}</span>
         <ul>
           <li><a href="#about">{{nav_about}}</a></li>
           <li><a href="#services">{{nav_services}}</a></li>
+          <li><a href="{{FRAMES_URL}}">{{nav_frames}}</a></li>
           <li><a href="#team">{{nav_team}}</a></li>
           <li><a href="#faq">{{nav_faq}}</a></li>
           <li><a href="#contacts">{{nav_contacts}}</a></li>
@@ -254,7 +250,7 @@
           <li><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></li>
           <li><a href="{{INSTAGRAM}}" target="_blank" rel="noopener">Instagram ↗</a></li>
         </ul>
-        <p class="f-legal" style="margin-top:22px">Optika Ginter · PIB {{PIB}} · MB {{MB}}</p>
+        <p class="f-legal" style="margin-top:22px">Optika Ginter · PIB {{PIB}} · MB {{MB}}<br><a href="{{PRIVACY_URL}}">{{f_privacy}}</a></p>
       </div>
     </div>
     <div class="f-bottom">

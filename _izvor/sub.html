@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{SUB_TITLE}}</title>
+<meta name="description" content="{{SUB_DESC}}">
+{{SUB_SEO}}
+<link rel="icon" type="image/svg+xml" href="{{FAVICON}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
+{{STYLE}}
+{{SUB_CSS_LINK}}
+<style>
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+.main-nav a.active{ color:var(--gold-light); border-color:var(--gold-light); }
+.sub-top{ padding:150px 0 40px; }
+@media(min-width:900px){ .sub-top{ padding:170px 0 48px; } }
+.sub-rule{ display:block; width:40px; height:1px; background:var(--gold); margin-top:26px; }
+.f-legal{ font-size:13px; line-height:1.9; opacity:.7; }
+.f-legal a{ border-bottom:1px solid rgba(210,180,126,.5); }
+</style>
+</head>
+<body>
+
+<header class="site-head" id="siteHead">
+  <div class="wrap">
+    <a href="{{HOME}}" class="head-brand" aria-label="Optika Ginter">
+      <svg class="logo logo-og" style="aspect-ratio:{{AR_OG}}"><use href="{{SPRITE}}#lg-og"/></svg>
+      <svg class="logo logo-hz" style="aspect-ratio:{{AR_HZ}}"><use href="{{SPRITE}}#lg-hz"/></svg>
+    </a>
+    <div class="head-right">
+      <nav class="main-nav" aria-label="{{menu}}">
+        <a href="{{HOME}}#about">{{nav_about}}</a><a href="{{HOME}}#services">{{nav_services}}</a><a href="{{FRAMES_URL}}"{{FRAMES_ACTIVE}}>{{nav_frames}}</a><a href="{{HOME}}#team">{{nav_team}}</a><a href="{{HOME}}#faq">{{nav_faq}}</a><a href="{{HOME}}#contacts">{{nav_contacts}}</a>
+      </nav>
+      {{LANG_SWITCH}}
+      <button class="menu-btn" id="menuBtn" aria-label="{{menu}}" aria-controls="overlay" aria-expanded="false"><span class="menu-word">{{menu}}</span><span class="bars"></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay">
+  <div class="wrap">
+    <ul class="nav-list">
+      <li><a href="{{HOME}}#about">{{nav_about}}</a></li>
+      <li><a href="{{HOME}}#services">{{nav_services}}</a></li>
+      <li><a href="{{FRAMES_URL}}">{{nav_frames}}</a></li>
+      <li><a href="{{HOME}}#team">{{nav_team}}</a></li>
+      <li><a href="{{HOME}}#faq">{{nav_faq}}</a></li>
+      <li><a href="{{HOME}}#contacts">{{nav_contacts}}</a></li>
+    </ul>
+    <div class="overlay-meta">
+      {{ADDRESS}}, Novi Sad<br>
+      <a href="tel:{{PHONE_TEL}}">{{PHONE_DISPLAY}}</a><br>
+      <a href="{{INSTAGRAM}}" target="_blank" rel="noopener">{{INSTAGRAM_HANDLE}}</a>
+    </div>
+  </div>
+</div>
+
+<main>
+{{BODY}}
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <svg class="logo f-logo" style="aspect-ratio:{{AR_FULL}}" role="img" aria-label="Optika Ginter"><use href="{{SPRITE}}#lg-full"/></svg>
+      <div class="f-col">
+        <span class="kicker">{{f_nav}}</span>
+        <ul>
+          <li><a href="{{HOME}}#about">{{nav_about}}</a></li>
+          <li><a href="{{HOME}}#services">{{nav_services}}</a></li>
+          <li><a href="{{FRAMES_URL}}">{{nav_frames}}</a></li>
+          <li><a href="{{HOME}}#team">{{nav_team}}</a></li>
+          <li><a href="{{HOME}}#faq">{{nav_faq}}</a></li>
+          <li><a href="{{HOME}}#contacts">{{nav_contacts}}</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <span class="kicker">{{c_kicker}}</span>
+        <ul>
+          <li>{{ADDRESS}}, {{CITY}}</li>
+          <li><a href="tel:{{PHONE_TEL}}">{{PHONE_DISPLAY}}</a></li>
+          <li><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></li>
+          <li><a href="{{INSTAGRAM}}" target="_blank" rel="noopener">Instagram ↗</a></li>
+        </ul>
+        <p class="f-legal" style="margin-top:22px">Optika Ginter · PIB {{PIB}} · MB {{MB}}<br><a href="{{PRIVACY_URL}}">{{f_privacy}}</a></p>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 Optika Ginter</span>
+      <span>{{f_est}}</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const mb=document.getElementById('menuBtn');
+const setNav=o=>{ document.body.classList.toggle('nav-open',o); mb.setAttribute('aria-expanded',o); };
+mb.addEventListener('click',()=>setNav(!document.body.classList.contains('nav-open')));
+document.querySelectorAll('.nav-list a').forEach(a=>a.addEventListener('click',()=>setNav(false)));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') setNav(false); });
+</script>
+{{SUB_SCRIPT}}
+</body>
+</html>
