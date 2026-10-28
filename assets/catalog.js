@@ -15,6 +15,7 @@ const tv = v => {
 const priceHtml = f => f.sale_price != null
   ? `<s>${money(f.price)}</s>${money(f.sale_price)}`
   : money(f.price);
+const isSale = f => f.sale_price != null && Number(f.sale_price) < Number(f.price);
 const pct = f => Math.round((1 - Number(f.sale_price) / Number(f.price)) * 100);
 const label = f => f.sale_price == null ? '' :
   (f.discount_type === 'ucenjeno' ? T.l_ucenjeno : `${T.l_sale} −${pct(f)}%`);
@@ -43,7 +44,7 @@ function filtered(){
     if (state.gender === 'zenski' && !['zenski','uniseks'].includes(f.gender)) return false;
     if (state.gender === 'muski' && !['muski','uniseks'].includes(f.gender)) return false;
     if (state.gender === 'deciji' && f.gender !== 'deciji') return false;
-    if (state.sale && f.sale_price == null) return false;
+    if (state.sale && !isSale(f)) return false;
     if (state.brand && f.brand !== state.brand) return false;
     return true;
   });
@@ -57,11 +58,12 @@ function render(){
     const ph = f.photos && f.photos[0];
     const lab = label(f);
     return `<button type="button" class="fcard" data-id="${esc(f.id)}">
-      <span class="fcard-ph">${ph ? `<img src="${esc(ph)}" alt="${esc(f.brand + ' ' + f.model)}" loading="lazy">` : ''}</span>
-      <span class="fcard-brand">${esc(f.brand)}</span>
-      <span class="fcard-model">${esc(f.model)}${f.has_clip_on ? ' · ' + esc(T.l_clip) : ''}</span>
-      <span class="price">${priceHtml(f)}</span>
-      ${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}
+      <span class="fcard-ph">${ph ? `<img src="${esc(ph)}" alt="${esc(f.brand + ' ' + f.model)}" loading="lazy">` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</span>
+      <span class="fcard-txt">
+        <span class="fcard-brand">${esc(f.brand)}</span>
+        <span class="fcard-model">${esc(f.model)}${f.has_clip_on ? ' · ' + esc(T.l_clip) : ''}</span>
+        <span class="price">${priceHtml(f)}</span>
+      </span>
     </button>`;
   }).join('');
 }
@@ -107,14 +109,13 @@ function openFrame(id, push = true){
   fmBody.innerHTML = `
     <div class="fm-grid">
       <div>
-        <div class="fm-main">${photos[0] ? `<img id="fmImg" src="${esc(photos[0])}" alt="${esc(f.brand + ' ' + f.model)}">` : ''}</div>
+        <div class="fm-main">${photos[0] ? `<img id="fmImg" src="${esc(photos[0])}" alt="${esc(f.brand + ' ' + f.model)}"><span class="fm-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</div>
         ${photos.length > 1 ? `<div class="fm-thumbs">${photos.map((p, i) => `<button type="button" data-src="${esc(p)}" aria-current="${i === 0}"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
       </div>
       <div>
         <span class="kicker" style="margin-bottom:0">${esc(kind)}</span>
-        <h2 id="fmTitle">${esc(f.brand)} ${esc(f.model)}</h2>
+        <h2 id="fmTitle">${esc(f.brand)}<span class="fm-model">${esc(f.model)}</span></h2>
         <span class="price">${priceHtml(f)}</span>
-        ${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}
         ${desc ? `<p class="fm-desc">${esc(desc)}</p>` : ''}
         ${f.discount_type === 'ucenjeno' && f.discount_reason ? `<p class="fm-reason">${esc(T.s_reason)}: ${esc(f.discount_reason)}</p>` : ''}
         <table class="spec">${specRows(f)}</table>
@@ -125,6 +126,8 @@ function openFrame(id, push = true){
     $('#fmImg').src = b.dataset.src;
     fmBody.querySelectorAll('.fm-thumbs button').forEach(x => x.setAttribute('aria-current', x === b));
   }));
+  const mi = $('#fmImg');
+  if (mi) mi.closest('.fm-main').addEventListener('click', () => openZoom(mi.src, mi.alt));
   bindForm(f);
   fm.classList.add('open'); document.body.classList.add('fm-open');
   fm.scrollTop = 0;
@@ -138,8 +141,90 @@ function closeFrame(){
 }
 $('#fmClose').addEventListener('click', closeFrame);
 fm.addEventListener('click', e => { if (e.target === fm) closeFrame(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && fm.classList.contains('open')) closeFrame(); });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (lb.classList.contains('open')) closeZoom();
+  else if (fm.classList.contains('open')) closeFrame();
+});
 function openFromHash(){ const id = location.hash.slice(1); if (/^[0-9a-f-]{36}$/i.test(id)) openFrame(id, false); }
+
+// ── uvećanje fotografije ──
+const lb = document.createElement('div');
+lb.className = 'lb';
+lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true');
+lb.innerHTML = '<img alt="" draggable="false"><button type="button" class="lb-close" aria-label="Close">&times;</button>';
+document.body.appendChild(lb);
+const lbImg = lb.querySelector('img');
+let z = 1, tx = 0, ty = 0;
+const pts = new Map();
+let gest = null;
+const MAXZ = 5;
+function clampT(){
+  const w = lbImg.offsetWidth, h = lbImg.offsetHeight;
+  const mx = Math.max(0, (w * z - innerWidth) / 2), my = Math.max(0, (h * z - innerHeight) / 2);
+  tx = Math.min(mx, Math.max(-mx, tx)); ty = Math.min(my, Math.max(-my, ty));
+}
+function apply(anim){
+  clampT();
+  lbImg.style.transition = anim ? 'transform .25s ease' : 'none';
+  lbImg.style.transform = `translate(${tx}px,${ty}px) scale(${z})`;
+  lb.classList.toggle('zoomed', z > 1.01);
+}
+// zum oko tačke (px,py) ekrana
+function zoomAt(nz, px, py, anim){
+  nz = Math.min(MAXZ, Math.max(1, nz));
+  const sx = px - innerWidth / 2, sy = py - innerHeight / 2;
+  tx = sx - (sx - tx) * nz / z; ty = sy - (sy - ty) * nz / z;
+  z = nz; if (z === 1) { tx = 0; ty = 0; }
+  apply(anim);
+}
+function openZoom(src, alt){
+  lbImg.src = src; lbImg.alt = alt || '';
+  z = 1; tx = 0; ty = 0; apply();
+  lb.classList.add('open');
+  lb.querySelector('.lb-close').focus();
+}
+function closeZoom(){ lb.classList.remove('open'); pts.clear(); gest = null; }
+lb.querySelector('.lb-close').addEventListener('click', closeZoom);
+lb.addEventListener('wheel', e => { e.preventDefault(); zoomAt(z * Math.exp(-e.deltaY * 0.0025), e.clientX, e.clientY); }, { passive: false });
+lb.addEventListener('pointerdown', e => {
+  if (e.target.closest('.lb-close')) return;
+  lb.setPointerCapture(e.pointerId);
+  pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pts.size === 1) gest = { mode: 'pan', x: e.clientX, y: e.clientY, tx, ty, moved: false, onImg: e.target === lbImg };
+  else if (pts.size === 2) {
+    const [a, b] = [...pts.values()];
+    gest = { mode: 'pinch', d: Math.hypot(a.x - b.x, a.y - b.y), z, moved: true };
+  }
+});
+lb.addEventListener('pointermove', e => {
+  if (!pts.has(e.pointerId) || !gest) return;
+  pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (gest.mode === 'pinch' && pts.size >= 2) {
+    const [a, b] = [...pts.values()];
+    const d = Math.hypot(a.x - b.x, a.y - b.y);
+    zoomAt(gest.z * d / gest.d, (a.x + b.x) / 2, (a.y + b.y) / 2);
+    gest.d = d; gest.z = z;
+  } else if (gest.mode === 'pan') {
+    const dx = e.clientX - gest.x, dy = e.clientY - gest.y;
+    if (Math.abs(dx) + Math.abs(dy) > 6) gest.moved = true;
+    if (gest.moved && z > 1) { tx = gest.tx + dx; ty = gest.ty + dy; apply(); }
+  }
+});
+function endPtr(e){
+  if (!pts.has(e.pointerId)) return;
+  pts.delete(e.pointerId);
+  if (gest && gest.mode === 'pan' && !gest.moved && e.type === 'pointerup') {
+    if (z > 1.01) zoomAt(1, e.clientX, e.clientY, true);
+    else if (gest.onImg) zoomAt(2.5, e.clientX, e.clientY, true);
+    else closeZoom();
+  }
+  if (pts.size === 1) { const [p] = [...pts.values()]; gest = { mode: 'pan', x: p.x, y: p.y, tx, ty, moved: true }; }
+  else if (!pts.size) gest = null;
+}
+lb.addEventListener('pointerup', endPtr);
+lb.addEventListener('pointercancel', endPtr);
+addEventListener('resize', () => { if (lb.classList.contains('open')) apply(); });
 
 // ── rezervacija ──
 function formHtml(f){
