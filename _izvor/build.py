@@ -7,7 +7,7 @@ DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(BASE)  # корень репозитория
 IMG_V = "9"  # менять при замене фото, чтобы браузер не брал старые
-ASSET_V = "4"  # менять при изменении base.css или логотипов (папка assets/)
+ASSET_V = "5"  # менять при изменении base.css или логотипов (папка assets/)
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -173,12 +173,16 @@ def build_sub(lang, slug):
   <h1 class="h-sec">{d['cat_h']}</h1>
   <span class="sub-rule"></span>
   <p class="lead">{d['cat_lead']}</p>
+  <p class="cat-note">{d['cat_note']}</p>
   <div class="cat-filters" role="group">
     {filt('cat', '', d['f_all'], True)}{filt('cat', 'opticki', d['f_optical'])}{filt('cat', 'suncani', d['f_sun'])}
     <span class="cat-sep"></span>
     {filt('gender', 'zenski', d['f_women'])}{filt('gender', 'muski', d['f_men'])}{filt('gender', 'deciji', d['f_kids'])}
     {filt('sale', '1', d['f_sale'])}
     <select class="chip" id="fBrand" aria-label="{d['f_brand_all']}"><option value="">{d['f_brand_all']}</option></select>
+  </div>
+  <div class="cat-filters cat-prices" role="group">
+    {filt('price', '', d['f_price_all'], True)}{filt('price', '900-3900', '900–3 900')}{filt('price', '4000-9900', '4 000–9 900')}{filt('price', '10000-15000', '10 000–15 000')}{filt('price', '15000-', d['f_p4'])}
   </div>
   <p class="cat-count" id="catCount"></p>
 </div></section>

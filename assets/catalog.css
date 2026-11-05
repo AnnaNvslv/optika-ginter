@@ -101,3 +101,10 @@ body.fm-open{ overflow:hidden; }
 .priv-sec p{ margin-top:10px; color:var(--ink-soft); font-size:16px; }
 .priv-sec a{ color:var(--gold-deep); border-bottom:1px solid var(--gold); }
 .priv-upd{ margin-top:24px; font-size:13px; color:var(--ink-faint); }
+
+/* ===== napomene, cene, popust ===== */
+.cat-note{ margin-top:18px; max-width:620px; font-size:14px; color:var(--ink); border-left:1px solid var(--gold); padding-left:12px; }
+.cat-prices{ margin-top:10px; }
+.pct{ display:inline-block; margin-left:8px; padding:2px 6px; font-size:.8em; font-weight:600; letter-spacing:.04em; color:var(--gold-light); background:var(--black); vertical-align:1px; }
+.rhold{ margin-top:12px; font-size:13px; color:var(--ink-soft); line-height:1.5; }
+.rcolor{ margin-top:18px; font-size:12.5px; color:var(--ink-faint); }

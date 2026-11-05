@@ -2,7 +2,7 @@
 const C = window.CAT_CFG, T = C.t, L = C.lang;
 const $ = s => document.querySelector(s);
 const grid = $('#catGrid'), countEl = $('#catCount'), fm = $('#fm'), fmBody = $('#fmBody');
-const state = { cat:'', gender:'', sale:false, brand:'', frames:[] };
+const state = { cat:'', gender:'', sale:false, brand:'', price:'', frames:[] };
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = n => Math.round(Number(n)||0).toLocaleString('sr-RS') + ' RSD';
@@ -12,13 +12,14 @@ const tv = v => {
   if (L === 'sr') return v;
   return String(v).split('/').map(p => { const k = p.trim().toLowerCase(); return (C.dict[k] && C.dict[k][L]) || p.trim(); }).join(' / ');
 };
-const priceHtml = f => f.sale_price != null
-  ? `<s>${money(f.price)}</s>${money(f.sale_price)}`
-  : money(f.price);
 const isSale = f => f.sale_price != null && Number(f.sale_price) < Number(f.price);
 const pct = f => Math.round((1 - Number(f.sale_price) / Number(f.price)) * 100);
-const label = f => f.sale_price == null ? '' :
-  (f.discount_type === 'ucenjeno' ? T.l_ucenjeno : `${T.l_sale} −${pct(f)}%`);
+const finalPrice = f => isSale(f) ? Number(f.sale_price) : Number(f.price);
+const priceHtml = f => isSale(f)
+  ? `<s>${money(f.price)}</s>${money(f.sale_price)}<span class="pct">−${pct(f)}%</span>`
+  : money(f.price);
+const label = f => !isSale(f) ? '' :
+  `${f.discount_type === 'ucenjeno' ? T.l_ucenjeno : T.l_sale} −${pct(f)}%`;
 
 async function load(){
   grid.innerHTML = `<p class="cat-msg">${esc(T.cat_loading)}</p>`;
@@ -46,6 +47,11 @@ function filtered(){
     if (state.gender === 'deciji' && f.gender !== 'deciji') return false;
     if (state.sale && !isSale(f)) return false;
     if (state.brand && f.brand !== state.brand) return false;
+    if (state.price) {
+      const [lo, hi] = state.price.split('-').map(x => x === '' ? Infinity : Number(x));
+      const p = finalPrice(f);
+      if (p < lo || p > hi) return false;
+    }
     return true;
   });
 }
@@ -159,6 +165,7 @@ function openFrame(id, push = true){
         ${f.discount_type === 'ucenjeno' && f.discount_reason ? `<p class="fm-reason">${esc(T.s_reason)}: ${esc(f.discount_reason)}</p>` : ''}
         <table class="spec">${specRows(f)}</table>
         <div class="rform" id="rbox">${formHtml(f)}</div>
+        <p class="rcolor">${esc(T.r_color)}</p>
       </div>
     </div>`;
   fmBody.querySelectorAll('.fm-thumbs button').forEach(b => b.addEventListener('click', () => {
@@ -279,6 +286,7 @@ function formHtml(f){
       <label class="rconsent"><input type="checkbox" id="rConsent"><span>${esc(T.r_consent)} <a href="${C.privacyUrl}" target="_blank">${esc(T.r_privacy)}</a>.</span></label>
       <button type="submit" class="btn-dark" id="rBtn">${esc(T.r_btn)}</button>
       <p class="rerr" id="rErr" role="alert" hidden></p>
+      <p class="rhold">${esc(T.r_hold)}</p>
       <p class="rnote">${esc(T.r_note)}</p>
     </form>`;
 }

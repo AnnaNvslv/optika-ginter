@@ -21,12 +21,12 @@
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#12100D">
-<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg?v=4">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg?v=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="../img/hero-1600.webp?v=9" imagesrcset="../img/hero-960.webp?v=9 960w, ../img/hero-1600.webp?v=9 1600w, ../img/hero-2400.webp?v=9 2400w" imagesizes="(min-width:900px) 60vw, 100vw">
-<link rel="stylesheet" href="../assets/site.css?v=4">
+<link rel="stylesheet" href="../assets/site.css?v=5">
 <style>
 .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 .hide-sm{ display:none; } @media(min-width:560px){ .hide-sm{ display:inline; } }
@@ -56,6 +56,12 @@
 .faq .acc-btn{ gap:20px; }
 
 /* ===== contacts ===== */
+.divider .quote{ flex-direction:column; gap:0; }
+.divider .quote .btn.gold{ margin-top:34px; text-shadow:none; font-family:var(--sans); font-size:12px; letter-spacing:.22em; background:rgba(18,16,13,.82); border-color:var(--gold-light); }
+.divider .quote .btn.gold:hover{ color:var(--black); }
+.hero-cat{ display:inline-flex; gap:10px; margin-top:22px; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; font-weight:600; color:var(--gold-light); border-bottom:1px solid rgba(210,180,126,.5); padding-bottom:5px; transition:gap .3s, border-color .3s; }
+.hero-cat:hover{ gap:16px; border-color:var(--gold-light); }
+.brand-group .link-gold{ margin-top:28px; }
 .btn-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top:38px; }
 .btn-row .btn{ margin-top:0; }
 .c-note{ margin-top:16px; font-size:13.5px; color:var(--ink-faint); }
@@ -82,8 +88,8 @@
 <header class="site-head" id="siteHead">
   <div class="wrap">
     <a href="../" class="head-brand" aria-label="Optika Ginter">
-      <svg class="logo logo-og" style="aspect-ratio:287.46/117.21"><use href="../assets/logos.svg?v=4#lg-og"/></svg>
-      <svg class="logo logo-hz" style="aspect-ratio:570.93/37.24"><use href="../assets/logos.svg?v=4#lg-hz"/></svg>
+      <svg class="logo logo-og" style="aspect-ratio:287.46/117.21"><use href="../assets/logos.svg?v=5#lg-og"/></svg>
+      <svg class="logo logo-hz" style="aspect-ratio:570.93/37.24"><use href="../assets/logos.svg?v=5#lg-hz"/></svg>
     </a>
     <div class="head-right">
       <nav class="main-nav" aria-label="Меню">
@@ -116,10 +122,11 @@
 <main>
 <section class="hero" id="top">
   <div class="hero-panel">
-    <h1 style="margin:0"><svg class="logo hero-logo" style="aspect-ratio:429.19/132.70" aria-hidden="true"><use href="../assets/logos.svg?v=4#lg-full"/></svg><span class="sr-only">Optika Ginter — оптика в центре Нови-Сада</span></h1>
+    <h1 style="margin:0"><svg class="logo hero-logo" style="aspect-ratio:429.19/132.70" aria-hidden="true"><use href="../assets/logos.svg?v=5#lg-full"/></svg><span class="sr-only">Optika Ginter — оптика в центре Нови-Сада</span></h1>
     <span class="hero-rule"></span>
     <p class="hero-tag">Хорошее зрение может быть доступным.</p>
     <a href="tel:+381213832131" class="btn gold"><span>Записаться<span class="hide-sm"> · 021 383 2131</span></span></a>
+    <a href="okviri/" class="hero-cat">Каталог оправ <span aria-hidden="true">→</span></a>
   </div>
   <div class="hero-photo">
     <img src="../img/hero-1600.webp?v=9" srcset="../img/hero-960.webp?v=9 960w, ../img/hero-1600.webp?v=9 1600w, ../img/hero-2400.webp?v=9 2400w" sizes="(min-width:900px) 60vw, 100vw" alt="" fetchpriority="high">
@@ -145,7 +152,7 @@
   <div class="ph photo"><div class="ph-inner">
     <img src="../img/frames-1600.webp?v=9" srcset="../img/frames-800.webp?v=9 800w, ../img/frames-1600.webp?v=9 1600w" sizes="100vw" alt="" loading="lazy" style="object-position:50% 40%">
   </div><div class="ph-corners"><i></i></div>
-    <p class="quote">Мы трудимся, чтобы вы хорошо видели.</p>
+    <div class="quote"><p>Мы трудимся, чтобы вы хорошо видели.</p><a href="okviri/" class="btn gold"><span>Посмотрите оправы онлайн</span></a></div>
   </div>
 </section>
 
@@ -220,7 +227,7 @@
       </div>
       <p class="lead">Оправы и линзы ведущих мировых производителей. Только оригинальная продукция.</p>
     </div>
-    <div class="brand-group reveal"><h3 class="brand-label">Оправы</h3><div class="brand-tiles"><span class="brand-tile">Ray-Ban</span><span class="brand-tile">Armani Exchange</span><span class="brand-tile">Calvin Klein</span><span class="brand-tile">Guess</span><span class="brand-tile">Gant</span><span class="brand-tile">Timberland</span><span class="brand-tile">Vogue</span><span class="brand-tile">INVU</span><span class="brand-tile">Romeo</span></div></div>
+    <div class="brand-group reveal"><h3 class="brand-label">Оправы</h3><div class="brand-tiles"><span class="brand-tile">Ray-Ban</span><span class="brand-tile">Armani Exchange</span><span class="brand-tile">Calvin Klein</span><span class="brand-tile">Guess</span><span class="brand-tile">Gant</span><span class="brand-tile">Timberland</span><span class="brand-tile">Vogue</span><span class="brand-tile">INVU</span><span class="brand-tile">Romeo</span></div><a href="okviri/" class="link-gold">Весь каталог оправ <span aria-hidden="true">→</span></a></div>
     <div class="brand-group reveal"><h3 class="brand-label">Линзы</h3><div class="brand-tiles"><span class="brand-tile">Essilor</span><span class="brand-tile">POL</span><span class="brand-tile">Alcon</span><span class="brand-tile">Bausch + Lomb</span><span class="brand-tile">Johnson & Johnson</span><span class="brand-tile">CooperVision</span></div></div>
   </div>
 </section>
@@ -280,7 +287,7 @@
 <footer>
   <div class="wrap">
     <div class="f-top">
-      <svg class="logo f-logo" style="aspect-ratio:429.19/132.70" role="img" aria-label="Optika Ginter"><use href="../assets/logos.svg?v=4#lg-full"/></svg>
+      <svg class="logo f-logo" style="aspect-ratio:429.19/132.70" role="img" aria-label="Optika Ginter"><use href="../assets/logos.svg?v=5#lg-full"/></svg>
       <div class="f-col">
         <span class="kicker">Навигация</span>
         <ul>
