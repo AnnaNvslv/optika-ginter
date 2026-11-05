@@ -10,7 +10,16 @@ const money = n => Math.round(Number(n)||0).toLocaleString('sr-RS') + ' RSD';
 const tv = v => {
   if (!v) return '';
   if (L === 'sr') return v;
-  return String(v).split('/').map(p => { const k = p.trim().toLowerCase(); return (C.dict[k] && C.dict[k][L]) || p.trim(); }).join(' / ');
+  const one = w => { const k = w.trim().toLowerCase(); return (C.dict[k] && C.dict[k][L]) || w.trim(); };
+  return String(v).split('/').map(p => {
+    const k = p.trim().toLowerCase();
+    if (C.dict[k]) return C.dict[k][L] || p.trim();
+    // složene boje: «zlatno-crna» → по частям; «tamno plava» → по словам
+    if (p.includes('-')) return p.split('-').map(one).join('-');
+    const ws = p.trim().split(/\s+/);
+    if (ws.length === 2 && /^(tamno|svetlo)$/i.test(ws[0])) return one(ws[0]) + (L === 'ru' ? '-' : L === 'hu' ? '' : ' ') + one(ws[1]);
+    return ws.map(one).join(' ');
+  }).join(' / ');
 };
 const isSale = f => f.sale_price != null && Number(f.sale_price) < Number(f.price);
 const pct = f => Math.round((1 - Number(f.sale_price) / Number(f.price)) * 100);
@@ -23,7 +32,7 @@ const label = f => !isSale(f) ? '' :
 
 async function load(){
   grid.innerHTML = `<p class="cat-msg">${esc(T.cat_loading)}</p>`;
-  const cols = 'id,code,brand,model,gender,category,price,sale_price,discount_type,discount_reason,has_clip_on,material,color,size,sun_lens_type,sun_lens_material,polarized,uv_protection,filter_category,photos,desc_sr,desc_hu,desc_en,desc_ru';
+  const cols = 'id,code,brand,model,gender,category,price,sale_price,discount_type,discount_reason,discount_reason_hu,discount_reason_en,discount_reason_ru,has_clip_on,material,color,size,sun_lens_type,sun_lens_material,polarized,uv_protection,filter_category,photos,desc_sr,desc_hu,desc_en,desc_ru';
   const url = `${C.url}/rest/v1/frames?select=${cols}&is_published=eq.true&is_sold=eq.false&deleted_at=is.null&order=sort_order.asc,created_at.desc`;
   try {
     const r = await fetch(url, { headers: { apikey: C.key } });
@@ -162,7 +171,7 @@ function openFrame(id, push = true){
         <h2 id="fmTitle">${esc(f.brand)}<span class="fm-model">${esc(f.model)}</span></h2>
         <span class="price">${priceHtml(f)}</span>
         ${desc ? `<p class="fm-desc">${esc(desc)}</p>` : ''}
-        ${f.discount_type === 'ucenjeno' && f.discount_reason ? `<p class="fm-reason">${esc(T.s_reason)}: ${esc(f.discount_reason)}</p>` : ''}
+        ${f.discount_type === 'ucenjeno' && f.discount_reason ? `<p class="fm-reason">${esc(T.s_reason)}: ${esc((L !== 'sr' && f['discount_reason_' + L]) || tv(f.discount_reason))}</p>` : ''}
         <table class="spec">${specRows(f)}</table>
         <div class="rform" id="rbox">${formHtml(f)}</div>
         <p class="rcolor">${esc(T.r_color)}</p>
