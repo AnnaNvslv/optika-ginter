@@ -1,6 +1,7 @@
 /* ===== katalog okvira ===== */
-.cat-filters{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:36px; }
-.cat-sep{ width:14px; }
+.cat-filters{ display:flex; flex-wrap:wrap; gap:8px 22px; align-items:center; margin-top:36px; }
+.fg{ display:flex; flex-wrap:wrap; gap:8px; }
+.cat-prices{ margin-top:10px; }
 .chip{ font-family:var(--sans); font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:500;
   padding:9px 14px; border:1px solid var(--line); background:transparent; color:var(--ink-soft); cursor:pointer; border-radius:0;
   transition:border-color .3s, color .3s; }
@@ -106,7 +107,30 @@ body.fm-open{ overflow:hidden; }
 
 /* ===== napomene, cene, popust ===== */
 .cat-note{ margin-top:18px; max-width:620px; font-size:14px; color:var(--ink); border-left:1px solid var(--gold); padding-left:12px; }
-.cat-prices{ margin-top:10px; }
 .pct{ display:inline-block; margin-left:8px; padding:2px 6px; font-size:.8em; font-weight:600; letter-spacing:.04em; color:var(--gold-light); background:var(--black); vertical-align:1px; }
 .rhold{ margin-top:12px; font-size:13px; color:var(--ink-soft); line-height:1.5; }
 .rcolor{ margin-top:18px; font-size:12.5px; color:var(--ink-faint); }
+
+/* ===== mobilni katalog ===== */
+@media(max-width:759px){
+  .cat-filters{ display:grid; gap:8px; margin-top:28px; }
+  .cat-prices{ margin-top:8px; }
+  .fg{ display:grid; gap:8px; }
+  .fg-3,.fg-p{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .fg-x{ grid-template-columns:minmax(0,2fr) minmax(0,1fr); }
+  .fg .chip{ width:100%; padding:11px 6px; letter-spacing:.1em; text-align:center; white-space:nowrap; }
+  .fg select.chip{ padding:11px 30px 11px 12px; text-align:left; }
+  .cat-grid{ grid-template-columns:1fr; gap:16px; }
+  .fcard-ph{ aspect-ratio:3/2; }
+  .fcard-txt{ padding:12px 16px 16px; }
+
+  /* kartica okvira preko celog ekrana, bez pruga i sa fiksnim krstićem */
+  .fm{ z-index:150; padding:0; background:var(--bg); }
+  .fm-box{ min-height:100%; padding:0 20px 36px; border-top:0; }
+  .fm-grid > div:first-child{ margin:0 -20px; }
+  .fm-main{ aspect-ratio:4/5; }
+  .fm-thumbs{ padding:0 20px; }
+  .fm-close{ position:fixed; top:10px; right:10px; width:44px; height:44px; background:rgba(248,245,239,.92); border:1px solid var(--line); color:var(--ink); }
+  .lb{ z-index:200; }
+}
+.fm-main{ background:#fff; }
