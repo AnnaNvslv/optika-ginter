@@ -85,7 +85,7 @@ function render(){
     const ph = f.photos && f.photos[0];
     const lab = label(f);
     return `<button type="button" class="fcard" data-id="${esc(f.id)}">
-      <span class="fcard-ph">${ph ? `<img src="${esc(ph)}" alt="${esc(f.brand + ' ' + f.model)}" loading="lazy">` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</span>
+      <span class="fcard-ph">${ph ? `<img src="${esc(ph)}" alt="${esc(f.brand + ' ' + f.model)}" loading="lazy" crossorigin="anonymous">` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</span>
       <span class="fcard-txt">
         <span class="fcard-brand">${esc(f.brand)}</span>
         <span class="fcard-model">${esc(f.model)}${f.has_clip_on ? ' · ' + esc(T.l_clip) : ''}</span>
@@ -99,11 +99,21 @@ function render(){
 // ── meke minijature za listu ──
 // Fotografija se smanjuje u koracima po pola (svaki korak usrednjava piksele i guši zrno),
 // pa se crta u punoj rezoluciji ekrana (do 3×), bez zamućenja. Otvorena kartica koristi original.
+// Blago izoštravanje posle smanjivanja (unsharp, 3×3) — ivice okvira i natpisi postaju jasniji.
+function sharpen(ctx, w, h, a){
+  let d; try { d = ctx.getImageData(0, 0, w, h); } catch (e) { return; }
+  const s = d.data, o = new Uint8ClampedArray(s), W = w * 4, c = 1 + 4 * a;
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    const i = y * W + x * 4;
+    for (let k = 0; k < 3; k++) o[i + k] = c * s[i + k] - a * (s[i + k - 4] + s[i + k + 4] + s[i + k - W] + s[i + k + W]);
+  }
+  d.data.set(o); ctx.putImageData(d, 0, 0);
+}
 function softThumb(img){
   const box = img.parentElement;
   const draw = () => {
     const bw = box.clientWidth, bh = box.clientHeight;
-    if (!bw || !bh || !img.naturalWidth) return;
+    if (!bw || !bh || !img.naturalWidth) { if ((img._tries = (img._tries || 0) + 1) < 20) requestAnimationFrame(draw); return; }
     const k = Math.min(window.devicePixelRatio || 1, 3);
     const tw = Math.round(bw * k), th = Math.round(bh * k);
     // izrez kao object-fit: cover
@@ -125,6 +135,7 @@ function softThumb(img){
     const x = out.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
     if (first) x.drawImage(src, sx, sy, sw, sh, 0, 0, tw, th);
     else x.drawImage(src, 0, 0, cw, ch, 0, 0, tw, th);
+    sharpen(x, tw, th, 0.45);
     box.classList.add('soft');
   };
   if (img.complete && img.naturalWidth) draw(); else img.addEventListener('load', draw, { once: true });
