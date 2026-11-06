@@ -51,6 +51,7 @@ async function load(){
     if (!hit) brands.push(want);
   }
   $('#fBrand').innerHTML = `<option value="">${esc(T.f_brand_all)}</option>` + brands.map(b => `<option${b === state.brand ? ' selected' : ''}>${esc(b)}</option>`).join('');
+  $('#fBrand').classList.toggle('is-on', !!state.brand);
   render();
   openFromHash();
 }
@@ -145,7 +146,7 @@ document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', (
   render();
 }));
 $('#fBrand').addEventListener('change', e => {
-  state.brand = e.target.value; render();
+  state.brand = e.target.value; e.target.classList.toggle('is-on', !!state.brand); render();
   const u = new URL(location.href);
   if (state.brand) u.searchParams.set('brend', state.brand); else u.searchParams.delete('brend');
   history.replaceState(null, '', u.pathname + u.search + u.hash);
