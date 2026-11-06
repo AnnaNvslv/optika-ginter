@@ -5,6 +5,7 @@
 CAT = {}
 
 CAT["sr"] = dict(
+    f_sort_rec="Preporučeno", f_sort_new="Najnovije", f_sort_asc="Cena: od najniže", f_sort_desc="Cena: od najviše", l_new="Novo",
     nav_frames="Okviri",
     cat_title="Okviri i sunčane naočare — katalog | Optika Ginter Novi Sad",
     cat_desc="Katalog optičkih okvira i sunčanih naočara u Optici Ginter, Trg Republike 25, Novi Sad. Rezervišite model na sajtu i probajte ga u salonu.",
@@ -45,6 +46,7 @@ CAT["sr"] = dict(
 )
 
 CAT["hu"] = dict(
+    f_sort_rec="Ajánlott", f_sort_new="Legújabb", f_sort_asc="Ár: növekvő", f_sort_desc="Ár: csökkenő", l_new="Új",
     nav_frames="Keretek",
     cat_title="Szemüvegkeretek és napszemüvegek — katalógus | Optika Ginter Újvidék",
     cat_desc="Optikai keretek és napszemüvegek katalógusa az Optika Ginterben, Trg Republike 25, Újvidék. Foglalja le a modellt online, és próbálja fel az üzletben.",
@@ -85,6 +87,7 @@ CAT["hu"] = dict(
 )
 
 CAT["en"] = dict(
+    f_sort_rec="Recommended", f_sort_new="Newest", f_sort_asc="Price: low to high", f_sort_desc="Price: high to low", l_new="New",
     nav_frames="Frames",
     cat_title="Frames and sunglasses — catalogue | Optika Ginter Novi Sad",
     cat_desc="Catalogue of optical frames and sunglasses at Optika Ginter, Trg Republike 25, Novi Sad. Reserve a model online and try it on in store.",
@@ -125,6 +128,7 @@ CAT["en"] = dict(
 )
 
 CAT["ru"] = dict(
+    f_sort_rec="Рекомендуем", f_sort_new="Сначала новинки", f_sort_asc="Цена: по возрастанию", f_sort_desc="Цена: по убыванию", l_new="Новинка",
     nav_frames="Оправы",
     cat_title="Оправы и солнцезащитные очки — каталог | Optika Ginter Нови-Сад",
     cat_desc="Каталог медицинских оправ и солнцезащитных очков в Optika Ginter, Trg Republike 25, Нови-Сад. Забронируйте модель на сайте и примерьте в салоне.",

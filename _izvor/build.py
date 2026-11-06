@@ -7,7 +7,7 @@ DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(BASE)  # корень репозитория
 IMG_V = "9"  # менять при замене фото, чтобы браузер не брал старые
-ASSET_V = "16"  # менять при изменении base.css или логотипов (папка assets/)
+ASSET_V = "17"  # менять при изменении base.css или логотипов (папка assets/)
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -196,6 +196,7 @@ def build_sub(lang, slug):
     <select class="chip" id="fGender" aria-label="{d['f_gender_all']}"><option value="">{d['f_gender_all']}</option><option value="zenski">{d['f_women']}</option><option value="muski">{d['f_men']}</option><option value="deciji">{d['f_kids']}</option><option value="uniseks">{d['f_unisex']}</option></select>
     <select class="chip" id="fBrand" aria-label="{d['f_brand_all']}"><option value="">{d['f_brand_all']}</option></select>
     <select class="chip" id="fPrice" aria-label="{d['f_price_all']}"><option value="">{d['f_price_all']}</option><option value="900-3900">900–3 900</option><option value="4000-9900">4 000–9 900</option><option value="10000-15000">10 000–15 000</option><option value="15000-">{d['f_p4']}</option></select>
+    <select class="chip" id="fSort" aria-label="{d['f_sort_rec']}"><option value="">{d['f_sort_rec']}</option><option value="new">{d['f_sort_new']}</option><option value="asc">{d['f_sort_asc']}</option><option value="desc">{d['f_sort_desc']}</option></select>
     {filt('sale', '1', d['f_sale'])}
     <p class="cat-count" id="catCount"></p>
   </div>

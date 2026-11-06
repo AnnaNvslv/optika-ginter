@@ -2,7 +2,7 @@
 const C = window.CAT_CFG, T = C.t, L = C.lang;
 const $ = s => document.querySelector(s);
 const grid = $('#catGrid'), countEl = $('#catCount'), fm = $('#fm'), fmBody = $('#fmBody');
-const state = { cat:'opticki', gender:'', sale:false, brand:'', price:'', frames:[] };
+const state = { cat:'opticki', gender:'', sale:false, brand:'', price:'', sort:'', frames:[] };
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = n => Math.round(Number(n)||0).toLocaleString('sr-RS') + ' RSD';
@@ -29,10 +29,26 @@ const priceHtml = f => isSale(f)
   : money(f.price);
 const label = f => !isSale(f) ? '' :
   `${f.discount_type === 'ucenjeno' ? T.l_ucenjeno : T.l_sale} −${pct(f)}%`;
+// «Novo» — do datuma new_until (postavlja se u CRM-u, podrazumevano 30 dana)
+const today = new Date().toISOString().slice(0, 10);
+const isNew = f => !!f.new_until && f.new_until >= today;
+const labelsHtml = f => {
+  const lab = label(f);
+  if (!lab && !isNew(f)) return '';
+  return `<span class="flabels">${isNew(f) ? `<span class="flabel flabel-new">${esc(T.l_new)}</span>` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</span>`;
+};
+// Redosled: «Preporučeno» = sort_order iz CRM-a (pravila merčandajzinga), ostalo bira kupac
+function sorted(rows){
+  const r = rows.slice();
+  if (state.sort === 'new') r.sort((a, b) => (isNew(b) - isNew(a)) || String(b.created_at).localeCompare(String(a.created_at)));
+  else if (state.sort === 'asc') r.sort((a, b) => finalPrice(a) - finalPrice(b));
+  else if (state.sort === 'desc') r.sort((a, b) => finalPrice(b) - finalPrice(a));
+  return r;
+}
 
 async function load(){
   grid.innerHTML = `<p class="cat-msg">${esc(T.cat_loading)}</p>`;
-  const cols = 'id,code,brand,model,gender,category,price,sale_price,discount_type,discount_reason,discount_reason_hu,discount_reason_en,discount_reason_ru,has_clip_on,material,color,size,sun_lens_type,sun_lens_material,polarized,uv_protection,filter_category,photos,desc_sr,desc_hu,desc_en,desc_ru';
+  const cols = 'id,code,brand,model,gender,category,price,sale_price,discount_type,discount_reason,discount_reason_hu,discount_reason_en,discount_reason_ru,has_clip_on,material,color,size,sun_lens_type,sun_lens_material,polarized,uv_protection,filter_category,photos,desc_sr,desc_hu,desc_en,desc_ru,new_until,created_at,sort_order';
   const url = `${C.url}/rest/v1/frames?select=${cols}&is_published=eq.true&is_sold=eq.false&deleted_at=is.null&order=sort_order.asc,created_at.desc`;
   try {
     const r = await fetch(url, { headers: { apikey: C.key } });
@@ -75,7 +91,7 @@ function filtered(){
 }
 
 function render(){
-  const rows = filtered();
+  const rows = sorted(filtered());
   countEl.textContent = rows.length ? `${rows.length} / ${state.frames.length}` : '';
   if (!rows.length) {
     const onlyBrand = state.brand && !state.frames.some(f => f.brand === state.brand);
@@ -84,9 +100,8 @@ function render(){
   }
   grid.innerHTML = rows.map(f => {
     const ph = f.photos && f.photos[0];
-    const lab = label(f);
     return `<button type="button" class="fcard" data-id="${esc(f.id)}">
-      <span class="fcard-ph">${ph ? `<img src="${esc(ph)}" alt="${esc(f.brand + ' ' + f.model)}" loading="lazy" crossorigin="anonymous">` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</span>
+      <span class="fcard-ph">${ph ? `<img src="${esc(ph)}" alt="${esc(f.brand + ' ' + f.model)}" loading="lazy" crossorigin="anonymous">` : ''}${labelsHtml(f)}</span>
       <span class="fcard-txt">
         <span class="fcard-brand">${esc(f.brand)}</span>
         <span class="fcard-model">${esc(f.model)}${f.has_clip_on ? ' · ' + esc(T.l_clip) : ''}</span>
@@ -153,7 +168,7 @@ $('#fBrand').addEventListener('change', e => {
   if (state.brand) u.searchParams.set('brend', state.brand); else u.searchParams.delete('brend');
   history.replaceState(null, '', u.pathname + u.search + u.hash);
 });
-[['#fCat', 'cat'], ['#fGender', 'gender'], ['#fPrice', 'price']].forEach(([sel, k]) => {
+[['#fCat', 'cat'], ['#fGender', 'gender'], ['#fPrice', 'price'], ['#fSort', 'sort']].forEach(([sel, k]) => {
   const el = $(sel);
   el.addEventListener('change', () => { state[k] = el.value; el.classList.toggle('is-on', !!el.value); render(); });
 });
@@ -182,11 +197,10 @@ function openFrame(id, push = true){
   const photos = (f.photos || []).filter(Boolean);
   const desc = f['desc_' + L] || f.desc_sr || '';
   const kind = f.category === 'suncani' ? T.l_sun : T.l_optical;
-  const lab = label(f);
   fmBody.innerHTML = `
     <div class="fm-grid">
       <div>
-        <div class="fm-main">${photos.length ? `<div class="fm-track" id="fmTrack">${photos.map((p, i) => `<img src="${esc(p)}" alt="${esc(f.brand + ' ' + f.model)}${photos.length > 1 ? ' — ' + (i + 1) : ''}" draggable="false"${i ? ' loading="lazy"' : ''}>`).join('')}</div><span class="fm-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>` : ''}${photos.length > 1 ? `<button type="button" class="fm-arr prev" aria-label="‹"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="fm-arr next" aria-label="›"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 5l7 7-7 7"/></svg></button><span class="fm-dots">${photos.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</span>` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</div>
+        <div class="fm-main">${photos.length ? `<div class="fm-track" id="fmTrack">${photos.map((p, i) => `<img src="${esc(p)}" alt="${esc(f.brand + ' ' + f.model)}${photos.length > 1 ? ' — ' + (i + 1) : ''}" draggable="false"${i ? ' loading="lazy"' : ''}>`).join('')}</div><span class="fm-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>` : ''}${photos.length > 1 ? `<button type="button" class="fm-arr prev" aria-label="‹"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="fm-arr next" aria-label="›"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 5l7 7-7 7"/></svg></button><span class="fm-dots">${photos.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</span>` : ''}${labelsHtml(f)}</div>
         ${photos.length > 1 ? `<div class="fm-thumbs">${photos.map((p, i) => `<button type="button" data-i="${i}" aria-current="${i === 0}"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
       </div>
       <div>
