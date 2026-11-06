@@ -7,7 +7,7 @@ DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(BASE)  # корень репозитория
 IMG_V = "9"  # менять при замене фото, чтобы браузер не брал старые
-ASSET_V = "6"  # менять при изменении base.css или логотипов (папка assets/)
+ASSET_V = "7"  # менять при изменении base.css или логотипов (папка assets/)
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -132,6 +132,22 @@ def base_vars(lang):
         v["VB_" + k] = P[n]["vb"]; v["D_" + k] = P[n]["d"]; v["AR_" + k] = ar(P[n]["vb"])
     return d, v
 
+BRAND_DIR = os.path.join(OUT, "img", "brands")
+def brand_slug(b):
+    return re.sub(r"[^a-z0-9]+", "-", b.lower()).strip("-")
+
+def brand_tile(b, root, href=None):
+    """Pločica brenda: logo iz img/brands/<slug>.svg|png|webp ako postoji, inače naziv.
+    Sa href — link (okviri → katalog filtriran po brendu)."""
+    slug = brand_slug(b); inner = H.escape(b); cls = "brand-tile"
+    for ext in ("svg", "png", "webp"):
+        if os.path.exists(os.path.join(BRAND_DIR, f"{slug}.{ext}")):
+            inner = f'<img src="{root}img/brands/{slug}.{ext}?v={IMG_V}" alt="{H.escape(b)}" loading="lazy">'
+            cls += " has-logo"; break
+    if href:
+        return f'<a class="{cls}" href="{href}">{inner}</a>'
+    return f'<span class="{cls}">{inner}</span>'
+
 def build(lang):
     d, v = base_vars(lang); root = ROOT[lang]
     v.update({
@@ -139,7 +155,8 @@ def build(lang):
         "HEAD_SEO": head_seo(lang, d), "SCHEMA": schema(lang, d), "FAQ_SCHEMA": faq_schema(d),
         "LANG_SWITCH": lang_switch(lang, root),
         "SERVICES": services(d), "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
-        "FRAMES": "".join(f'<span class="brand-tile">{b}</span>' for b in FRAMES), "LENSES": "".join(f'<span class="brand-tile">{b}</span>' for b in LENSES),
+        "FRAMES": "".join(brand_tile(b, root, "okviri/?brend=" + urllib.parse.quote(b)) for b in FRAMES),
+        "LENSES": "".join(brand_tile(b, root) for b in LENSES),
         "alt_salon": ALT[lang][0], "H1": d["title"].split(" | ")[0],
     })
     return render(TPL, v)

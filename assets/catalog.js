@@ -43,7 +43,14 @@ async function load(){
     return;
   }
   const brands = [...new Set(state.frames.map(f => f.brand))].sort((a,b) => a.localeCompare(b));
-  $('#fBrand').innerHTML = `<option value="">${esc(T.f_brand_all)}</option>` + brands.map(b => `<option>${esc(b)}</option>`).join('');
+  // ?brend=Ray-Ban — dolazak sa pločice brenda na početnoj (poređenje bez obzira na velika/mala slova)
+  const want = (new URLSearchParams(location.search).get('brend') || '').trim();
+  if (want) {
+    const hit = brands.find(b => b.toLowerCase() === want.toLowerCase());
+    state.brand = hit || want;
+    if (!hit) brands.push(want);
+  }
+  $('#fBrand').innerHTML = `<option value="">${esc(T.f_brand_all)}</option>` + brands.map(b => `<option${b === state.brand ? ' selected' : ''}>${esc(b)}</option>`).join('');
   render();
   openFromHash();
 }
@@ -68,7 +75,11 @@ function filtered(){
 function render(){
   const rows = filtered();
   countEl.textContent = rows.length ? `${rows.length} / ${state.frames.length}` : '';
-  if (!rows.length) { grid.innerHTML = `<p class="cat-msg">${esc(T.cat_empty)}</p>`; return; }
+  if (!rows.length) {
+    const onlyBrand = state.brand && !state.frames.some(f => f.brand === state.brand);
+    grid.innerHTML = `<p class="cat-msg">${esc(onlyBrand ? T.cat_brand_empty.replace('{b}', state.brand) : T.cat_empty)}</p>`;
+    return;
+  }
   grid.innerHTML = rows.map(f => {
     const ph = f.photos && f.photos[0];
     const lab = label(f);
@@ -133,7 +144,12 @@ document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', (
   });
   render();
 }));
-$('#fBrand').addEventListener('change', e => { state.brand = e.target.value; render(); });
+$('#fBrand').addEventListener('change', e => {
+  state.brand = e.target.value; render();
+  const u = new URL(location.href);
+  if (state.brand) u.searchParams.set('brend', state.brand); else u.searchParams.delete('brend');
+  history.replaceState(null, '', u.pathname + u.search + u.hash);
+});
 grid.addEventListener('click', e => { const c = e.target.closest('.fcard'); if (c) openFrame(c.dataset.id); });
 
 // ── detalj ──

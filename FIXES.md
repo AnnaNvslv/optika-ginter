@@ -1,5 +1,11 @@
 # FIXES.md — Optika Ginter (sajt)
 
+## 2026-11-06 — бренды: ссылки в каталог, место под логотипы
+- Плитки оправ на главной ведут в каталог с фильтром: `okviri/?brend=Ray-Ban` (регистр не важен); выбор бренда в каталоге меняет `?brend=` в адресе
+- Если моделей бренда онлайн нет — сообщение «ещё не в онлайн-каталоге, весь ассортимент в салоне» (cat_brand_empty, 4 языка)
+- Логотипы: файл `img/brands/<slug>.svg|png|webp` → на плитке логотип (серый, при наведении цветной), иначе название
+- ASSET_V → 7
+
 ## 2026-11-06 — домен optikaginter.rs
 - Добавлен `CNAME` (optikaginter.rs) в main и gh-pages — GitHub Pages обслуживает сайт на новом домене, optometrist.rs/optika-ginter/ перенаправляется
 - Ссылки (canonical, hreflang, sitemap, robots, og:image) уже были на optikaginter.rs; CORS `reserve-frame` уже разрешает optikaginter.rs и www

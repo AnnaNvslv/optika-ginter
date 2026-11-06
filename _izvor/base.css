@@ -325,6 +325,10 @@ footer{ background:var(--black); color:var(--white); padding:90px 0 40px; }
 @media(min-width:700px){ .brand-tile{ flex-basis:200px; } .brand-group + .brand-group .brand-tile{ flex-basis:170px; } }
 @media(max-width:699px){ .brand-tile{ min-height:76px; font-size:16px; padding:8px; } }
 .brand-tile:hover{ border-color:var(--gold); color:var(--gold-deep); }
+a.brand-tile{ text-decoration:none; cursor:pointer; }
+.brand-tile img{ display:block; max-width:78%; max-height:44px; width:auto; height:auto; object-fit:contain; filter:grayscale(1); opacity:.78; transition:filter .3s, opacity .3s; }
+.brand-tile:hover img{ filter:none; opacity:1; }
+@media(max-width:699px){ .brand-tile img{ max-height:32px; } }
 
 /* faq: two columns */
 .faq-grid{ display:grid; gap:40px; }
