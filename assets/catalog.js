@@ -98,13 +98,13 @@ function render(){
 
 // ── meke minijature za listu ──
 // Fotografija se smanjuje u koracima po pola (svaki korak usrednjava piksele i guši zrno),
-// pa se crta u nižoj rezoluciji od ekrana i blago omekšava. Otvorena kartica koristi original.
+// pa se crta u punoj rezoluciji ekrana (do 3×), bez zamućenja. Otvorena kartica koristi original.
 function softThumb(img){
   const box = img.parentElement;
   const draw = () => {
     const bw = box.clientWidth, bh = box.clientHeight;
     if (!bw || !bh || !img.naturalWidth) return;
-    const k = Math.min(window.devicePixelRatio || 1, 1.25);
+    const k = Math.min(window.devicePixelRatio || 1, 3);
     const tw = Math.round(bw * k), th = Math.round(bh * k);
     // izrez kao object-fit: cover
     const sr = img.naturalWidth / img.naturalHeight, tr = tw / th;
@@ -123,9 +123,8 @@ function softThumb(img){
     if (!out) { out = document.createElement('canvas'); out.setAttribute('aria-hidden', 'true'); box.insertBefore(out, img.nextSibling); }
     out.width = tw; out.height = th;
     const x = out.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
-    if ('filter' in x) x.filter = 'blur(0.6px)';
-    if (first) x.drawImage(src, sx, sy, sw, sh, -1, -1, tw + 2, th + 2);
-    else x.drawImage(src, 0, 0, cw, ch, -1, -1, tw + 2, th + 2);
+    if (first) x.drawImage(src, sx, sy, sw, sh, 0, 0, tw, th);
+    else x.drawImage(src, 0, 0, cw, ch, 0, 0, tw, th);
     box.classList.add('soft');
   };
   if (img.complete && img.naturalWidth) draw(); else img.addEventListener('load', draw, { once: true });
