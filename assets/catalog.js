@@ -2,7 +2,7 @@
 const C = window.CAT_CFG, T = C.t, L = C.lang;
 const $ = s => document.querySelector(s);
 const grid = $('#catGrid'), countEl = $('#catCount'), fm = $('#fm'), fmBody = $('#fmBody');
-const state = { cat:'', gender:'', sale:false, brand:'', price:'', frames:[] };
+const state = { cat:'opticki', gender:'', sale:false, brand:'', price:'', frames:[] };
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = n => Math.round(Number(n)||0).toLocaleString('sr-RS') + ' RSD';
@@ -62,6 +62,7 @@ function filtered(){
     if (state.gender === 'zenski' && !['zenski','uniseks'].includes(f.gender)) return false;
     if (state.gender === 'muski' && !['muski','uniseks'].includes(f.gender)) return false;
     if (state.gender === 'deciji' && f.gender !== 'deciji') return false;
+    if (state.gender === 'uniseks' && f.gender !== 'uniseks') return false;
     if (state.sale && !isSale(f)) return false;
     if (state.brand && f.brand !== state.brand) return false;
     if (state.price) {
@@ -152,6 +153,10 @@ $('#fBrand').addEventListener('change', e => {
   if (state.brand) u.searchParams.set('brend', state.brand); else u.searchParams.delete('brend');
   history.replaceState(null, '', u.pathname + u.search + u.hash);
 });
+[['#fCat', 'cat'], ['#fGender', 'gender'], ['#fPrice', 'price']].forEach(([sel, k]) => {
+  const el = $(sel);
+  el.addEventListener('change', () => { state[k] = el.value; el.classList.toggle('is-on', !!el.value); render(); });
+});
 grid.addEventListener('click', e => { const c = e.target.closest('.fcard'); if (c) openFrame(c.dataset.id); });
 
 // ── detalj ──
@@ -181,8 +186,8 @@ function openFrame(id, push = true){
   fmBody.innerHTML = `
     <div class="fm-grid">
       <div>
-        <div class="fm-main">${photos[0] ? `<img id="fmImg" src="${esc(photos[0])}" alt="${esc(f.brand + ' ' + f.model)}"><span class="fm-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</div>
-        ${photos.length > 1 ? `<div class="fm-thumbs">${photos.map((p, i) => `<button type="button" data-src="${esc(p)}" aria-current="${i === 0}"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
+        <div class="fm-main">${photos.length ? `<div class="fm-track" id="fmTrack">${photos.map((p, i) => `<img src="${esc(p)}" alt="${esc(f.brand + ' ' + f.model)}${photos.length > 1 ? ' — ' + (i + 1) : ''}" draggable="false"${i ? ' loading="lazy"' : ''}>`).join('')}</div><span class="fm-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>` : ''}${photos.length > 1 ? `<button type="button" class="fm-arr prev" aria-label="‹"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="fm-arr next" aria-label="›"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 5l7 7-7 7"/></svg></button><span class="fm-dots">${photos.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</span>` : ''}${lab ? `<span class="flabel">${esc(lab)}</span>` : ''}</div>
+        ${photos.length > 1 ? `<div class="fm-thumbs">${photos.map((p, i) => `<button type="button" data-i="${i}" aria-current="${i === 0}"><img src="${esc(p)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
       </div>
       <div>
         <span class="kicker" style="margin-bottom:0">${esc(kind)}</span>
@@ -195,17 +200,37 @@ function openFrame(id, push = true){
         <p class="rcolor">${esc(T.r_color)}</p>
       </div>
     </div>`;
-  fmBody.querySelectorAll('.fm-thumbs button').forEach(b => b.addEventListener('click', () => {
-    $('#fmImg').src = b.dataset.src;
-    fmBody.querySelectorAll('.fm-thumbs button').forEach(x => x.setAttribute('aria-current', x === b));
-  }));
-  const mi = $('#fmImg');
-  if (mi) mi.closest('.fm-main').addEventListener('click', () => openZoom(mi.src, mi.alt));
+  bindCarousel(photos.length);
   bindForm(f);
   fm.classList.add('open'); document.body.classList.add('fm-open');
   fm.scrollTop = 0;
   if (push) history.replaceState(null, '', '#' + f.id);
   $('#fmClose').focus();
+}
+
+// ── karusel fotografija: prevlačenje (scroll-snap) na telefonu, strelice i tastatura na računaru ──
+function bindCarousel(n){
+  const tr = $('#fmTrack');
+  if (!tr) return;
+  let cur = 0;
+  const thumbs = [...fmBody.querySelectorAll('.fm-thumbs button')], dots = [...fmBody.querySelectorAll('.fm-dots i')];
+  const prev = fmBody.querySelector('.fm-arr.prev'), next = fmBody.querySelector('.fm-arr.next');
+  const mark = i => {
+    cur = i;
+    thumbs.forEach((b, k) => b.setAttribute('aria-current', k === i));
+    dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    if (prev) prev.disabled = i === 0;
+    if (next) next.disabled = i === n - 1;
+  };
+  const go = i => { i = Math.max(0, Math.min(n - 1, i)); tr.scrollTo({ left: i * tr.clientWidth, behavior: 'smooth' }); mark(i); };
+  let st;
+  tr.addEventListener('scroll', () => { clearTimeout(st); st = setTimeout(() => mark(Math.round(tr.scrollLeft / tr.clientWidth)), 60); }, { passive: true });
+  thumbs.forEach((b, k) => b.addEventListener('click', () => go(k)));
+  if (prev) prev.addEventListener('click', e => { e.stopPropagation(); go(cur - 1); });
+  if (next) next.addEventListener('click', e => { e.stopPropagation(); go(cur + 1); });
+  tr.addEventListener('click', () => { const im = tr.children[cur]; if (im) openZoom(im.src, im.alt); });
+  fm._carGo = d => n > 1 && go(cur + d);
+  mark(0);
 }
 
 function closeFrame(){
@@ -218,6 +243,12 @@ document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (lb.classList.contains('open')) closeZoom();
   else if (fm.classList.contains('open')) closeFrame();
+});
+document.addEventListener('keydown', e => {
+  if (!fm.classList.contains('open') || lb.classList.contains('open') || !fm._carGo) return;
+  if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || '')) return;
+  if (e.key === 'ArrowLeft') fm._carGo(-1);
+  else if (e.key === 'ArrowRight') fm._carGo(1);
 });
 function openFromHash(){ const id = location.hash.slice(1); if (/^[0-9a-f-]{36}$/i.test(id)) openFrame(id, false); }
 

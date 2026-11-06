@@ -7,7 +7,7 @@ DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(BASE)  # корень репозитория
 IMG_V = "9"  # менять при замене фото, чтобы браузер не брал старые
-ASSET_V = "15"  # менять при изменении base.css или логотипов (папка assets/)
+ASSET_V = "16"  # менять при изменении base.css или логотипов (папка assets/)
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -189,19 +189,19 @@ def build_sub(lang, slug):
   <span class="kicker">{d['cat_kicker']}</span>
   <h1 class="h-sec">{d['cat_h']}</h1>
   <span class="sub-rule"></span>
-  <p class="lead">{d['cat_lead']}</p>
-  <p class="cat-note">{d['cat_note']}</p>
+  <div class="cat-intro"><p class="lead">{d['cat_lead']}</p>
+  <p class="cat-note">{d['cat_note']}</p></div>
   <div class="cat-filters" role="group">
-    <div class="fg fg-3">{filt('cat', '', d['f_all'], True)}{filt('cat', 'opticki', d['f_optical'])}{filt('cat', 'suncani', d['f_sun'])}</div>
-    <div class="fg fg-3">{filt('gender', 'zenski', d['f_women'])}{filt('gender', 'muski', d['f_men'])}{filt('gender', 'deciji', d['f_kids'])}</div>
-    <div class="fg fg-x"><select class="chip" id="fBrand" aria-label="{d['f_brand_all']}"><option value="">{d['f_brand_all']}</option></select>{filt('sale', '1', d['f_sale'])}</div>
+    <select class="chip is-on" id="fCat" aria-label="{d['f_kind_opt']}"><option value="opticki" selected>{d['f_kind_opt']}</option><option value="suncani">{d['f_kind_sun']}</option></select>
+    <select class="chip" id="fGender" aria-label="{d['f_gender_all']}"><option value="">{d['f_gender_all']}</option><option value="zenski">{d['f_women']}</option><option value="muski">{d['f_men']}</option><option value="deciji">{d['f_kids']}</option><option value="uniseks">{d['f_unisex']}</option></select>
+    <select class="chip" id="fBrand" aria-label="{d['f_brand_all']}"><option value="">{d['f_brand_all']}</option></select>
+    <select class="chip" id="fPrice" aria-label="{d['f_price_all']}"><option value="">{d['f_price_all']}</option><option value="900-3900">900–3 900</option><option value="4000-9900">4 000–9 900</option><option value="10000-15000">10 000–15 000</option><option value="15000-">{d['f_p4']}</option></select>
+    {filt('sale', '1', d['f_sale'])}
+    <p class="cat-count" id="catCount"></p>
   </div>
-  <div class="cat-filters cat-prices" role="group">
-    <div class="fg fg-p">{filt('price', '', d['f_price_all'], True)}{filt('price', '900-3900', '900–3 900')}{filt('price', '4000-9900', '4 000–9 900')}{filt('price', '10000-15000', '10 000–15 000')}{filt('price', '15000-', d['f_p4'])}</div>
-  </div>
-  <p class="cat-count" id="catCount"></p>
 </div></section>
-<section class="cat-grid-sec"><div class="wrap"><div class="cat-grid" id="catGrid"></div></div></section>
+<section class="cat-grid-sec"><div class="wrap"><div class="cat-grid" id="catGrid"></div>
+  <div class="cat-intro-m"><p class="lead">{d['cat_lead']}</p><p class="cat-note">{d['cat_note']}</p></div></div></section>
 <div class="fm" id="fm" role="dialog" aria-modal="true" aria-labelledby="fmTitle"><div class="fm-box">
   <button type="button" class="fm-close" id="fmClose" aria-label="{d['close']}">&times;</button>
   <div id="fmBody"></div>
