@@ -93,35 +93,25 @@ function render(){
       </span>
     </button>`;
   }).join('');
-  // sličice: browser sam smanjuje original (najčistije); softThumb se više ne koristi
+  grid.querySelectorAll('.fcard-ph img').forEach(softThumb);
 }
 
 // ── meke minijature za listu ──
-// Fotografija se smanjuje u koracima po pola (svaki korak usrednjava piksele i guši zrno),
-// pa se crta u punoj rezoluciji ekrana (do 3×), bez zamućenja. Otvorena kartica koristi original.
-// Blago izoštravanje posle smanjivanja (unsharp, 3×3) — ivice okvira i natpisi postaju jasniji.
-function sharpen(ctx, w, h, a){
-  let d; try { d = ctx.getImageData(0, 0, w, h); } catch (e) { return; }
-  const s = d.data, o = new Uint8ClampedArray(s), W = w * 4, c = 1 + 4 * a;
-  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
-    const i = y * W + x * 4;
-    for (let k = 0; k < 3; k++) o[i + k] = c * s[i + k] - a * (s[i + k - 4] + s[i + k + 4] + s[i + k - W] + s[i + k + W]);
-  }
-  d.data.set(o); ctx.putImageData(d, 0, 0);
-}
+// Sličica: original se smanjuje u koracima po pola (svaki korak usrednjava piksele — nema zrna),
+// poslednji korak je manji od 2× i crta se tačno u pikselima ekrana (bez dodatnog skaliranja,
+// bez zamućenja i izoštravanja). Otvorena kartica koristi original.
 function softThumb(img){
   const box = img.parentElement;
   const draw = () => {
     const bw = box.clientWidth, bh = box.clientHeight;
-    if (!bw || !bh || !img.naturalWidth) { if ((img._tries = (img._tries || 0) + 1) < 20) requestAnimationFrame(draw); return; }
-    const k = Math.min(Math.max(window.devicePixelRatio || 1, 2), 3);
+    if (!bw || !bh || !img.naturalWidth) return;
+    const k = Math.min(window.devicePixelRatio || 1, 3);
     const tw = Math.round(bw * k), th = Math.round(bh * k);
-    // izrez kao object-fit: cover
-    const sr = img.naturalWidth / img.naturalHeight, tr = tw / th;
+    const sr = img.naturalWidth / img.naturalHeight, tr = tw / th;   // izrez kao object-fit: cover
     let sw = img.naturalWidth, sh = img.naturalHeight, sx = 0, sy = 0;
     if (sr > tr) { sw = sh * tr; sx = (img.naturalWidth - sw) / 2; } else { sh = sw / tr; sy = (img.naturalHeight - sh) / 2; }
     let src = img, cw = sw, ch = sh, first = true;
-    while (cw / 2 >= tw * 1.15) {
+    while (cw / 2 >= tw) {
       const c = document.createElement('canvas');
       c.width = Math.round(cw / 2); c.height = Math.round(ch / 2);
       const x = c.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
@@ -137,8 +127,10 @@ function softThumb(img){
     else x.drawImage(src, 0, 0, cw, ch, 0, 0, tw, th);
     box.classList.add('soft');
   };
-  if (img.complete && img.naturalWidth) draw(); else img.addEventListener('load', draw, { once: true });
   img._soft = draw;
+  img.addEventListener('load', draw);
+  if (img.complete && img.naturalWidth) draw();
+  if (window.ResizeObserver) new ResizeObserver(draw).observe(box);
 }
 let rsT;
 addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => grid.querySelectorAll('.fcard-ph img').forEach(i => i._soft && i._soft()), 200); });
