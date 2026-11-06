@@ -114,7 +114,7 @@ function softThumb(img){
   const draw = () => {
     const bw = box.clientWidth, bh = box.clientHeight;
     if (!bw || !bh || !img.naturalWidth) { if ((img._tries = (img._tries || 0) + 1) < 20) requestAnimationFrame(draw); return; }
-    const k = Math.min(window.devicePixelRatio || 1, 3);
+    const k = Math.min(Math.max(window.devicePixelRatio || 1, 2), 3);
     const tw = Math.round(bw * k), th = Math.round(bh * k);
     // izrez kao object-fit: cover
     const sr = img.naturalWidth / img.naturalHeight, tr = tw / th;
@@ -135,7 +135,6 @@ function softThumb(img){
     const x = out.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
     if (first) x.drawImage(src, sx, sy, sw, sh, 0, 0, tw, th);
     else x.drawImage(src, 0, 0, cw, ch, 0, 0, tw, th);
-    sharpen(x, tw, th, 0.45);
     box.classList.add('soft');
   };
   if (img.complete && img.naturalWidth) draw(); else img.addEventListener('load', draw, { once: true });
