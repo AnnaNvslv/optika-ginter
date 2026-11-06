@@ -1,5 +1,10 @@
 # FIXES.md — Optika Ginter (sajt)
 
+## 2026-11-06 — домен optikaginter.rs
+- Добавлен `CNAME` (optikaginter.rs) в main и gh-pages — GitHub Pages обслуживает сайт на новом домене, optometrist.rs/optika-ginter/ перенаправляется
+- Ссылки (canonical, hreflang, sitemap, robots, og:image) уже были на optikaginter.rs; CORS `reserve-frame` уже разрешает optikaginter.rs и www
+- BRENDBUK: обновлён адрес
+
 ## 2026-11-05 — переводы каталога на 4 языка
 - Проверены все тексты сайта (content.py, catalog_content.py, privatnost): ключи на HU/EN/RU есть везде, сербских остатков на страницах нет
 - Значения из CRM: в `VALUE_DICT` добавлены pudra, tr90, krem, žuta, narandžasta, tirkizna, teget, bakarna, rozegold, kristalna, mat, sjajna, tamno/svetlo и формы на -o (zlatno, crno…); составные цвета переводятся по частям («zlatno-crna» → «золотисто-чёрный», «tamno plava» → «тёмно-синий»)

@@ -84,4 +84,4 @@
 ## 8. Техническое
 
 - Исходники: папка `_izvor` в репозитории `optika-ginter` (цвета и стили — `base.css`, разметка — `page.html`, тексты на 4 языках — `content.py`). Сборка: `python3 _izvor/build.py`.
-- Публикация: ветка **gh-pages** (не только main!). Адрес сейчас: optometrist.rs/optika-ginter/.
+- Публикация: ветка **gh-pages** (не только main!). Адрес: optikaginter.rs (файл `CNAME` в корне — не удалять; старый адрес optometrist.rs/optika-ginter/ перенаправляется сам).
