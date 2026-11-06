@@ -93,7 +93,7 @@ function render(){
       </span>
     </button>`;
   }).join('');
-  grid.querySelectorAll('.fcard-ph img').forEach(softThumb);
+  // sličice: browser sam smanjuje original (najčistije); softThumb se više ne koristi
 }
 
 // ── meke minijature za listu ──
