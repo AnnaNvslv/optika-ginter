@@ -3,6 +3,7 @@ import json, os, re, shutil, urllib.parse, html as H
 from content import *
 from catalog_content import CAT, PRIV, VALUE_DICT
 from stellest_content import ST, st_prices, ST_PRICE
+from varilux_content import VX, vx_prices
 
 DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -32,7 +33,7 @@ CAT_JS = open(f"{BASE}/catalog.js", encoding="utf-8").read()
 # a rezervaciju šalje Edge funkciji reserve-frame (sajt nema pristup bazi).
 SUPA_URL = "https://flxewreibnkyfoccfjtg.supabase.co"
 SUPA_KEY = "sb_publishable_GtVx_U91nCREZ-fq4yfLLw_NLsvQYGQ"
-SUB_PAGES = ["okviri", "privatnost", "stellest"]
+SUB_PAGES = ["okviri", "privatnost", "stellest", "progresivne-naocare"]
 fav = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{P["logo-og"]["vb"]}"><path d="{P["logo-og"]["d"]}"/></svg>'
 # Zajednički fajlovi (assets/): stil, logotipi i favicon se učitavaju jednom i keširaju,
 # umesto da se ugrađuju u svaku stranicu.
@@ -43,7 +44,7 @@ SITE_CSS = re.sub(r"^\s*<style>\s*|\s*</style>\s*$", "", STYLE)
 
 def services(d, extra=()):
     out = []
-    items = list(d["services"]); items[5:5] = list(extra)
+    items = list(d["services"]); items[3:3] = list(extra[1:]); items[6:6] = list(extra[:1])
     for i, (t, price, txt) in enumerate(items):
         op = " open" if i == 0 else ""
         pr = f'<span class="acc-price">{price}</span>' if price else ""
@@ -156,7 +157,7 @@ def build(lang):
         **asset_vars(root), "ROOT": root, "HOME": root or "./", "FRAMES_URL": "okviri/", "PRIVACY_URL": "privatnost/",
         "HEAD_SEO": head_seo(lang, d), "SCHEMA": schema(lang, d), "FAQ_SCHEMA": faq_schema(d),
         "LANG_SWITCH": lang_switch(lang, root),
-        "SERVICES": services(d, [stellest_service(lang)]), "STELLEST_URL": "stellest/", "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
+        "SERVICES": services(d, [stellest_service(lang), vx_service(lang)]), "STELLEST_URL": "stellest/", "VX_URL": "progresivne-naocare/", "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
         "FRAMES": "".join(brand_tile(b, root, "okviri/?brend=" + urllib.parse.quote(b)) for b in FRAMES),
         "LENSES": "".join(brand_tile(b, root) for b in LENSES),
         "alt_salon": ALT[lang][0], "H1": d["title"].split(" | ")[0],
@@ -340,12 +341,114 @@ def stellest_page(lang, d, v, root):
               "SUB_SCRIPT": ST_JS, "OG_IMG": "og-stellest.jpg",
               "SUB_CSS_LINK": ST_CSS})
 
+VX_FMT = {"sr": ("od {} RSD", "par od {} RSD"), "hu": ("{} RSD-tól", "pár {} RSD-tól"),
+          "en": ("from {} RSD", "pair from {} RSD"), "ru": ("от {} RSD", "пара от {} RSD")}
+VX_PER = {"sr": "po staklu", "hu": "lencsénként", "en": "per lens", "ru": "за линзу"}
+VX_SLUG = "progresivne-naocare"
+
+def vx_schema(lang, t, pr):
+    url = f"{DOMAIN}{PATH[lang]}{VX_SLUG}/"
+    plain = lambda x: re.sub(r"<[^>]+>", "", x)
+    prods = [{"@context": "https://schema.org", "@type": "Product", "name": name,
+              "brand": {"@type": "Brand", "name": "Varilux"}, "description": plain(txt), "url": url,
+              "image": f"{DOMAIN}/img/og-varilux.jpg",
+              "offers": {"@type": "Offer", "price": str(pr[k]["one_num"]), "priceCurrency": "RSD", "url": url,
+                         "availability": "https://schema.org/InStock",
+                         "seller": {"@type": "Optician", "name": "Optika Ginter", "url": DOMAIN + "/"}}}
+             for k, name, _, txt in t["lines"]]
+    faq = {"@context": "https://schema.org", "@type": "FAQPage",
+           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": t["crumb_home"], "item": DOMAIN + PATH[lang]},
+        {"@type": "ListItem", "position": 2, "name": "Varilux", "item": url}]}
+    return "\n".join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False) + "</script>" for x in prods + [faq, crumbs])
+
+def vx_service(lang):
+    t = VX[lang]
+    return (t["svc_title"], t["svc_price"], f'{t["svc_text"]} <a class="link-gold" href="{VX_SLUG}/">{t["svc_more"]} →</a>')
+
+def vx_page(lang, d, v, root):
+    t = VX[lang]; pr = vx_prices(lang); img = root + "img/"; tel = f"tel:{PHONE_TEL}"
+    f1, f2 = VX_FMT[lang]
+    btns = (f'<div class="st-btns"><a href="{tel}" class="btn dark"><span>{t["btn_call"]} · {PHONE_DISPLAY}</span></a>'
+            f'<a href="../okviri/" class="btn"><span>{t["btn_frames"]}</span></a></div>')
+    li = lambda items: "".join(f"<li><b>{a}</b>{b}</li>" for a, b in items)
+    rows = "".join(f"""<div class="st-prow{' vx-rec' if k in ('comfort','physio') else ''}"><div><span class="st-pl vx-tag">{tag}</span><h3>{name}</h3></div>
+  <div><p class="vx-txt">{txt}</p></div>
+  <div><span class="st-new">{f1.format(pr[k]['one'])}</span><span class="st-pair">{VX_PER[lang]} · {f2.format(pr[k]['pair'])}</span></div></div>"""
+                   for k, name, tag, txt in t["lines"])
+    zones = "".join(f'<div class="why-item"><span class="why-mark dash"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["zones"])
+    guar = "".join(f'<div class="st-tip"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["guar"])
+    tips = "".join(f'<div class="st-tip"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["tips"])
+    faq = "\n".join(f'<div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">{q}</h3><span class="acc-icon"></span></button><div class="acc-panel"><div class="acc-panel-in">{a}</div></div></div>' for q, a in t["faq"])
+    body = f"""<section class="sub-top st-top"><div class="wrap st-hero">
+  <div>
+    <span class="kicker">{t['kicker']}</span>
+    <h1 class="h-sec">{t['h1']}</h1>
+    <span class="sub-rule"></span>
+    <p class="lead">{t['lead']}</p>
+    <span class="st-badge">{t['badge']}</span>
+    {btns}
+  </div>
+  <div class="st-frame"><img src="{img}varilux-hero-1200.webp" srcset="{img}varilux-hero-800.webp 800w, {img}varilux-hero-1200.webp 1200w" sizes="(min-width:960px) 50vw, 100vw" width="1200" height="630" alt="{t['img_alt']}"></div>
+</div></section>
+<section class="st-panel"><div class="wrap st-stat">
+  <div class="st-text">
+    <h2 class="h-sec">{t['what_h']}</h2>
+    {''.join(f'<p>{p}</p>' for p in t['what_p'])}
+  </div>
+  <div class="st-frame"><img src="{img}varilux-reading-900.webp" srcset="{img}varilux-reading-600.webp 600w, {img}varilux-reading-900.webp 900w" sizes="(min-width:960px) 45vw, 100vw" width="900" height="900" alt="{t['img2_alt']}" loading="lazy"></div>
+</div></section>
+<section class="why"><div class="wrap">
+  <div class="sec-head"><span class="kicker">{t['zones_kicker']}</span><h2 class="h-sec">{t['zones_h']}</h2></div>
+  <div class="why-grid" style="margin-top:48px">{zones}</div>
+</div></section>
+<section id="cena"><div class="wrap">
+  <span class="kicker">{t['lines_kicker']}</span><h2 class="h-sec">{t['lines_h']}</h2>
+  <p class="lead" style="max-width:760px">{t['lines_lead']}</p>
+  <div class="st-price">{rows}</div>
+  <p class="st-note">{t['price_note']}</p>
+</div></section>
+<section class="st-panel"><div class="wrap">
+  <span class="kicker">{t['steps_kicker']}</span><h2 class="h-sec">{t['steps_h']}</h2>
+  <ul class="st-list" style="max-width:900px">{li(t['steps'])}</ul>
+  <div class="st-video st-frame"><video controls preload="none" playsinline poster="{img}varilux-poster.webp" width="1280" height="720" title="{t['video_title']}"><source src="{img}varilux-video.mp4" type="video/mp4"></video></div>
+</div></section>
+<section><div class="wrap">
+  <span class="kicker">{t['guar_kicker']}</span><h2 class="h-sec">{t['guar_h']}</h2>
+  <div class="st-tips vx-3">{guar}</div>
+</div></section>
+<section class="st-panel"><div class="wrap">
+  <span class="kicker">{t['tips_kicker']}</span><h2 class="h-sec">{t['tips_h']}</h2>
+  <div class="st-tips">{tips}</div>
+</div></section>
+<section class="st-faq"><div class="wrap" style="max-width:1000px">
+  <span class="kicker">{t['faq_kicker']}</span><h2 class="h-sec">{t['faq_h']}</h2>
+  <div class="accordion">{faq}</div>
+</div></section>
+<section class="st-cta"><div class="wrap">
+  <h2 class="h-sec">{t['cta_h']}</h2><p>{t['cta_p']}</p>
+  <div class="st-btns"><a href="{tel}" class="btn"><span>{t['btn_call']} · {PHONE_DISPLAY}</span></a><a href="../okviri/" class="btn"><span>{t['btn_frames']}</span></a></div>
+</div></section>
+<div class="st-notes"><div class="wrap"><span class="kicker">{t['notes_h']}</span>{''.join(f'<p>{n}</p>' for n in t['notes'])}</div></div>
+{vx_schema(lang, t, pr)}"""
+    css = ST_CSS.replace("</style>", """.vx-tag{ color:var(--gold-deep); }
+.vx-txt{ color:var(--ink-soft) !important; font-size:15px !important; margin-top:0 !important; }
+.vx-rec h3{ color:var(--ink); }
+.vx-rec{ border-left:2px solid var(--gold); padding-left:20px; }
+@media(min-width:900px){ .st-prow{ grid-template-columns:1fr 1.4fr .9fr; } }
+@media(min-width:1100px){ .st-tips.vx-3{ grid-template-columns:repeat(3,1fr); } }
+</style>""")
+    v.update({"SUB_TITLE": t["title"], "SUB_DESC": t["desc"], "BODY": body,
+              "SUB_SCRIPT": ST_JS, "OG_IMG": "og-varilux.jpg", "SUB_CSS_LINK": css})
+
 def build_sub(lang, slug):
     d, v = base_vars(lang)
     root = ROOT[lang] + "../"          # od /okviri/ ili /ru/okviri/ do korena sajta
     v.update({**asset_vars(root), "ROOT": root, "HOME": "../", "FRAMES_URL": "../okviri/" if slug != "okviri" else "./",
               "PRIVACY_URL": "../privatnost/" if slug != "privatnost" else "./",
               "STELLEST_URL": "../stellest/" if slug != "stellest" else "./",
+              "VX_URL": "../progresivne-naocare/" if slug != "progresivne-naocare" else "./",
               "FRAMES_ACTIVE": ' class="active" aria-current="page"' if slug == "okviri" else "",
               "LANG_SWITCH": lang_switch(lang, root, slug)})
     if slug == "okviri":
@@ -381,6 +484,8 @@ def build_sub(lang, slug):
         v.update({"SUB_TITLE": d["cat_title"], "SUB_DESC": d["cat_desc"], "BODY": body, "SUB_SCRIPT": script})
     elif slug == "stellest":
         stellest_page(lang, d, v, root)
+    elif slug == "progresivne-naocare":
+        vx_page(lang, d, v, root)
     else:
         pr = PRIV[lang]
         fmt = lambda t: t.format(ADDRESS=ADDRESS, CITY=CITY, PIB=PIB, MB=MB, EMAIL=EMAIL,
@@ -412,7 +517,7 @@ for l in LANGS:
     for slug in SUB_PAGES:
         os.makedirs(p + slug, exist_ok=True)
         open(p + slug + "/index.html", "w", encoding="utf-8").write(build_sub(l, slug))
-urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "stellest/", "privatnost/"] for l in LANGS)
+urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "progresivne-naocare/", "stellest/", "privatnost/"] for l in LANGS)
 open(OUT + "/sitemap.xml", "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{urls}\n</urlset>\n')
 open(OUT + "/robots.txt", "w").write(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
 print("ok")
