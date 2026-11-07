@@ -14,7 +14,7 @@ def vx_prices(lang):
 VX = {}
 
 VX["sr"] = dict(
-    title="Progresivne naočare Varilux u Novom Sadu — jedne naočare za sve daljine | Optika Ginter",
+    title="Progresivne naočare Varilux, Novi Sad | Optika Ginter",
     desc="Varilux progresivna stakla u Novom Sadu: Comfort Max, Physio extensee, Liberty 3.0, XR series. Besplatna provera dioptrije, precizna merenja, garancija prilagođavanja 60 dana. Trg Republike 25.",
     kicker="Essilor Varilux · progresivna stakla",
     h1="Progresivne naočare Varilux u <em>Novom Sadu</em>",
@@ -89,7 +89,7 @@ VX["sr"] = dict(
 )
 
 VX["hu"] = dict(
-    title="Varilux progresszív szemüveg Újvidéken — egy szemüveg minden távolságra | Optika Ginter",
+    title="Varilux progresszív szemüveg, Újvidék | Optika Ginter",
     desc="Varilux progresszív lencsék Újvidéken: Comfort Max, Physio extensee, Liberty 3.0, XR series. Ingyenes dioptria-ellenőrzés, pontos mérés, 60 napos megszokási garancia. Trg Republike 25.",
     kicker="Essilor Varilux · progresszív lencsék",
     h1="Varilux progresszív szemüveg <em>Újvidéken</em>",
@@ -164,7 +164,7 @@ VX["hu"] = dict(
 )
 
 VX["en"] = dict(
-    title="Varilux progressive glasses in Novi Sad — one pair for every distance | Optika Ginter",
+    title="Varilux progressive glasses, Novi Sad | Optika Ginter",
     desc="Varilux progressive lenses in Novi Sad: Comfort Max, Physio extensee, Liberty 3.0, XR series. Free prescription check, precise measurements, 60-day adaptation guarantee. Trg Republike 25.",
     kicker="Essilor Varilux · progressive lenses",
     h1="Varilux progressive glasses in <em>Novi Sad</em>",
@@ -239,7 +239,7 @@ VX["en"] = dict(
 )
 
 VX["ru"] = dict(
-    title="Прогрессивные очки Varilux в Нови-Саде — одни очки для всех расстояний | Optika Ginter",
+    title="Прогрессивные очки Varilux, Нови-Сад | Optika Ginter",
     desc="Прогрессивные линзы Varilux в Нови-Саде: Comfort Max, Physio extensee, Liberty 3.0, XR series. Бесплатная проверка зрения, точные замеры, гарантия адаптации 60 дней. Trg Republike 25.",
     kicker="Essilor Varilux · прогрессивные линзы",
     h1="Прогрессивные очки Varilux в <em>Нови-Саде</em>",

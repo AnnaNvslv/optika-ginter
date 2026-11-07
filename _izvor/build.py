@@ -83,7 +83,7 @@ def schema(lang, d):
         "paymentAccepted": "Cash, Credit Card", "currenciesAccepted": "RSD",
         "knowsLanguage": ["sr", "hu", "en", "ru"],
         "brand": [{"@type": "Brand", "name": b} for b in FRAMES],
-        "sameAs": [INSTAGRAM],
+        "sameAs": [INSTAGRAM], "hasMap": "https://www.google.com/maps/search/?api=1&query=Optika+Ginter+Trg+Republike+25+Novi+Sad",
     }, ensure_ascii=False)
 
 def faq_schema(d):
@@ -517,7 +517,9 @@ for l in LANGS:
     for slug in SUB_PAGES:
         os.makedirs(p + slug, exist_ok=True)
         open(p + slug + "/index.html", "w", encoding="utf-8").write(build_sub(l, slug))
-urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "progresivne-naocare/", "stellest/", "privatnost/"] for l in LANGS)
+import datetime
+TODAY = datetime.date.today().isoformat()
+urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc><lastmod>{TODAY}</lastmod>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "progresivne-naocare/", "stellest/", "privatnost/"] for l in LANGS)
 open(OUT + "/sitemap.xml", "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{urls}\n</urlset>\n')
 open(OUT + "/robots.txt", "w").write(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
 print("ok")

@@ -23,7 +23,7 @@ REF = ("Bao J. et al. Spectacle Lenses With Aspherical Lenslets for Myopia Contr
 ST = {}
 
 ST["sr"] = dict(
-    title="Stellest naočare za decu u Novom Sadu — usporavanje miopije | Optika Ginter",
+    title="Stellest naočare za decu, Novi Sad | Optika Ginter",
     desc="Essilor Stellest stakla za decu sa kratkovidošću (miopijom) u Novom Sadu. U proseku 67% sporiji napredak miopije. Uvek 10% popusta u Optici Ginter, Trg Republike 25.",
     kicker="Essilor Stellest · kontrola miopije",
     h1="Stellest naočare za decu u <em>Novom Sadu</em>",
@@ -104,7 +104,7 @@ ST["sr"] = dict(
 )
 
 ST["hu"] = dict(
-    title="Stellest szemüveg gyerekeknek Újvidéken — a myopia lassítása | Optika Ginter",
+    title="Stellest gyerekszemüveg, Újvidék | Optika Ginter",
     desc="Essilor Stellest lencsék rövidlátó (myopiás) gyerekeknek Újvidéken. Átlagosan 67%-kal lassabb myopia-progresszió. Az Optika Ginterben mindig 10% kedvezmény, Trg Republike 25.",
     kicker="Essilor Stellest · myopia-kontroll",
     h1="Stellest szemüveg gyerekeknek <em>Újvidéken</em>",
@@ -185,7 +185,7 @@ ST["hu"] = dict(
 )
 
 ST["en"] = dict(
-    title="Stellest glasses for children in Novi Sad — myopia control | Optika Ginter",
+    title="Stellest myopia control glasses, Novi Sad | Optika Ginter",
     desc="Essilor Stellest lenses for myopic children in Novi Sad. Slow down myopia progression by 67% on average. Always 10% off at Optika Ginter, Trg Republike 25.",
     kicker="Essilor Stellest · myopia control",
     h1="Stellest glasses for children in <em>Novi Sad</em>",
@@ -266,7 +266,7 @@ ST["en"] = dict(
 )
 
 ST["ru"] = dict(
-    title="Очки Stellest для детей в Нови-Саде — контроль миопии | Optika Ginter",
+    title="Очки Stellest для детей, Нови-Сад | Optika Ginter",
     desc="Линзы Essilor Stellest для детей с миопией в Нови-Саде. Замедляют прогрессирование миопии в среднем на 67%. В Optika Ginter всегда скидка 10%, Trg Republike 25.",
     kicker="Essilor Stellest · контроль миопии",
     h1="Очки Stellest для детей в <em>Нови-Саде</em>",
