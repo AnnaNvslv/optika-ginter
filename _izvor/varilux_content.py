@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Stranica /progresivne-naocare/ — Varilux, 4 jezika. Izvor: Essilor Srbija katalog (Varilux str. 26–43, 98–99).
-# Cene: preporučena cena Essilor po staklu, najniža za liniju (Orma 1.5). Bez popusta.
+# Cene: preporučena cena Essilor po staklu, Orma 1.5 + Crizal Easy PRO (Physio/XR: Crizal Rock). Bez popusta.
 
 VX_FROM = {"liberty": 12500, "comfort": 22300, "physio": 35700, "xr": 41700}
 
@@ -44,7 +44,7 @@ VX["sr"] = dict(
         ("xr", "Varilux XR series", "Premium", "Najnaprednija Varilux linija (XR design, XR track, XR pro), prilagođena individualnom načinu gledanja korisnika."),
     ],
     price_from="od", price_per="po staklu", price_pair="par stakala od",
-    price_note="Preporučene cene Essilor po staklu, za osnovni materijal Orma 1.5. Tanja stakla (1.6, 1.67, 1.74), fotoosetljiva Transitions i sunčana Xperio stakla dostupni su uz doplatu. Okvir se plaća posebno. Plaćanje: gotovina, kartica, čekovi, na rate.",
+    price_note="Preporučene cene Essilor po staklu: materijal Orma 1.5 sa slojem Crizal® Easy PRO (za Physio extensee i XR series, gde Easy PRO nije dostupan — Crizal® Rock). Tanja stakla (1.6, 1.67, 1.74), fotoosetljiva Transitions i sunčana Xperio stakla dostupni su uz doplatu. Okvir se plaća posebno. Plaćanje: gotovina, kartica, čekovi, na rate.",
     steps_kicker="Kako to izgleda kod nas", steps_h="Od provere vida do <em>gotovih naočara</em>",
     steps=[
         ("Provera dioptrije", "Proveravamo dioptriju za daljinu i blizinu u optici, besplatno. Možete doneti i recept oftalmologa."),
@@ -70,7 +70,7 @@ VX["sr"] = dict(
     faq_kicker="Česta pitanja", faq_h="Pitanja o <em>progresivnim</em> naočarama",
     faq=[
         ("Koliko traje navikavanje na progresivna stakla?", "Većini ljudi je potrebno nekoliko dana do dve nedelje. Varilux stakla su dizajnirana za brzo prilagođavanje, a ako se ne naviknete za 60 dana, važi garancija prilagođavanja."),
-        ("Koliko koštaju Varilux progresivna stakla?", "Preporučene cene Essilor po staklu (Orma 1.5): Varilux Liberty 3.0 od 12.500 RSD, Comfort Max od 22.300 RSD, Physio extensee od 35.700 RSD, XR series od 41.700 RSD. Tačna cena zavisi od dioptrije, materijala i sloja. Okvir se plaća posebno."),
+        ("Koliko koštaju Varilux progresivna stakla?", "Preporučene cene Essilor po staklu (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 od 12.500 RSD, Comfort Max od 22.300 RSD, Physio extensee od 35.700 RSD, XR series od 41.700 RSD. Tačna cena zavisi od dioptrije, materijala i sloja. Okvir se plaća posebno."),
         ("Koja je razlika između Comfort Max i Physio extensee?", "Comfort Max je udobno svestrano staklo sa širokom zonom za čitanje i brzim prilagođavanjem. Physio extensee daje veću oštrinu i kontrast, posebno pri slabom svetlu i za sitna slova. Najčešće preporučujemo jedno od ova dva."),
         ("Da li mi treba recept?", "Ne mora. Dioptriju za daljinu i blizinu proveravamo u optici besplatno. Ako imate recept oftalmologa, donesite ga."),
         ("Mogu li da koristim svoj okvir?", "Da, ako je dovoljno visok za progresivna stakla. Proverićemo okvir u optici. Ugradnja u vaš okvir: 500 RSD (okvir klijenta preuzimamo bez garancije)."),
@@ -119,7 +119,7 @@ VX["hu"] = dict(
         ("xr", "Varilux XR series", "Prémium", "A legfejlettebb Varilux család (XR design, XR track, XR pro), a viselő egyéni látási szokásaihoz igazítva."),
     ],
     price_from="", price_per="lencsénként -tól", price_pair="egy pár lencse -tól",
-    price_note="Az Essilor ajánlott ára lencsénként, Orma 1.5 alapanyaggal. Vékonyabb lencsék (1.6, 1.67, 1.74), Transitions fényre sötétedő és Xperio napszemüveglencsék felárral. A keretet külön kell fizetni. Fizetés: készpénz, kártya, csekk, részletfizetés.",
+    price_note="Az Essilor ajánlott ára lencsénként: Orma 1.5 anyag Crizal® Easy PRO bevonattal (Physio extensee és XR series esetén, ahol az Easy PRO nem elérhető — Crizal® Rock). Vékonyabb lencsék (1.6, 1.67, 1.74), Transitions fényre sötétedő és Xperio napszemüveglencsék felárral. A keretet külön kell fizetni. Fizetés: készpénz, kártya, csekk, részletfizetés.",
     steps_kicker="Hogyan zajlik nálunk", steps_h="A látásvizsgálattól a <em>kész szemüvegig</em>",
     steps=[
         ("Dioptria ellenőrzése", "Az üzletben ingyen ellenőrizzük a távoli és közeli dioptriát. Szemorvosi receptet is hozhat."),
@@ -145,7 +145,7 @@ VX["hu"] = dict(
     faq_kicker="Gyakori kérdések", faq_h="Kérdések a <em>progresszív</em> szemüvegről",
     faq=[
         ("Mennyi idő megszokni a progresszív lencsét?", "A legtöbb embernek néhány nap vagy két hét. A Varilux lencséket gyors megszokásra tervezték, és ha 60 nap alatt nem szokja meg, érvényes a megszokási garancia."),
-        ("Mennyibe kerülnek a Varilux progresszív lencsék?", "Az Essilor ajánlott árai lencsénként (Orma 1.5): Varilux Liberty 3.0 12 500 RSD-tól, Comfort Max 22 300 RSD-tól, Physio extensee 35 700 RSD-tól, XR series 41 700 RSD-tól. A pontos ár a dioptriától, az anyagtól és a bevonattól függ. A keretet külön kell fizetni."),
+        ("Mennyibe kerülnek a Varilux progresszív lencsék?", "Az Essilor ajánlott árai lencsénként (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 12 500 RSD-tól, Comfort Max 22 300 RSD-tól, Physio extensee 35 700 RSD-tól, XR series 41 700 RSD-tól. A pontos ár a dioptriától, az anyagtól és a bevonattól függ. A keretet külön kell fizetni."),
         ("Mi a különbség a Comfort Max és a Physio extensee között?", "A Comfort Max kényelmes, sokoldalú lencse széles olvasózónával és gyors megszokással. A Physio extensee nagyobb élességet és kontrasztot ad, különösen gyenge fényben és apró betűknél. Leggyakrabban e kettő egyikét ajánljuk."),
         ("Kell recept?", "Nem feltétlenül. A távoli és közeli dioptriát az üzletben ingyen ellenőrizzük. Ha van szemorvosi receptje, hozza el."),
         ("Használhatom a saját keretemet?", "Igen, ha elég magas progresszív lencséhez. Az üzletben megnézzük. Beszerelés az Ön keretébe: 500 RSD (az ügyfél keretét garancia nélkül vállaljuk)."),
@@ -194,7 +194,7 @@ VX["en"] = dict(
         ("xr", "Varilux XR series", "Premium", "The most advanced Varilux range (XR design, XR track, XR pro), adapted to the wearer's individual way of looking."),
     ],
     price_from="from", price_per="per lens", price_pair="pair of lenses from",
-    price_note="Essilor recommended prices per lens, base material Orma 1.5. Thinner lenses (1.6, 1.67, 1.74), Transitions photochromic and Xperio sun lenses are available at extra cost. The frame is paid separately. Payment: cash, card, cheques, instalments.",
+    price_note="Essilor recommended prices per lens: Orma 1.5 material with Crizal® Easy PRO coating (for Physio extensee and XR series, where Easy PRO isn't available — Crizal® Rock). Thinner lenses (1.6, 1.67, 1.74), Transitions photochromic and Xperio sun lenses are available at extra cost. The frame is paid separately. Payment: cash, card, cheques, instalments.",
     steps_kicker="How it works with us", steps_h="From eye check to <em>finished glasses</em>",
     steps=[
         ("Prescription check", "We check your distance and near prescription in store, free of charge. You can also bring an ophthalmologist's prescription."),
@@ -220,7 +220,7 @@ VX["en"] = dict(
     faq_kicker="FAQ", faq_h="Questions about <em>progressive</em> glasses",
     faq=[
         ("How long does it take to get used to progressives?", "For most people, from a few days to two weeks. Varilux lenses are designed for quick adaptation, and if you don't adapt within 60 days, the adaptation guarantee applies."),
-        ("How much do Varilux progressive lenses cost?", "Essilor recommended prices per lens (Orma 1.5): Varilux Liberty 3.0 from 12,500 RSD, Comfort Max from 22,300 RSD, Physio extensee from 35,700 RSD, XR series from 41,700 RSD. The exact price depends on prescription, material and coating. The frame is paid separately."),
+        ("How much do Varilux progressive lenses cost?", "Essilor recommended prices per lens (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 from 12,500 RSD, Comfort Max from 22,300 RSD, Physio extensee from 35,700 RSD, XR series from 41,700 RSD. The exact price depends on prescription, material and coating. The frame is paid separately."),
         ("What's the difference between Comfort Max and Physio extensee?", "Comfort Max is a comfortable all-round lens with a wide reading zone and quick adaptation. Physio extensee gives more sharpness and contrast, especially in low light and for small print. We most often recommend one of these two."),
         ("Do I need a prescription?", "Not necessarily. We check your distance and near prescription in store for free. If you have an ophthalmologist's prescription, bring it."),
         ("Can I use my own frame?", "Yes, if it's tall enough for progressives. We'll check it in store. Fitting lenses into your frame: 500 RSD (client frames are accepted without warranty)."),
@@ -269,7 +269,7 @@ VX["ru"] = dict(
         ("xr", "Varilux XR series", "Премиум", "Самая продвинутая линейка Varilux (XR design, XR track, XR pro), подстраивается под индивидуальную манеру смотреть."),
     ],
     price_from="от", price_per="за линзу", price_pair="пара линз от",
-    price_note="Рекомендованные цены Essilor за линзу, базовый материал Orma 1.5. Более тонкие линзы (1.6, 1.67, 1.74), фотохромные Transitions и солнцезащитные Xperio — с доплатой. Оправа оплачивается отдельно. Оплата: наличные, карта, чеки, в рассрочку.",
+    price_note="Рекомендованные цены Essilor за линзу: материал Orma 1.5 с покрытием Crizal® Easy PRO (для Physio extensee и XR series, где Easy PRO нет, — Crizal® Rock). Более тонкие линзы (1.6, 1.67, 1.74), фотохромные Transitions и солнцезащитные Xperio — с доплатой. Оправа оплачивается отдельно. Оплата: наличные, карта, чеки, в рассрочку.",
     steps_kicker="Как это проходит у нас", steps_h="От проверки зрения до <em>готовых очков</em>",
     steps=[
         ("Проверка рефракции", "Бесплатно проверяем рефракцию для дали и близи прямо в оптике. Можно принести и рецепт офтальмолога."),
@@ -295,7 +295,7 @@ VX["ru"] = dict(
     faq_kicker="Частые вопросы", faq_h="Вопросы о <em>прогрессивных</em> очках",
     faq=[
         ("Сколько времени нужно, чтобы привыкнуть к прогрессивным линзам?", "Большинству людей — от нескольких дней до двух недель. Линзы Varilux созданы для быстрой адаптации, а если вы не привыкнете за 60 дней, действует гарантия адаптации."),
-        ("Сколько стоят прогрессивные линзы Varilux?", "Рекомендованные цены Essilor за линзу (Orma 1.5): Varilux Liberty 3.0 от 12 500 RSD, Comfort Max от 22 300 RSD, Physio extensee от 35 700 RSD, XR series от 41 700 RSD. Точная цена зависит от рецепта, материала и покрытия. Оправа оплачивается отдельно."),
+        ("Сколько стоят прогрессивные линзы Varilux?", "Рекомендованные цены Essilor за линзу (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 от 12 500 RSD, Comfort Max от 22 300 RSD, Physio extensee от 35 700 RSD, XR series от 41 700 RSD. Точная цена зависит от рецепта, материала и покрытия. Оправа оплачивается отдельно."),
         ("Чем отличаются Comfort Max и Physio extensee?", "Comfort Max — комфортная универсальная линза с широкой зоной для чтения и быстрой адаптацией. Physio extensee даёт более высокую чёткость и контраст, особенно при слабом освещении и для мелкого шрифта. Чаще всего мы рекомендуем одну из этих двух."),
         ("Нужен ли рецепт?", "Не обязательно. Рефракцию для дали и близи мы бесплатно проверяем в оптике. Если есть рецепт офтальмолога — принесите его."),
         ("Можно ли использовать мою оправу?", "Да, если она достаточно высокая для прогрессивных линз. Проверим её в оптике. Вставка линз в вашу оправу — 500 RSD (оправу клиента принимаем без гарантии)."),
