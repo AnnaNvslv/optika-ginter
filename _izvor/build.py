@@ -9,7 +9,7 @@ DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(BASE)  # корень репозитория
 IMG_V = "9"  # менять при замене фото, чтобы браузер не брал старые
-ASSET_V = "17"  # менять при изменении base.css или логотипов (папка assets/)
+ASSET_V = "18"  # менять при изменении base.css или логотипов (папка assets/)
 LANGS = ["sr", "hu", "en", "ru"]
 PATH = {"sr": "/", "hu": "/hu/", "en": "/en/", "ru": "/ru/"}
 ROOT = {"sr": "", "hu": "../", "en": "../", "ru": "../"}
@@ -272,7 +272,7 @@ def stellest_schema(lang, t, pr):
 def stellest_page(lang, d, v, root):
     t = ST[lang]; pr = st_prices(lang); img = root + "img/"
     tel = f"tel:{PHONE_TEL}"
-    btns = (f'<div class="st-btns"><a href="{tel}" class="btn dark"><span>{t["btn_call"]} · {PHONE_DISPLAY}</span></a>'
+    btns = (f'<div class="st-btns"><a href="{tel}" class="btn dark"><span>{t["btn_call"]}<span class="hide-sm"> · {PHONE_DISPLAY}</span></span></a>'
             f'<a href="../okviri/" class="btn"><span>{t["btn_frames"]}</span></a></div>')
     li = lambda items: "".join(f"<li><b>{a}</b>{b}</li>" if isinstance(items[0], tuple) else f"<li>{a}</li>"
                                for a, b in (items if isinstance(items[0], tuple) else [(x, "") for x in items]))
@@ -333,7 +333,7 @@ def stellest_page(lang, d, v, root):
 </div></section>
 <section class="st-cta"><div class="wrap">
   <h2 class="h-sec">{t['cta_h']}</h2><p>{t['cta_p']}</p>
-  <div class="st-btns"><a href="{tel}" class="btn"><span>{t['btn_call']} · {PHONE_DISPLAY}</span></a><a href="../okviri/" class="btn"><span>{t['btn_frames']}</span></a></div>
+  <div class="st-btns"><a href="{tel}" class="btn"><span>{t['btn_call']}<span class="hide-sm"> · {PHONE_DISPLAY}</span></span></a><a href="../okviri/" class="btn"><span>{t['btn_frames']}</span></a></div>
 </div></section>
 <div class="st-notes"><div class="wrap"><span class="kicker">{t['notes_h']}</span>{''.join(f'<p>{n}</p>' for n in t['notes'])}</div></div>
 {stellest_schema(lang, t, pr)}"""
@@ -370,7 +370,7 @@ def vx_service(lang):
 def vx_page(lang, d, v, root):
     t = VX[lang]; pr = vx_prices(lang); img = root + "img/"; tel = f"tel:{PHONE_TEL}"
     f1, f2 = VX_FMT[lang]
-    btns = (f'<div class="st-btns"><a href="{tel}" class="btn dark"><span>{t["btn_call"]} · {PHONE_DISPLAY}</span></a>'
+    btns = (f'<div class="st-btns"><a href="{tel}" class="btn dark"><span>{t["btn_call"]}<span class="hide-sm"> · {PHONE_DISPLAY}</span></span></a>'
             f'<a href="../okviri/" class="btn"><span>{t["btn_frames"]}</span></a></div>')
     li = lambda items: "".join(f"<li><b>{a}</b>{b}</li>" for a, b in items)
     rows = "".join(f"""<div class="st-prow{' vx-rec' if k in ('comfort','physio') else ''}"><div><span class="st-pl vx-tag">{tag}</span><h3>{name}</h3></div>
@@ -428,7 +428,7 @@ def vx_page(lang, d, v, root):
 </div></section>
 <section class="st-cta"><div class="wrap">
   <h2 class="h-sec">{t['cta_h']}</h2><p>{t['cta_p']}</p>
-  <div class="st-btns"><a href="{tel}" class="btn"><span>{t['btn_call']} · {PHONE_DISPLAY}</span></a><a href="../okviri/" class="btn"><span>{t['btn_frames']}</span></a></div>
+  <div class="st-btns"><a href="{tel}" class="btn"><span>{t['btn_call']}<span class="hide-sm"> · {PHONE_DISPLAY}</span></span></a><a href="../okviri/" class="btn"><span>{t['btn_frames']}</span></a></div>
 </div></section>
 <div class="st-notes"><div class="wrap"><span class="kicker">{t['notes_h']}</span>{''.join(f'<p>{n}</p>' for n in t['notes'])}</div></div>
 {vx_schema(lang, t, pr)}"""

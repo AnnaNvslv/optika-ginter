@@ -32,7 +32,8 @@ button{ font-family:inherit; color:inherit; }
 section{ padding:96px 0; }
 @media(min-width:900px){ section{ padding:120px 0; } }
 .kicker{ display:block; font-size:11.5px; letter-spacing:.28em; text-transform:uppercase; font-weight:500; color:var(--gold-deep); margin-bottom:22px; }
-.h-sec{ font-size:clamp(34px,5vw,64px); }
+.h-sec{ font-size:clamp(34px,5vw,64px); overflow-wrap:break-word; }
+@media(max-width:380px){ .h-sec{ font-size:30px; } }
 .h-sec em{ color:var(--gold-deep); }
 .lead{ color:var(--ink-soft); font-size:17px; max-width:520px; margin-top:26px; }
 .logo{ display:block; fill:currentColor; }
