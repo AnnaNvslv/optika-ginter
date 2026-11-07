@@ -2,6 +2,7 @@
 import json, os, re, shutil, urllib.parse, html as H
 from content import *
 from catalog_content import CAT, PRIV, VALUE_DICT
+from stellest_content import ST, st_prices, ST_PRICE
 
 DOMAIN = "https://optikaginter.rs"
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -31,7 +32,7 @@ CAT_JS = open(f"{BASE}/catalog.js", encoding="utf-8").read()
 # a rezervaciju šalje Edge funkciji reserve-frame (sajt nema pristup bazi).
 SUPA_URL = "https://flxewreibnkyfoccfjtg.supabase.co"
 SUPA_KEY = "sb_publishable_GtVx_U91nCREZ-fq4yfLLw_NLsvQYGQ"
-SUB_PAGES = ["okviri", "privatnost"]
+SUB_PAGES = ["okviri", "privatnost", "stellest"]
 fav = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{P["logo-og"]["vb"]}"><path d="{P["logo-og"]["d"]}"/></svg>'
 # Zajednički fajlovi (assets/): stil, logotipi i favicon se učitavaju jednom i keširaju,
 # umesto da se ugrađuju u svaku stranicu.
@@ -40,9 +41,10 @@ SPRITE = '<svg xmlns="http://www.w3.org/2000/svg">' + "".join(
     for sid, n in [("lg-full", "logo-full"), ("lg-og", "logo-og"), ("lg-hz", "logo-horizontal")]) + "</svg>"
 SITE_CSS = re.sub(r"^\s*<style>\s*|\s*</style>\s*$", "", STYLE)
 
-def services(d):
+def services(d, extra=()):
     out = []
-    for i, (t, price, txt) in enumerate(d["services"]):
+    items = list(d["services"]); items[5:5] = list(extra)
+    for i, (t, price, txt) in enumerate(items):
         op = " open" if i == 0 else ""
         pr = f'<span class="acc-price">{price}</span>' if price else ""
         out.append(f'      <div class="acc-item{op}"><button class="acc-btn" aria-expanded="{"true" if op else "false"}"><h3 class="acc-title">{t}</h3>{pr}<span class="acc-icon"></span></button>\n        <div class="acc-panel"><div class="acc-panel-in">{txt}</div></div></div>')
@@ -154,14 +156,18 @@ def build(lang):
         **asset_vars(root), "ROOT": root, "HOME": root or "./", "FRAMES_URL": "okviri/", "PRIVACY_URL": "privatnost/",
         "HEAD_SEO": head_seo(lang, d), "SCHEMA": schema(lang, d), "FAQ_SCHEMA": faq_schema(d),
         "LANG_SWITCH": lang_switch(lang, root),
-        "SERVICES": services(d), "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
+        "SERVICES": services(d, [stellest_service(lang)]), "STELLEST_URL": "stellest/", "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
         "FRAMES": "".join(brand_tile(b, root, "okviri/?brend=" + urllib.parse.quote(b)) for b in FRAMES),
         "LENSES": "".join(brand_tile(b, root) for b in LENSES),
         "alt_salon": ALT[lang][0], "H1": d["title"].split(" | ")[0],
     })
     return render(TPL, v)
 
-def sub_seo(lang, slug, title, desc):
+def stellest_service(lang):
+    t = ST[lang]
+    return (t["svc_title"], t["svc_price"], f'{t["svc_text"]} <a class="link-gold" href="stellest/">{t["svc_more"]} →</a>')
+
+def sub_seo(lang, slug, title, desc, img="og-image.jpg"):
     url = lambda l: f"{DOMAIN}{PATH[l]}{slug}/"
     alts = "\n".join(f'<link rel="alternate" hreflang="{l}" href="{url(l)}">' for l in LANGS)
     return f"""<link rel="canonical" href="{url(lang)}">
@@ -172,15 +178,174 @@ def sub_seo(lang, slug, title, desc):
 <meta property="og:title" content="{H.escape(title)}">
 <meta property="og:description" content="{H.escape(desc)}">
 <meta property="og:url" content="{url(lang)}">
-<meta property="og:image" content="{DOMAIN}/img/og-image.jpg">
+<meta property="og:image" content="{DOMAIN}/img/{img}">
 <meta property="og:locale" content="{LOCALE[lang]}">
 <meta name="theme-color" content="#12100D">"""
+
+ST_CSS = """<style>
+.st-top{ padding-bottom:72px; }
+.st-hero{ display:grid; gap:48px; align-items:center; }
+@media(min-width:960px){ .st-hero{ grid-template-columns:1fr 1fr; gap:80px; } }
+.st-hero .lead{ max-width:560px; }
+.st-badge{ display:inline-block; margin-top:28px; padding:9px 18px; border:1px solid var(--gold); color:var(--gold-deep); font-size:12px; letter-spacing:.22em; text-transform:uppercase; font-weight:500; }
+.st-btns{ display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+.st-btns .btn.dark{ background:var(--black); color:var(--gold-light); border-color:var(--black); }
+.st-btns .btn.dark::before{ background:var(--gold-light); }
+.st-btns .btn.dark:hover{ color:var(--black); }
+.st-frame{ position:relative; }
+.st-frame::before{ content:''; position:absolute; inset:18px -18px -18px 18px; border:1px solid var(--gold); z-index:0; }
+.st-frame img,.st-frame video{ position:relative; z-index:1; display:block; width:100%; height:auto; }
+.st-text{ max-width:760px; }
+.st-text p{ color:var(--ink-soft); font-size:17px; margin-top:22px; }
+.st-panel{ background:var(--panel); }
+.st-stat{ display:grid; gap:56px; align-items:center; }
+@media(min-width:960px){ .st-stat{ grid-template-columns:.9fr 1.1fr; gap:90px; } }
+.st-num{ font-family:var(--serif); font-size:clamp(84px,12vw,150px); line-height:1; color:var(--gold-deep); }
+.st-num-t{ color:var(--ink-soft); font-size:17px; max-width:460px; margin-top:14px; }
+.st-list{ list-style:none; margin-top:34px; border-top:1px solid var(--gold); }
+.st-list li{ position:relative; padding:20px 0 20px 64px; border-bottom:1px solid var(--line); color:var(--ink-soft); }
+.st-list li::before{ content:''; position:absolute; left:0; top:33px; width:40px; height:1px; background:var(--gold); }
+.st-list li b{ display:block; font-family:var(--serif); font-weight:400; font-size:24px; color:var(--ink); margin-bottom:4px; }
+.st-price{ margin-top:40px; border-top:1px solid var(--gold); }
+.st-prow{ display:grid; gap:14px 40px; padding:30px 0; border-bottom:1px solid var(--line); }
+@media(min-width:900px){ .st-prow{ grid-template-columns:1.3fr 1fr 1fr; align-items:baseline; } }
+.st-prow h3{ font-size:28px; }
+.st-prow p{ color:var(--ink-faint); font-size:14px; margin-top:6px; }
+.st-pl{ display:block; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:4px; }
+.st-old{ font-family:var(--serif); font-size:24px; color:var(--ink-faint); text-decoration:line-through; text-decoration-thickness:1px; }
+.st-new{ font-family:var(--serif); font-size:34px; color:var(--gold-deep); line-height:1.1; }
+.st-pair{ display:block; color:var(--ink-soft); font-size:14px; margin-top:4px; }
+.st-note{ color:var(--ink-faint); font-size:14px; margin-top:24px; max-width:760px; }
+.st-tips{ display:grid; gap:0; margin-top:40px; border-top:1px solid var(--gold); }
+@media(min-width:760px){ .st-tips{ grid-template-columns:repeat(2,1fr); } }
+@media(min-width:1100px){ .st-tips{ grid-template-columns:repeat(4,1fr); } }
+.st-tip{ padding:30px 28px 34px 0; border-bottom:1px solid var(--line); }
+.st-tip .why-mark{ width:40px; height:1px; background:var(--gold); margin-bottom:22px; }
+.st-tip h3{ font-size:24px; margin-bottom:10px; }
+.st-tip p{ color:var(--ink-soft); font-size:15px; }
+.st-video{ max-width:980px; margin:44px auto 0; }
+.st-faq .accordion{ margin-top:40px; }
+.st-faq .acc-title{ font-size:clamp(20px,2.4vw,28px); }
+.st-cta{ background:var(--black); color:var(--white); text-align:center; }
+.st-cta .h-sec em{ color:var(--gold-light); }
+.st-cta p{ color:rgba(255,255,255,.75); max-width:620px; margin:24px auto 0; }
+.st-cta .st-btns{ justify-content:center; }
+.st-cta .btn{ color:var(--gold-light); }
+.st-cta .btn::before{ background:var(--gold-light); }
+.st-cta .btn:hover{ color:var(--black); }
+.st-notes{ padding:48px 0 72px; }
+.st-notes p{ font-size:12px; color:var(--ink-faint); max-width:900px; margin-top:8px; line-height:1.6; }
+.why .why-mark.dash{ width:40px; height:1px; background:var(--gold-light); }
+</style>"""
+
+ST_JS = """<script>
+document.querySelectorAll('.accordion').forEach(acc=>{
+  acc.querySelectorAll('.acc-item').forEach(item=>{
+    const btn=item.querySelector('.acc-btn'), panel=item.querySelector('.acc-panel');
+    btn.addEventListener('click',()=>{
+      const was=item.classList.contains('open');
+      acc.querySelectorAll('.acc-item.open').forEach(o=>{ o.classList.remove('open'); o.querySelector('.acc-btn').setAttribute('aria-expanded','false'); o.querySelector('.acc-panel').style.maxHeight=0; });
+      if(!was){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); panel.style.maxHeight=panel.scrollHeight+'px'; }
+    });
+  });
+});
+</script>"""
+
+def stellest_schema(lang, t, pr):
+    url = f"{DOMAIN}{PATH[lang]}stellest/"
+    plain = lambda x: re.sub(r"<[^>]+>", "", x)
+    prod = {"@context": "https://schema.org", "@type": "Product",
+            "name": "Essilor Stellest", "brand": {"@type": "Brand", "name": "Essilor"},
+            "description": plain(t["desc"]), "image": f"{DOMAIN}/img/og-stellest.jpg", "url": url,
+            "offers": [{"@type": "Offer", "name": plain(name), "price": str(pr[k]["one_num"]), "priceCurrency": "RSD",
+                        "availability": "https://schema.org/InStock", "url": url,
+                        "seller": {"@type": "Optician", "name": "Optika Ginter", "url": DOMAIN + "/"}}
+                       for k, name, _ in t["price_rows"]]}
+    faq = {"@context": "https://schema.org", "@type": "FAQPage",
+           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": t["crumb_home"], "item": DOMAIN + PATH[lang]},
+        {"@type": "ListItem", "position": 2, "name": "Stellest", "item": url}]}
+    return "\n".join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False) + "</script>" for x in (prod, faq, crumbs))
+
+def stellest_page(lang, d, v, root):
+    t = ST[lang]; pr = st_prices(lang); img = root + "img/"
+    tel = f"tel:{PHONE_TEL}"
+    btns = (f'<div class="st-btns"><a href="{tel}" class="btn dark"><span>{t["btn_call"]} · {PHONE_DISPLAY}</span></a>'
+            f'<a href="../okviri/" class="btn"><span>{t["btn_frames"]}</span></a></div>')
+    li = lambda items: "".join(f"<li><b>{a}</b>{b}</li>" if isinstance(items[0], tuple) else f"<li>{a}</li>"
+                               for a, b in (items if isinstance(items[0], tuple) else [(x, "") for x in items]))
+    rows = "".join(f"""<div class="st-prow"><div><h3>{name}</h3><p>{sub}</p></div>
+  <div><span class="st-pl">{t['price_base']}</span><span class="st-old">{pr[k]['base']} RSD</span> <span class="st-pair">{t['price_per']}</span></div>
+  <div><span class="st-pl">{t['price_ours']} · −10%</span><span class="st-new">{pr[k]['one']} RSD</span><span class="st-pair">{t['price_per']} · {pr[k]['pair']} RSD {t['price_pair']}</span></div></div>"""
+                   for k, name, sub in t["price_rows"])
+    how = "".join(f'<div class="why-item"><span class="why-mark dash"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["how"])
+    tips = "".join(f'<div class="st-tip"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["tips"])
+    faq = "\n".join(f'<div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">{q}</h3><span class="acc-icon"></span></button><div class="acc-panel"><div class="acc-panel-in">{a}</div></div></div>' for q, a in t["faq"])
+    body = f"""<section class="sub-top st-top"><div class="wrap st-hero">
+  <div>
+    <span class="kicker">{t['kicker']}</span>
+    <h1 class="h-sec">{t['h1']}</h1>
+    <span class="sub-rule"></span>
+    <p class="lead">{t['lead']}</p>
+    <span class="st-badge">{t['badge']}</span>
+    {btns}
+  </div>
+  <div class="st-frame"><img src="{img}stellest-hero-1200.webp" srcset="{img}stellest-hero-800.webp 800w, {img}stellest-hero-1200.webp 1200w" sizes="(min-width:960px) 50vw, 100vw" width="1200" height="630" alt="{t['img_alt']}"></div>
+</div></section>
+<section class="st-panel"><div class="wrap st-text">
+  <h2 class="h-sec">{t['why_h']}</h2>
+  {''.join(f'<p>{p}</p>' for p in t['why_p'])}
+</div></section>
+<section class="why"><div class="wrap">
+  <div class="sec-head"><span class="kicker">{t['how_kicker']}</span><h2 class="h-sec">{t['how_h']}</h2></div>
+  <div class="why-grid" style="margin-top:48px">{how}</div>
+</div></section>
+<section><div class="wrap st-stat">
+  <div class="st-frame"><img src="{img}stellest-boy-900.webp" srcset="{img}stellest-boy-600.webp 600w, {img}stellest-boy-900.webp 900w" sizes="(min-width:960px) 45vw, 100vw" width="900" height="900" alt="{t['img2_alt']}" loading="lazy"></div>
+  <div>
+    <div class="st-num">{t['stat_b']}</div><p class="st-num-t">{t['stat']}</p>
+    <span class="kicker" style="margin-top:56px">{t['for_kicker']}</span>
+    <h2 class="h-sec" style="font-size:clamp(30px,4vw,48px)">{t['for_h']}</h2>
+    <ul class="st-list">{li(t['for_list'])}</ul>
+  </div>
+</div></section>
+<section class="st-panel"><div class="wrap">
+  <span class="kicker">{t['steps_kicker']}</span><h2 class="h-sec">{t['steps_h']}</h2>
+  <ul class="st-list" style="max-width:900px">{li(t['steps'])}</ul>
+  <div class="st-video st-frame"><video controls preload="none" playsinline poster="{img}stellest-poster.webp" width="1280" height="720" title="{t['video_title']}"><source src="{img}stellest-video.mp4" type="video/mp4"></video></div>
+</div></section>
+<section id="cena"><div class="wrap">
+  <span class="kicker">{t['price_kicker']}</span><h2 class="h-sec">{t['price_h']}</h2>
+  <div class="st-price">{rows}</div>
+  <p class="st-note">{t['price_note']}</p>
+  <span class="kicker" style="margin-top:72px">{t['guar_kicker']}</span><h2 class="h-sec" style="font-size:clamp(30px,4vw,48px)">{t['guar_h']}</h2>
+  <p class="lead" style="max-width:760px">{t['guar_p']}</p>
+</div></section>
+<section class="st-panel"><div class="wrap">
+  <span class="kicker">{t['tips_kicker']}</span><h2 class="h-sec">{t['tips_h']}</h2>
+  <div class="st-tips">{tips}</div>
+</div></section>
+<section class="st-faq"><div class="wrap" style="max-width:1000px">
+  <span class="kicker">{t['faq_kicker']}</span><h2 class="h-sec">{t['faq_h']}</h2>
+  <div class="accordion">{faq}</div>
+</div></section>
+<section class="st-cta"><div class="wrap">
+  <h2 class="h-sec">{t['cta_h']}</h2><p>{t['cta_p']}</p>
+  <div class="st-btns"><a href="{tel}" class="btn"><span>{t['btn_call']} · {PHONE_DISPLAY}</span></a><a href="../okviri/" class="btn"><span>{t['btn_frames']}</span></a></div>
+</div></section>
+<div class="st-notes"><div class="wrap"><span class="kicker">{t['notes_h']}</span>{''.join(f'<p>{n}</p>' for n in t['notes'])}</div></div>
+{stellest_schema(lang, t, pr)}"""
+    v.update({"SUB_TITLE": t["title"], "SUB_DESC": t["desc"], "BODY": body,
+              "SUB_SCRIPT": ST_JS, "OG_IMG": "og-stellest.jpg",
+              "SUB_CSS_LINK": ST_CSS})
 
 def build_sub(lang, slug):
     d, v = base_vars(lang)
     root = ROOT[lang] + "../"          # od /okviri/ ili /ru/okviri/ do korena sajta
     v.update({**asset_vars(root), "ROOT": root, "HOME": "../", "FRAMES_URL": "../okviri/" if slug != "okviri" else "./",
               "PRIVACY_URL": "../privatnost/" if slug != "privatnost" else "./",
+              "STELLEST_URL": "../stellest/" if slug != "stellest" else "./",
               "FRAMES_ACTIVE": ' class="active" aria-current="page"' if slug == "okviri" else "",
               "LANG_SWITCH": lang_switch(lang, root, slug)})
     if slug == "okviri":
@@ -214,6 +379,8 @@ def build_sub(lang, slug):
         script = ("<script>window.CAT_CFG=" + json.dumps(cfg, ensure_ascii=False).replace("</", "<\\/") + ";</script>\n"
                   f'<script src="{root}assets/catalog.js?v={ASSET_V}"></script>')
         v.update({"SUB_TITLE": d["cat_title"], "SUB_DESC": d["cat_desc"], "BODY": body, "SUB_SCRIPT": script})
+    elif slug == "stellest":
+        stellest_page(lang, d, v, root)
     else:
         pr = PRIV[lang]
         fmt = lambda t: t.format(ADDRESS=ADDRESS, CITY=CITY, PIB=PIB, MB=MB, EMAIL=EMAIL,
@@ -229,7 +396,7 @@ def build_sub(lang, slug):
   <p class="priv-upd">{pr['priv_updated']}</p>
 </div></div></section>"""
         v.update({"SUB_TITLE": pr["priv_title"], "SUB_DESC": pr["priv_desc"], "BODY": body, "SUB_SCRIPT": ""})
-    v["SUB_SEO"] = sub_seo(lang, slug, v["SUB_TITLE"], v["SUB_DESC"])
+    v["SUB_SEO"] = sub_seo(lang, slug, v["SUB_TITLE"], v["SUB_DESC"], v.pop("OG_IMG", "og-image.jpg"))
     v.setdefault("FRAMES_ACTIVE", "")
     return render(SUB_TPL, v)
 
@@ -245,7 +412,7 @@ for l in LANGS:
     for slug in SUB_PAGES:
         os.makedirs(p + slug, exist_ok=True)
         open(p + slug + "/index.html", "w", encoding="utf-8").write(build_sub(l, slug))
-urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "privatnost/"] for l in LANGS)
+urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "stellest/", "privatnost/"] for l in LANGS)
 open(OUT + "/sitemap.xml", "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{urls}\n</urlset>\n')
 open(OUT + "/robots.txt", "w").write(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
 print("ok")
