@@ -116,6 +116,25 @@ def lang_switch(lang, root, slug=""):
     sw = "".join(f'<a href="{(root + PATH[l].lstrip("/") + (slug + "/" if slug else "")) or "./"}" hreflang="{l}" lang="{l}"' + (' class="active" aria-current="page"' if l == lang else "") + f">{l.upper()}</a>" for l in LANGS)
     return f'<nav class="lang" aria-label="Language">{sw}</nav>'
 
+# Meni «Usluge» — padajući na desktopu, podstavke u mobilnom meniju
+SVC_SUB = {
+    "sr": [("KS_URL", None, "porudžbina sočiva"), ("VX_URL", "Varilux", "progresivna sočiva"), ("STELLEST_URL", "Stellest", "kontrola miopije kod dece")],
+    "hu": [("KS_URL", None, "lencserendelés"), ("VX_URL", "Varilux", "progresszív lencsék"), ("STELLEST_URL", "Stellest", "myopia-kontroll gyerekeknek")],
+    "en": [("KS_URL", None, "ordering"), ("VX_URL", "Varilux", "progressive lenses"), ("STELLEST_URL", "Stellest", "myopia control for children")],
+    "ru": [("KS_URL", None, "заказ линз"), ("VX_URL", "Varilux", "прогрессивные линзы"), ("STELLEST_URL", "Stellest", "контроль миопии у детей")],
+}
+SVC_SLUG = {"KS_URL": KS_SLUG, "VX_URL": "progresivne-naocare", "STELLEST_URL": "stellest"}
+
+def svc_nav(lang, v, home, slug=""):
+    items = [(v[k], name or v["ks_nav"], sub, SVC_SLUG[k] == slug) for k, name, sub in SVC_SUB[lang]]
+    act = any(a for *_, a in items)
+    cur = lambda a: ' class="active" aria-current="page"' if a else ""
+    drop = "".join(f'<a href="{u}"{cur(a)}><span>{n}</span><small>{sb}</small></a>' for u, n, sb, a in items)
+    v["NAV_SVC"] = (f'<div class="nav-drop"><a href="{home}#services" class="nav-drop-t{" active" if act else ""}" aria-haspopup="true">{v["nav_services"]}</a>'
+                    f'<div class="nav-drop-p"><div class="nav-drop-in">{drop}</div></div></div>')
+    v["NAV_SVC_M"] = (f'<li><a href="{home}#services">{v["nav_services"]}</a></li>'
+                      + "".join(f'<li class="nav-sub"><a href="{u}">{n}<small>{sb}</small></a></li>' for u, n, sb, a in items))
+
 def render(tpl, v):
     out = tpl
     for _ in range(2):
@@ -169,6 +188,7 @@ def build(lang):
         "LENSES": "".join(brand_tile(b, root, KS_SLUG + "/" if b in CL_BRANDS else None) for b in LENSES),
         "alt_salon": ALT[lang][0], "H1": d["title"].split(" | ")[0],
     })
+    svc_nav(lang, v, "")
     return render(TPL, v)
 
 def stellest_service(lang):
@@ -783,6 +803,7 @@ def build_sub(lang, slug):
     if slug in HIDDEN:
         v["SUB_SEO"] += '\n<meta name="robots" content="noindex, nofollow">'
     v.setdefault("FRAMES_ACTIVE", "")
+    svc_nav(lang, v, "../", slug)
     return render(SUB_TPL, v)
 
 os.makedirs(OUT + "/assets", exist_ok=True)
