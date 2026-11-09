@@ -1,0 +1,186 @@
+# -*- coding: utf-8 -*-
+# Stranica /kontaktna-sociva/ — predporudžbina kontaktnih sočiva (SR/HU/EN/RU).
+# NACRT: stranica je skrivena (noindex, nije u sitemap-u, nema linkova sa sajta).
+# Sočiva ispod su PRIMERI — zameniti podacima iz novih kataloga, cene upisati u price (RSD po pakovanju).
+
+KS_SLUG = "kontaktna-sociva"
+KS_DRAFT = True   # True → stranica skrivena + traka «nacrt»; False → objavljeno (dodati linkove i sitemap)
+
+# kind: "1d" jednodnevna, "2w" dvonedeljna, "1m" mesečna
+# sph: (od, do) — korak 0,25 do ±6,00, dalje 0,50
+# price: RSD po pakovanju ili None («cena uskoro»)
+KS_LENSES = [
+    dict(id="acuvue-oasys", brand="Johnson & Johnson", name="Acuvue Oasys", kind="2w", toric=False,
+         pack=6, bc=["8.4", "8.8"], dia="14.0", sph=(-12, 8), price=None),
+    dict(id="acuvue-oasys-ast", brand="Johnson & Johnson", name="Acuvue Oasys for Astigmatism", kind="2w", toric=True,
+         pack=6, bc=["8.6"], dia="14.5", sph=(-9, 6), cyl=["-0.75", "-1.25", "-1.75", "-2.25", "-2.75"], price=None),
+    dict(id="air-optix-hg", brand="Alcon", name="Air Optix plus HydraGlyde", kind="1m", toric=False,
+         pack=6, bc=["8.6"], dia="14.2", sph=(-12, 8), price=None),
+    dict(id="air-optix-hg-ast", brand="Alcon", name="Air Optix plus HydraGlyde for Astigmatism", kind="1m", toric=True,
+         pack=6, bc=["8.7"], dia="14.5", sph=(-10, 6), cyl=["-0.75", "-1.25", "-1.75", "-2.25"], price=None),
+    dict(id="dailies-total1", brand="Alcon", name="Dailies Total1", kind="1d", toric=False,
+         pack=30, bc=["8.5"], dia="14.1", sph=(-12, 6), price=None),
+    dict(id="biofinity", brand="CooperVision", name="Biofinity", kind="1m", toric=False,
+         pack=6, bc=["8.6"], dia="14.0", sph=(-12, 8), price=None),
+]
+
+def sph_values(lo, hi):
+    out, x = [], lo
+    while x <= hi + 1e-9:
+        out.append(round(x, 2))
+        x += 0.25 if -6 <= x < 6 else 0.5
+    return [f"{v:+.2f}" if v else "0.00" for v in out]
+
+KS = {}
+
+KS["sr"] = dict(
+    title="Kontaktna sočiva — porudžbina | Optika Ginter Novi Sad",
+    desc="Poručite kontaktna sočiva online i preuzmite ih u Optici Ginter, Trg Republike 25, Novi Sad. Plaćanje pri preuzimanju.",
+    draft="Nacrt stranice — sočiva i cene su primeri, stranica nije javna.",
+    kicker="Kontaktna sočiva",
+    h1="Poručite kontaktna sočiva <em>online</em>",
+    lead="Izaberite sočiva, upišite parametre i pošaljite predporudžbinu. Proverićemo dostupnost kod dobavljača i javiti vam rok — sočiva preuzimate u salonu.",
+    list_kicker="Asortiman", list_h="Sočiva koja <em>poručujemo</em>",
+    k_1d="Jednodnevna", k_2w="Dvonedeljna", k_1m="Mesečna", toric="Torična · astigmatizam",
+    pack="Pakovanje: {n} kom", sph_range="Dioptrije od {a} do {b}", price_tbd="Cena uskoro", per_pack="po pakovanju",
+    btn_pick="Poruči",
+    form_kicker="Predporudžbina", form_h="Podaci za <em>porudžbinu</em>",
+    hint="Parametre prepišite sa kutije sočiva ili sa recepta: SPH — dioptrija, BC — bazna krivina, CYL i AX — cilindar i osa (samo za torična sočiva).",
+    f_lens="Sočiva", f_choose="— izaberite —",
+    od="Desno oko (OD)", os="Levo oko (OS)",
+    f_qty="Pakovanja", f_sph="SPH", f_bc="BC", f_cyl="CYL", f_ax="AX",
+    qty0="nije potrebno",
+    toric_note="Rok isporuke toričnih sočiva (za astigmatizam) može biti do 8 nedelja.",
+    f_name="Ime i prezime", f_phone="Telefon", f_phone_ph="npr. 064 123 4567",
+    f_email="E-mail (nije obavezno)", f_comment="Komentar",
+    consent="Saglasan/na sam da Optika Ginter obradi moje podatke radi ove porudžbine, u skladu sa", privacy="Politikom privatnosti",
+    btn_send="Pošalji predporudžbinu",
+    terms_kicker="Uslovi", terms_h="Kako <em>funkcioniše</em>",
+    terms=[
+        ("Predporudžbina", "Ovo je predporudžbina — ništa ne plaćate unapred."),
+        ("Provera i rok", "Proverićemo dostupnost sočiva kod dobavljača i javiti vam rok isporuke telefonom."),
+        ("Preuzimanje", "Sočiva preuzimate lično u Optici Ginter, Trg Republike 25, Novi Sad. Ne šaljemo poštom."),
+        ("Plaćanje", "Plaćate pri preuzimanju — gotovinom ili karticom."),
+    ],
+    ok_h="Hvala!", ok="Predporudžbina je primljena. Javićemo vam se telefonom kada proverimo dostupnost i rok.",
+    e_lens="Izaberite sočiva.", e_eye="Upišite broj pakovanja bar za jedno oko.",
+    e_params="Upišite dioptriju i baznu krivinu za svako oko koje poručujete.",
+    e_toric="Za torična sočiva upišite i cilindar i osu.",
+    e_name="Upišite ime i prezime.", e_phone="Proverite broj telefona.", e_consent="Potrebna je vaša saglasnost.",
+    e_rate="Već smo primili vašu porudžbinu. Javićemo vam se uskoro.",
+    e_server="Porudžbina nije poslata. Pokušajte ponovo ili nas pozovite: ",
+)
+
+KS["hu"] = dict(
+    title="Kontaktlencse rendelés | Optika Ginter Újvidék",
+    desc="Rendeljen kontaktlencsét online, és vegye át az Optika Ginterben, Trg Republike 25, Újvidék. Fizetés átvételkor.",
+    draft="Az oldal vázlat — a lencsék és árak csak példák, az oldal nem nyilvános.",
+    kicker="Kontaktlencsék",
+    h1="Rendeljen kontaktlencsét <em>online</em>",
+    lead="Válassza ki a lencsét, adja meg a paramétereket, és küldje el az előrendelést. Ellenőrizzük a beszállítónál, és jelezzük a határidőt — a lencsét az üzletben veheti át.",
+    list_kicker="Kínálat", list_h="Rendelhető <em>lencsék</em>",
+    k_1d="Napi", k_2w="Kéthetes", k_1m="Havi", toric="Tórikus · asztigmia",
+    pack="Kiszerelés: {n} db", sph_range="Dioptria {a} és {b} között", price_tbd="Ár hamarosan", per_pack="dobozonként",
+    btn_pick="Rendelés",
+    form_kicker="Előrendelés", form_h="Rendelési <em>adatok</em>",
+    hint="A paramétereket a lencse dobozáról vagy a receptről másolja át: SPH — dioptria, BC — bázisgörbület, CYL és AX — cilinder és tengely (csak tórikus lencséknél).",
+    f_lens="Lencse", f_choose="— válasszon —",
+    od="Jobb szem (OD)", os="Bal szem (OS)",
+    f_qty="Doboz", f_sph="SPH", f_bc="BC", f_cyl="CYL", f_ax="AX",
+    qty0="nem kell",
+    toric_note="A tórikus (asztigmiás) lencsék szállítási ideje akár 8 hét is lehet.",
+    f_name="Név", f_phone="Telefon", f_phone_ph="pl. 064 123 4567",
+    f_email="E-mail (nem kötelező)", f_comment="Megjegyzés",
+    consent="Hozzájárulok, hogy az Optika Ginter a rendelés céljából kezelje az adataimat, a következő szerint:", privacy="Adatvédelmi szabályzat",
+    btn_send="Előrendelés küldése",
+    terms_kicker="Feltételek", terms_h="Hogyan <em>működik</em>",
+    terms=[
+        ("Előrendelés", "Ez előrendelés — előre semmit sem kell fizetni."),
+        ("Ellenőrzés és határidő", "Ellenőrizzük a lencse elérhetőségét a beszállítónál, és telefonon jelezzük a szállítási időt."),
+        ("Átvétel", "A lencsét személyesen veheti át az Optika Ginterben, Trg Republike 25, Újvidék. Postán nem küldünk."),
+        ("Fizetés", "Átvételkor fizet — készpénzzel vagy kártyával."),
+    ],
+    ok_h="Köszönjük!", ok="Az előrendelést megkaptuk. Telefonon jelentkezünk, amint ellenőriztük az elérhetőséget és a határidőt.",
+    e_lens="Válasszon lencsét.", e_eye="Adja meg a dobozok számát legalább az egyik szemhez.",
+    e_params="Adja meg a dioptriát és a bázisgörbületet minden rendelt szemhez.",
+    e_toric="Tórikus lencséhez adja meg a cilindert és a tengelyt is.",
+    e_name="Adja meg a nevét.", e_phone="Ellenőrizze a telefonszámot.", e_consent="Szükséges a hozzájárulása.",
+    e_rate="Rendelését már megkaptuk. Hamarosan jelentkezünk.",
+    e_server="A rendelés nem ment el. Próbálja újra, vagy hívjon minket: ",
+)
+
+KS["en"] = dict(
+    title="Order contact lenses | Optika Ginter Novi Sad",
+    desc="Order contact lenses online and collect them at Optika Ginter, Trg Republike 25, Novi Sad. Pay on collection.",
+    draft="Draft page — lenses and prices are examples, the page is not public.",
+    kicker="Contact lenses",
+    h1="Order contact lenses <em>online</em>",
+    lead="Choose your lenses, enter the parameters and send a pre-order. We will check availability with the supplier and let you know the lead time — you collect the lenses in our shop.",
+    list_kicker="Range", list_h="Lenses we <em>order</em>",
+    k_1d="Daily", k_2w="Two-weekly", k_1m="Monthly", toric="Toric · astigmatism",
+    pack="Pack: {n} lenses", sph_range="Powers from {a} to {b}", price_tbd="Price coming soon", per_pack="per pack",
+    btn_pick="Order",
+    form_kicker="Pre-order", form_h="Order <em>details</em>",
+    hint="Copy the parameters from the lens box or your prescription: SPH — power, BC — base curve, CYL and AX — cylinder and axis (toric lenses only).",
+    f_lens="Lenses", f_choose="— choose —",
+    od="Right eye (OD)", os="Left eye (OS)",
+    f_qty="Packs", f_sph="SPH", f_bc="BC", f_cyl="CYL", f_ax="AX",
+    qty0="not needed",
+    toric_note="Delivery of toric lenses (for astigmatism) can take up to 8 weeks.",
+    f_name="Full name", f_phone="Phone", f_phone_ph="e.g. 064 123 4567",
+    f_email="E-mail (optional)", f_comment="Comment",
+    consent="I agree that Optika Ginter may process my details for this order, in line with the", privacy="Privacy Policy",
+    btn_send="Send pre-order",
+    terms_kicker="Terms", terms_h="How it <em>works</em>",
+    terms=[
+        ("Pre-order", "This is a pre-order — nothing to pay in advance."),
+        ("Check and lead time", "We check availability with the supplier and call you with the delivery time."),
+        ("Collection", "Collect your lenses in person at Optika Ginter, Trg Republike 25, Novi Sad. We do not ship."),
+        ("Payment", "Pay on collection — cash or card."),
+    ],
+    ok_h="Thank you!", ok="Your pre-order has been received. We will call you once we have checked availability and lead time.",
+    e_lens="Please choose the lenses.", e_eye="Enter the number of packs for at least one eye.",
+    e_params="Enter the power and base curve for each eye you order.",
+    e_toric="For toric lenses also enter cylinder and axis.",
+    e_name="Please enter your name.", e_phone="Please check the phone number.", e_consent="Your consent is required.",
+    e_rate="We have already received your order. We will contact you soon.",
+    e_server="The order was not sent. Please try again or call us: ",
+)
+
+KS["ru"] = dict(
+    title="Заказ контактных линз | Optika Ginter Нови-Сад",
+    desc="Закажите контактные линзы онлайн и заберите их в Optika Ginter, Trg Republike 25, Нови-Сад. Оплата при получении.",
+    draft="Черновик страницы — линзы и цены для примера, страница не опубликована.",
+    kicker="Контактные линзы",
+    h1="Закажите контактные линзы <em>онлайн</em>",
+    lead="Выберите линзы, укажите параметры и отправьте предварительный заказ. Мы проверим наличие у поставщика и сообщим срок — линзы вы забираете в салоне.",
+    list_kicker="Ассортимент", list_h="Линзы, которые мы <em>заказываем</em>",
+    k_1d="Однодневные", k_2w="Двухнедельные", k_1m="Ежемесячные", toric="Торические · астигматизм",
+    pack="В упаковке: {n} шт.", sph_range="Оптическая сила от {a} до {b}", price_tbd="Цена скоро", per_pack="за упаковку",
+    btn_pick="Заказать",
+    form_kicker="Предварительный заказ", form_h="Данные для <em>заказа</em>",
+    hint="Параметры перепишите с коробки линз или из рецепта: SPH — сфера, BC — базовая кривизна, CYL и AX — цилиндр и ось (только для торических линз).",
+    f_lens="Линзы", f_choose="— выберите —",
+    od="Правый глаз (OD)", os="Левый глаз (OS)",
+    f_qty="Упаковок", f_sph="SPH", f_bc="BC", f_cyl="CYL", f_ax="AX",
+    qty0="не нужно",
+    toric_note="Срок поставки торических линз (при астигматизме) — до 8 недель.",
+    f_name="Имя и фамилия", f_phone="Телефон", f_phone_ph="напр. 064 123 4567",
+    f_email="E-mail (необязательно)", f_comment="Комментарий",
+    consent="Я согласен(на) на обработку моих данных Optika Ginter для этого заказа в соответствии с", privacy="Политикой конфиденциальности",
+    btn_send="Отправить заказ",
+    terms_kicker="Условия", terms_h="Как это <em>работает</em>",
+    terms=[
+        ("Предварительный заказ", "Это предварительный заказ — заранее ничего платить не нужно."),
+        ("Проверка и срок", "Мы проверим наличие линз у поставщика и сообщим срок поставки по телефону."),
+        ("Получение", "Линзы забираете сами в Optika Ginter, Trg Republike 25, Нови-Сад. Доставки нет."),
+        ("Оплата", "Оплата при получении — наличными или картой."),
+    ],
+    ok_h="Спасибо!", ok="Заказ принят. Мы позвоним, когда проверим наличие и срок поставки.",
+    e_lens="Выберите линзы.", e_eye="Укажите количество упаковок хотя бы для одного глаза.",
+    e_params="Укажите сферу и базовую кривизну для каждого заказываемого глаза.",
+    e_toric="Для торических линз укажите также цилиндр и ось.",
+    e_name="Укажите имя и фамилию.", e_phone="Проверьте номер телефона.", e_consent="Нужно ваше согласие.",
+    e_rate="Мы уже получили ваш заказ. Скоро свяжемся с вами.",
+    e_server="Заказ не отправлен. Попробуйте ещё раз или позвоните нам: ",
+)

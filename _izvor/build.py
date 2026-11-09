@@ -2,6 +2,7 @@
 import json, os, re, shutil, urllib.parse, html as H
 from content import *
 from catalog_content import CAT, PRIV, VALUE_DICT
+from kontaktna_content import KS, KS_LENSES, KS_SLUG, KS_DRAFT, sph_values
 from stellest_content import ST, st_prices, ST_PRICE
 from varilux_content import VX, vx_prices
 
@@ -33,7 +34,8 @@ CAT_JS = open(f"{BASE}/catalog.js", encoding="utf-8").read()
 # a rezervaciju šalje Edge funkciji reserve-frame (sajt nema pristup bazi).
 SUPA_URL = "https://flxewreibnkyfoccfjtg.supabase.co"
 SUPA_KEY = "sb_publishable_GtVx_U91nCREZ-fq4yfLLw_NLsvQYGQ"
-SUB_PAGES = ["okviri", "privatnost", "stellest", "progresivne-naocare"]
+SUB_PAGES = ["okviri", "privatnost", "stellest", "progresivne-naocare", KS_SLUG]
+HIDDEN = {KS_SLUG} if KS_DRAFT else set()  # noindex, bez sitemap-a i linkova
 fav = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{P["logo-og"]["vb"]}"><path d="{P["logo-og"]["d"]}"/></svg>'
 # Zajednički fajlovi (assets/): stil, logotipi i favicon se učitavaju jednom i keširaju,
 # umesto da se ugrađuju u svaku stranicu.
@@ -442,6 +444,123 @@ def vx_page(lang, d, v, root):
     v.update({"SUB_TITLE": t["title"], "SUB_DESC": t["desc"], "BODY": body,
               "SUB_SCRIPT": ST_JS, "OG_IMG": "og-varilux.jpg", "SUB_CSS_LINK": css})
 
+KS_CSS = """<style>
+.ks-draft{ background:var(--black); color:var(--gold-light); text-align:center; font-size:12px; letter-spacing:.18em; text-transform:uppercase; padding:10px 16px; margin-top:72px; }
+.ks-grid{ display:grid; gap:0; margin-top:40px; border-top:1px solid var(--gold); }
+@media(min-width:700px){ .ks-grid{ grid-template-columns:repeat(2,1fr); column-gap:40px; } }
+@media(min-width:1100px){ .ks-grid{ grid-template-columns:repeat(3,1fr); } }
+.ks-card{ display:flex; flex-direction:column; padding:28px 0 30px; border-bottom:1px solid var(--line); }
+.ks-brand{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); }
+.ks-card h3{ font-size:26px; margin:6px 0 12px; }
+.ks-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.ks-tag{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; border:1px solid var(--line); padding:5px 10px; color:var(--ink-soft); }
+.ks-tag.t{ border-color:var(--gold); color:var(--gold-deep); }
+.ks-card p{ color:var(--ink-soft); font-size:14px; }
+.ks-foot{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-top:auto; padding-top:18px; }
+.ks-price{ font-family:var(--serif); font-size:26px; color:var(--gold-deep); }
+.ks-price small{ display:block; font-family:var(--sans); font-size:12px; color:var(--ink-faint); }
+.ks-price.tbd{ font-size:18px; color:var(--ink-faint); }
+.ks-pick{ background:none; border:0; border-bottom:1px solid var(--gold); color:var(--gold-deep); font-family:var(--sans); font-size:12px; letter-spacing:.2em; text-transform:uppercase; font-weight:600; padding:4px 0; cursor:pointer; }
+.ks-pick:hover{ color:var(--ink); border-color:var(--ink); }
+.ks-order{ display:grid; gap:48px; }
+@media(min-width:1000px){ .ks-order{ grid-template-columns:1.4fr 1fr; gap:72px; align-items:start; } }
+.ks-form{ margin-top:0; padding:28px; background:var(--bg); }
+.ks-form select,.ks-form input[type=email],.ks-form textarea{ width:100%; height:44px; border:1px solid var(--line); background-color:var(--white); border-radius:0; padding:0 12px; font-family:var(--sans); font-size:16px; color:var(--ink); }
+.ks-form select{ -webkit-appearance:none; appearance:none; padding-right:30px;
+  background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23554F44' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 12px center; }
+.ks-form textarea{ height:96px; padding:10px 12px; resize:vertical; }
+.ks-form select:focus,.ks-form textarea:focus,.ks-form input:focus{ outline:none; border-color:var(--gold); }
+.ks-form select:disabled{ opacity:.4; }
+.ks-hint{ font-size:13px; color:var(--ink-faint); margin:-4px 0 16px; }
+.ks-eye{ border:0; border-top:1px solid var(--gold); padding:14px 0 4px; margin:0 0 8px; min-width:0; }
+.ks-eye legend{ font-family:var(--serif); font-size:22px; color:var(--ink); padding:0 0 8px; }
+.ks-eye.is-off legend{ color:var(--ink-faint); }
+.ks-params{ display:grid; gap:10px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+.ks-form:not(.is-toric) .ks-t{ display:none; }
+@media(min-width:600px){ .ks-form.is-toric .ks-params{ grid-template-columns:repeat(5,minmax(0,1fr)); } }
+@media(max-width:599px){ .ks-form{ padding:20px 16px; } .ks-form .rrow{ grid-template-columns:1fr; gap:0; } }
+.ks-toric{ border-left:2px solid var(--gold); padding:10px 14px; background:var(--white); font-size:14px; color:var(--ink); margin:6px 0 18px; }
+.ks-terms{ border-top:1px solid var(--gold); }
+.ks-term{ padding:22px 0; border-bottom:1px solid var(--line); }
+.ks-term .why-mark{ display:block; width:40px; height:1px; background:var(--gold); margin-bottom:16px; }
+.ks-term h3{ font-size:24px; margin-bottom:6px; }
+.ks-term p{ color:var(--ink-soft); font-size:15px; }
+</style>"""
+
+def ks_price(n, lang):
+    sep = {"sr": ".", "hu": " ", "en": ",", "ru": " "}[lang]
+    return f"{n:,}".replace(",", sep) + " RSD"
+
+def ks_page(lang, d, v, root):
+    t = KS[lang]
+    fmt = (lambda x: x) if lang == "en" else (lambda x: x.replace(".", ","))
+    rng = lambda a, b: t["sph_range"].format(a=fmt(f"{a:+.2f}"), b=fmt(f"{b:+.2f}"))
+    cards = []
+    for l in KS_LENSES:
+        tags = f'<span class="ks-tag">{t["k_" + l["kind"]]}</span>' + (f'<span class="ks-tag t">{t["toric"]}</span>' if l["toric"] else "")
+        price = (f'<span class="ks-price">{ks_price(l["price"], lang)}<small>{t["per_pack"]}</small></span>' if l["price"]
+                 else f'<span class="ks-price tbd">{t["price_tbd"]}</span>')
+        info = t["pack"].format(n=l["pack"]) + " · BC " + fmt(" / ".join(l["bc"])) + " · DIA " + fmt(l["dia"])
+        cards.append(
+            f'<article class="ks-card"><span class="ks-brand">{H.escape(l["brand"])}</span><h3>{H.escape(l["name"])}</h3>'
+            f'<div class="ks-tags">{tags}</div><p>{info}<br>{rng(*l["sph"])}</p>'
+            f'<div class="ks-foot">{price}<button type="button" class="ks-pick" data-pick="{l["id"]}">{t["btn_pick"]} →</button></div></article>')
+    lens_opts = f'<option value="">{t["f_choose"]}</option>' + "".join(
+        f'<option value="{l["id"]}">{H.escape(l["brand"] + " · " + l["name"])}</option>' for l in KS_LENSES)
+    qty = "".join(f'<option value="{n}"{" selected" if n == 1 else ""}>{n if n else "0 — " + t["qty0"]}</option>' for n in range(0, 7))
+    def eye(k):
+        sel = lambda n, lab, cls="": f'<div class="rfield{cls}"><label class="f" for="ks_{k}_{n}">{lab}</label><select id="ks_{k}_{n}" name="{k}_{n}"></select></div>'
+        return (f'<fieldset class="ks-eye"><legend>{t[k]}</legend><div class="ks-params">'
+                f'<div class="rfield"><label class="f" for="ks_{k}_qty">{t["f_qty"]}</label><select id="ks_{k}_qty" name="{k}_qty">{qty}</select></div>'
+                + sel("sph", t["f_sph"]) + sel("bc", t["f_bc"]) + sel("cyl", t["f_cyl"], " ks-t") + sel("ax", t["f_ax"], " ks-t")
+                + '</div></fieldset>')
+    terms = "".join(f'<div class="ks-term"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["terms"])
+    draft = f'<div class="ks-draft">{t["draft"]}</div>' if KS_DRAFT else ""
+    body = f"""{draft}<section class="sub-top"><div class="wrap">
+  <span class="kicker">{t['kicker']}</span>
+  <h1 class="h-sec">{t['h1']}</h1>
+  <span class="sub-rule"></span>
+  <p class="lead" style="max-width:720px">{t['lead']}</p>
+</div></section>
+<section style="padding-top:0"><div class="wrap">
+  <span class="kicker">{t['list_kicker']}</span><h2 class="h-sec">{t['list_h']}</h2>
+  <div class="ks-grid">{''.join(cards)}</div>
+</div></section>
+<section class="st-panel" id="porudzbina"><div class="wrap ks-order">
+  <div>
+    <span class="kicker">{t['form_kicker']}</span><h2 class="h-sec">{t['form_h']}</h2>
+    <div id="ksBox" style="margin-top:36px"><form id="ksForm" class="rform ks-form" novalidate>
+      <div class="rfield"><label class="f" for="ksLens">{t['f_lens']}</label><select id="ksLens" name="lens">{lens_opts}</select></div>
+      <p class="ks-hint">{t['hint']}</p>
+      <p class="ks-toric" id="ksToric" hidden>{t['toric_note']}</p>
+      {eye('od')}{eye('os')}
+      <div class="rrow" style="margin-top:12px">
+        <div class="rfield"><label class="f" for="ksName">{t['f_name']}</label><input type="text" id="ksName" name="name" autocomplete="name" maxlength="80" required></div>
+        <div class="rfield"><label class="f" for="ksPhone">{t['f_phone']}</label><input type="tel" id="ksPhone" name="phone" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="{t['f_phone_ph']}" required></div>
+      </div>
+      <div class="rfield"><label class="f" for="ksEmail">{t['f_email']}</label><input type="email" id="ksEmail" name="email" autocomplete="email" maxlength="120"></div>
+      <div class="rfield"><label class="f" for="ksComment">{t['f_comment']}</label><textarea id="ksComment" name="comment" maxlength="1000"></textarea></div>
+      <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <label class="rconsent"><input type="checkbox" id="ksConsent"><span>{t['consent']} <a href="../privatnost/" target="_blank">{t['privacy']}</a>.</span></label>
+      <button type="submit" class="btn-dark" id="ksBtn">{t['btn_send']}</button>
+      <p class="rerr" id="ksErr" role="alert" hidden></p>
+    </form></div>
+  </div>
+  <div>
+    <span class="kicker">{t['terms_kicker']}</span><h2 class="h-sec" style="font-size:clamp(30px,4vw,48px)">{t['terms_h']}</h2>
+    <div class="ks-terms" style="margin-top:36px">{terms}</div>
+  </div>
+</div></section>"""
+    lenses = [{"id": l["id"], "brand": l["brand"], "name": l["name"], "toric": l["toric"], "bc": l["bc"],
+               "cyl": l.get("cyl", []), "sph_list": sph_values(*l["sph"])} for l in KS_LENSES]
+    tk = {k: x for k, x in t.items() if k.startswith(("e_", "ok"))}
+    cfg = {"lang": lang, "fn": SUPA_URL + "/functions/v1/order-contact-lenses", "phone": PHONE_DISPLAY, "phoneTel": PHONE_TEL,
+           "t": tk, "lenses": lenses}
+    script = ("<script>window.KS_CFG=" + json.dumps(cfg, ensure_ascii=False).replace("</", "<\\/") + ";</script>\n"
+              f'<script src="{root}assets/kontakt.js?v={ASSET_V}"></script>')
+    v.update({"SUB_TITLE": t["title"], "SUB_DESC": t["desc"], "BODY": body, "SUB_SCRIPT": script,
+              "SUB_CSS_LINK": v["SUB_CSS_LINK"] + "\n" + ST_CSS + "\n" + KS_CSS})
+
 def build_sub(lang, slug):
     d, v = base_vars(lang)
     root = ROOT[lang] + "../"          # od /okviri/ ili /ru/okviri/ do korena sajta
@@ -486,6 +605,8 @@ def build_sub(lang, slug):
         stellest_page(lang, d, v, root)
     elif slug == "progresivne-naocare":
         vx_page(lang, d, v, root)
+    elif slug == KS_SLUG:
+        ks_page(lang, d, v, root)
     else:
         pr = PRIV[lang]
         fmt = lambda t: t.format(ADDRESS=ADDRESS, CITY=CITY, PIB=PIB, MB=MB, EMAIL=EMAIL,
@@ -502,6 +623,8 @@ def build_sub(lang, slug):
 </div></div></section>"""
         v.update({"SUB_TITLE": pr["priv_title"], "SUB_DESC": pr["priv_desc"], "BODY": body, "SUB_SCRIPT": ""})
     v["SUB_SEO"] = sub_seo(lang, slug, v["SUB_TITLE"], v["SUB_DESC"], v.pop("OG_IMG", "og-image.jpg"))
+    if slug in HIDDEN:
+        v["SUB_SEO"] += '\n<meta name="robots" content="noindex, nofollow">'
     v.setdefault("FRAMES_ACTIVE", "")
     return render(SUB_TPL, v)
 
@@ -511,6 +634,7 @@ open(OUT + "/assets/logos.svg", "w", encoding="utf-8").write(SPRITE)
 open(OUT + "/assets/favicon.svg", "w", encoding="utf-8").write(fav)
 open(OUT + "/assets/catalog.css", "w", encoding="utf-8").write(CAT_CSS)
 open(OUT + "/assets/catalog.js", "w", encoding="utf-8").write(CAT_JS)
+open(OUT + "/assets/kontakt.js", "w", encoding="utf-8").write(open(f"{BASE}/kontakt.js", encoding="utf-8").read())
 for l in LANGS:
     p = OUT + PATH[l]; os.makedirs(p, exist_ok=True)
     open(p + "index.html", "w", encoding="utf-8").write(build(l))
