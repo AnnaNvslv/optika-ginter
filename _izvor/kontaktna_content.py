@@ -295,3 +295,65 @@ E404 = {
     "en": dict(h="Page not found", p="The address may be mistyped or the page has moved. Try the home page or our frame catalogue.", home="Home", frames="Frame catalogue", call="Call us", title="Page not found | Optika Ginter"),
     "ru": dict(h="Страница не найдена", p="Возможно, адрес набран с ошибкой или страница переехала. Загляните на главную или в каталог оправ.", home="Главная", frames="Каталог оправ", call="Позвонить", title="Страница не найдена | Optika Ginter"),
 }
+
+# ── Uslovi plaćanja (09.11.2026): potvrda telefonom pre porudžbine; torična i retka sočiva — puna uplata unapred,
+#    osim za klijente koji su već poručivali kod nas. ──
+_PAY = {
+    "sr": dict(
+        terms=[
+            ("Porudžbina i potvrda", "Pošaljite porudžbinu, a mi vas pozivamo da je potvrdimo. Sočiva poručujemo kod dobavljača tek nakon vaše potvrde telefonom."),
+            ("Provera i rok", "Proverićemo dostupnost sočiva kod dobavljača i javiti vam rok isporuke."),
+            ("Standardna sočiva", "Plaćate pri preuzimanju — gotovinom ili karticom, bez avansa."),
+            ("Torična i posebna sočiva", "Torična sočiva i sočiva retkih parametara poručujemo posebno za vas, uz uplatu unapred u salonu. Ako ste već poručivali sočiva kod nas — avans nije potreban. Hvala na razumevanju: tako garantujemo pouzdanu uslugu i korektnu saradnju sa dobavljačima."),
+            ("Preuzimanje", "Sočiva preuzimate lično u Optici Ginter, Trg Republike 25, Novi Sad. Ne šaljemo poštom."),
+        ],
+        toric_note="Rok isporuke toričnih sočiva (za astigmatizam) može biti do 8 nedelja. Poručujemo ih uz uplatu unapred — osim ako ste već poručivali sočiva kod nas.",
+        toric_about=("Torična", "Sočiva za astigmatizam. Rok isporuke do 8 nedelja, poručuju se uz uplatu unapred (stalni klijenti — bez avansa)."),
+        faq_pay=("Da li plaćam unapred?", "Standardna sočiva — ne, plaćate pri preuzimanju, gotovinom ili karticom. Torična i sočiva retkih parametara poručujemo uz uplatu unapred, osim za klijente koji su već poručivali sočiva kod nas."),
+        soon_p="Radimo na tome da sočiva uskoro možete da poručite direktno na sajtu. Do tada nas pozovite ili svratite u salon.",
+    ),
+    "hu": dict(
+        terms=[
+            ("Rendelés és megerősítés", "Küldje el a rendelést, mi pedig felhívjuk, hogy megerősítsük. A lencsét csak a telefonos megerősítés után rendeljük meg a beszállítótól."),
+            ("Ellenőrzés és határidő", "Ellenőrizzük a lencse elérhetőségét a beszállítónál, és jelezzük a szállítási időt."),
+            ("Standard lencsék", "Átvételkor fizet — készpénzzel vagy kártyával, előleg nélkül."),
+            ("Tórikus és egyedi lencsék", "A tórikus és ritka paraméterű lencséket kifejezetten Önnek rendeljük, előre fizetéssel az üzletben. Ha már rendelt nálunk lencsét, előleg nem szükséges. Köszönjük megértését: így tudunk megbízható szolgáltatást és korrekt beszállítói együttműködést biztosítani."),
+            ("Átvétel", "A lencsét személyesen veheti át az Optika Ginterben, Trg Republike 25, Újvidék. Postán nem küldünk."),
+        ],
+        toric_note="A tórikus (asztigmiás) lencsék szállítási ideje akár 8 hét is lehet. Előre fizetéssel rendeljük őket — kivéve, ha már rendelt nálunk lencsét.",
+        toric_about=("Tórikus", "Lencsék asztigmiára. Szállítás akár 8 hét, előre fizetéssel (visszatérő ügyfeleknek előleg nélkül)."),
+        faq_pay=("Előre kell fizetni?", "Standard lencséknél nem — átvételkor fizet, készpénzzel vagy kártyával. A tórikus és ritka paraméterű lencséket előre fizetéssel rendeljük, kivéve, ha már rendelt nálunk lencsét."),
+        soon_p="Dolgozunk rajta, hogy a lencséket hamarosan közvetlenül a weboldalon rendelhesse. Addig hívjon minket, vagy térjen be az üzletbe.",
+    ),
+    "en": dict(
+        terms=[
+            ("Order and confirmation", "Send your order and we will call you to confirm it. We order from the supplier only after you confirm by phone."),
+            ("Check and lead time", "We check availability with the supplier and let you know the delivery time."),
+            ("Standard lenses", "Pay on collection — cash or card, no deposit."),
+            ("Toric and special lenses", "Toric lenses and lenses with rare parameters are ordered specially for you, with payment in advance in our shop. If you have ordered lenses from us before, no prepayment is needed. Thank you for understanding — this lets us guarantee reliable service and fair cooperation with our suppliers."),
+            ("Collection", "Collect your lenses in person at Optika Ginter, Trg Republike 25, Novi Sad. We do not ship."),
+        ],
+        toric_note="Delivery of toric lenses (for astigmatism) can take up to 8 weeks. They are ordered with payment in advance — unless you have ordered lenses from us before.",
+        toric_about=("Toric", "Lenses for astigmatism. Delivery up to 8 weeks, ordered with prepayment (returning customers — no deposit)."),
+        faq_pay=("Do I pay in advance?", "For standard lenses, no — you pay on collection, cash or card. Toric lenses and lenses with rare parameters are ordered with payment in advance, unless you have ordered lenses from us before."),
+        soon_p="We are working to let you order lenses directly on the website very soon. Until then, call us or drop by the shop.",
+    ),
+    "ru": dict(
+        terms=[
+            ("Заказ и подтверждение", "Отправьте заказ — мы позвоним, чтобы его подтвердить. У поставщика линзы заказываем только после вашего подтверждения по телефону."),
+            ("Проверка и срок", "Проверим наличие линз у поставщика и сообщим срок поставки."),
+            ("Стандартные линзы", "Оплата при получении — наличными или картой, без предоплаты."),
+            ("Торические и редкие линзы", "Торические линзы и линзы с редкими параметрами заказываем специально для вас — по предоплате в салоне. Если вы уже заказывали у нас линзы, предоплата не нужна. Спасибо за понимание: так мы гарантируем надёжный сервис и честную работу с поставщиками."),
+            ("Получение", "Линзы забираете сами в Optika Ginter, Trg Republike 25, Нови-Сад. Доставки нет."),
+        ],
+        toric_note="Срок поставки торических линз (при астигматизме) — до 8 недель. Заказываем их по предоплате — кроме случаев, когда вы уже заказывали линзы у нас.",
+        toric_about=("Торические", "Линзы при астигматизме. Срок поставки до 8 недель, заказ по предоплате (постоянным клиентам — без предоплаты)."),
+        faq_pay=("Нужно ли платить заранее?", "За стандартные линзы — нет, оплата при получении наличными или картой. Торические и линзы с редкими параметрами заказываем по предоплате, кроме клиентов, которые уже заказывали у нас линзы."),
+        soon_p="Мы делаем всё, чтобы вы могли заказать линзы прямо на сайте как можно скорее. А пока позвоните нам или зайдите в салон.",
+    ),
+}
+for _l, _x in _PAY.items():
+    _k = KS[_l]
+    _k["terms"] = _x["terms"]; _k["toric_note"] = _x["toric_note"]; _k["soon_p"] = _x["soon_p"]
+    _k["about"] = [(_x["toric_about"] if i == 2 else a) for i, a in enumerate(_k["about"])]
+    _k["faq"] = [(_x["faq_pay"] if i == 2 else q) for i, q in enumerate(_k["faq"])]
