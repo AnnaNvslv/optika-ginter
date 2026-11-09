@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 # Stranica /kontaktna-sociva/ — predporudžbina kontaktnih sočiva (SR/HU/EN/RU).
-# NACRT: stranica je skrivena (noindex, nije u sitemap-u, nema linkova sa sajta).
+# /kontaktna-sociva/ — javna SEO stranica «online porudžbina u izradi» (linkovi, sitemap).
+# /kontaktna-sociva-nacrt/ — skriveni pun nacrt (kartice + forma), noindex.
 # Sočiva ispod su PRIMERI — zameniti podacima iz novih kataloga, cene upisati u price (RSD po pakovanju).
+# Kad je sve gotovo: javna stranica treba da prikaže kartice i formu (ks_page preview=True bez trake «nacrt»).
 
 KS_SLUG = "kontaktna-sociva"
-KS_DRAFT = True   # True → stranica skrivena + traka «nacrt»; False → objavljeno (dodati linkove i sitemap)
+KS_DRAFT = True   # (rezervisano)
 
 # kind: "1d" jednodnevna, "2w" dvonedeljna, "1m" mesečna
 # sph: (od, do) — korak 0,25 do ±6,00, dalje 0,50
@@ -184,3 +186,120 @@ KS["ru"] = dict(
     e_rate="Мы уже получили ваш заказ. Скоро свяжемся с вами.",
     e_server="Заказ не отправлен. Попробуйте ещё раз или позвоните нам: ",
 )
+
+# ── Javna stranica «u izradi» (SEO) — dok online porudžbina nije gotova ──
+# Pun nacrt (kartice + forma) ide na skriveni KS_PREVIEW (noindex).
+KS_PREVIEW = "kontaktna-sociva-nacrt"
+
+KS["sr"].update(
+    title="Kontaktna sočiva Novi Sad — porudžbina | Optika Ginter",
+    desc="Kontaktna sočiva u Novom Sadu: jednodnevna, dvonedeljna, mesečna i torična sočiva Alcon, Johnson & Johnson, CooperVision, Bausch + Lomb. Poručite u Optici Ginter, Trg Republike 25 — plaćanje pri preuzimanju.",
+    nav="Kontaktna sočiva", svc_more="Poručite sočiva",
+    p_h1="Kontaktna sočiva u <em>Novom Sadu</em>",
+    p_lead="Poručujemo sva kontaktna sočiva dostupna u Srbiji — jednodnevna, dvonedeljna, mesečna i torična za astigmatizam. Proverimo dostupnost kod dobavljača, javimo vam rok, a sočiva preuzimate i plaćate u salonu na Trgu Republike.",
+    soon_kicker="Uskoro", soon_h="Online porudžbina je <em>u izradi</em>",
+    soon_p="Radimo na tome da sočiva uskoro možete da poručite direktno na sajtu. Do tada nas pozovite ili svratite u salon — porudžbinu primamo odmah.",
+    btn_call="Pozovite nas", btn_map="Kako do nas",
+    about_kicker="Asortiman", about_h="Sočiva za svaki <em>način nošenja</em>",
+    about=[
+        ("Jednodnevna", "Svaki dan novi par — najhigijenskije rešenje, bez tečnosti i održavanja."),
+        ("Dvonedeljna i mesečna", "Ekonomičan izbor za svakodnevno nošenje. Air Optix obično imamo na stanju."),
+        ("Torična", "Sočiva za astigmatizam. Rok isporuke može biti do 8 nedelja."),
+        ("Prvi put u sočivima", "Pomoći ćemo vam da naučite da stavljate i skidate sočiva i da ih pravilno održavate."),
+    ],
+    faq_kicker="Pitanja", faq_h="Česta <em>pitanja</em>", crumb_home="Početna",
+    faq=[
+        ("Koja kontaktna sočiva možete da poručite?", "Sva kontaktna sočiva dostupna u Srbiji — Alcon, Johnson & Johnson (Acuvue), CooperVision, Bausch + Lomb: jednodnevna, dvonedeljna, mesečna i torična."),
+        ("Koliko se čeka na sočiva?", "Rok zavisi od dobavljača — javićemo vam ga čim proverimo dostupnost. Torična sočiva (za astigmatizam) mogu stizati do 8 nedelja."),
+        ("Da li plaćam unapred?", "Ne. Porudžbina je besplatna, a sočiva plaćate pri preuzimanju u salonu — gotovinom ili karticom."),
+        ("Da li šaljete sočiva poštom?", "Ne, sočiva preuzimate lično u Optici Ginter, Trg Republike 25, Novi Sad."),
+        ("Gde da nađem parametre svojih sočiva?", "Na kutiji sočiva ili u receptu: SPH (dioptrija), BC (bazna krivina), DIA (prečnik), a za torična i CYL i AX."),
+        ("Nosim sočiva prvi put — šta da radim?", "Zakažite termin u salonu: proverićemo dioptriju, izabrati sočiva i naučiti vas da ih stavljate i skidate."),
+    ],
+)
+KS["hu"].update(
+    title="Kontaktlencse Újvidék — rendelés | Optika Ginter",
+    desc="Kontaktlencsék Újvidéken: napi, kéthetes, havi és tórikus lencsék — Alcon, Johnson & Johnson, CooperVision, Bausch + Lomb. Rendelés az Optika Ginterben, Trg Republike 25 — fizetés átvételkor.",
+    nav="Kontaktlencsék", svc_more="Lencse rendelése",
+    p_h1="Kontaktlencsék <em>Újvidéken</em>",
+    p_lead="Minden Szerbiában kapható kontaktlencsét megrendelünk — napi, kéthetes, havi és tórikus (asztigmiás) lencséket. Ellenőrizzük a beszállítónál, jelezzük a határidőt, a lencsét pedig az üzletben veheti át és fizetheti ki.",
+    soon_kicker="Hamarosan", soon_h="Az online rendelés <em>készül</em>",
+    soon_p="Dolgozunk rajta, hogy a lencséket hamarosan közvetlenül a weboldalon rendelhesse. Addig hívjon minket, vagy térjen be az üzletbe — a rendelést azonnal felvesszük.",
+    btn_call="Hívjon minket", btn_map="Útvonal",
+    about_kicker="Kínálat", about_h="Lencse minden <em>viselési módhoz</em>",
+    about=[
+        ("Napi lencsék", "Minden nap új pár — a leghigiénikusabb megoldás, folyadék és ápolás nélkül."),
+        ("Kéthetes és havi", "Gazdaságos választás mindennapi viselésre. Air Optix általában raktáron van."),
+        ("Tórikus", "Lencsék asztigmiára. A szállítási idő akár 8 hét is lehet."),
+        ("Először visel lencsét", "Megtanítjuk a lencse be- és kivételét és a helyes ápolást."),
+    ],
+    faq_kicker="Kérdések", faq_h="Gyakori <em>kérdések</em>", crumb_home="Kezdőlap",
+    faq=[
+        ("Milyen kontaktlencséket tudnak rendelni?", "Minden Szerbiában kapható kontaktlencsét — Alcon, Johnson & Johnson (Acuvue), CooperVision, Bausch + Lomb: napi, kéthetes, havi és tórikus lencséket."),
+        ("Mennyit kell várni a lencsére?", "A határidő a beszállítótól függ — amint ellenőriztük, jelezzük. A tórikus (asztigmiás) lencsék akár 8 hét alatt érkeznek."),
+        ("Előre kell fizetni?", "Nem. A rendelés ingyenes, a lencsét átvételkor fizeti az üzletben — készpénzzel vagy kártyával."),
+        ("Postán is küldik a lencsét?", "Nem, a lencsét személyesen veheti át az Optika Ginterben, Trg Republike 25, Újvidék."),
+        ("Hol találom a lencséim paramétereit?", "A lencse dobozán vagy a recepten: SPH (dioptria), BC (bázisgörbület), DIA (átmérő), tórikusnál CYL és AX is."),
+        ("Először viselek lencsét — mit tegyek?", "Foglaljon időpontot: ellenőrizzük a dioptriát, kiválasztjuk a lencsét, és megtanítjuk a be- és kivételt."),
+    ],
+)
+KS["en"].update(
+    title="Contact lenses Novi Sad — order | Optika Ginter",
+    desc="Contact lenses in Novi Sad: daily, two-weekly, monthly and toric lenses from Alcon, Johnson & Johnson, CooperVision, Bausch + Lomb. Order at Optika Ginter, Trg Republike 25 — pay on collection.",
+    nav="Contact lenses", svc_more="Order lenses",
+    p_h1="Contact lenses in <em>Novi Sad</em>",
+    p_lead="We order every contact lens available in Serbia — daily, two-weekly, monthly and toric lenses for astigmatism. We check availability with the supplier, tell you the lead time, and you collect and pay in our shop on Trg Republike.",
+    soon_kicker="Coming soon", soon_h="Online ordering is <em>on its way</em>",
+    soon_p="We are working to let you order lenses directly on the website very soon. Until then, call us or drop by the shop — we take your order straight away.",
+    btn_call="Call us", btn_map="Directions",
+    about_kicker="Range", about_h="Lenses for every <em>wearing schedule</em>",
+    about=[
+        ("Daily", "A fresh pair every day — the most hygienic option, no solutions or cleaning."),
+        ("Two-weekly and monthly", "An economical choice for everyday wear. Air Optix is usually in stock."),
+        ("Toric", "Lenses for astigmatism. Delivery can take up to 8 weeks."),
+        ("First-time wearers", "We will teach you how to put in, remove and care for your lenses."),
+    ],
+    faq_kicker="Questions", faq_h="Frequently asked <em>questions</em>", crumb_home="Home",
+    faq=[
+        ("Which contact lenses can you order?", "Every contact lens available in Serbia — Alcon, Johnson & Johnson (Acuvue), CooperVision, Bausch + Lomb: daily, two-weekly, monthly and toric."),
+        ("How long does delivery take?", "It depends on the supplier — we tell you the lead time as soon as we have checked. Toric lenses (for astigmatism) can take up to 8 weeks."),
+        ("Do I pay in advance?", "No. Ordering is free and you pay on collection in the shop — cash or card."),
+        ("Do you ship lenses?", "No, you collect your lenses in person at Optika Ginter, Trg Republike 25, Novi Sad."),
+        ("Where do I find my lens parameters?", "On the lens box or your prescription: SPH (power), BC (base curve), DIA (diameter), and for toric lenses CYL and AX."),
+        ("I am new to contact lenses — what should I do?", "Book an appointment: we check your prescription, choose the lenses and teach you how to put them in and take them out."),
+    ],
+)
+KS["ru"].update(
+    title="Контактные линзы Нови-Сад — заказ | Optika Ginter",
+    desc="Контактные линзы в Нови-Саде: однодневные, двухнедельные, ежемесячные и торические линзы Alcon, Johnson & Johnson, CooperVision, Bausch + Lomb. Заказ в Optika Ginter, Trg Republike 25 — оплата при получении.",
+    nav="Контактные линзы", svc_more="Заказать линзы",
+    p_h1="Контактные линзы в <em>Нови-Саде</em>",
+    p_lead="Заказываем любые контактные линзы, доступные в Сербии: однодневные, двухнедельные, ежемесячные и торические при астигматизме. Проверим наличие у поставщика, сообщим срок, а забрать и оплатить линзы можно в салоне на площади Республики.",
+    soon_kicker="Скоро", soon_h="Онлайн-заказ <em>в разработке</em>",
+    soon_p="Мы делаем всё, чтобы вы могли заказать линзы прямо на сайте как можно скорее. А пока позвоните нам или зайдите в салон — заказ примем сразу.",
+    btn_call="Позвонить", btn_map="Как добраться",
+    about_kicker="Ассортимент", about_h="Линзы для любого <em>режима ношения</em>",
+    about=[
+        ("Однодневные", "Каждый день новая пара — самый гигиеничный вариант, без растворов и ухода."),
+        ("Двухнедельные и ежемесячные", "Экономичный выбор для ежедневного ношения. Air Optix обычно есть в наличии."),
+        ("Торические", "Линзы при астигматизме. Срок поставки — до 8 недель."),
+        ("Первые линзы", "Научим надевать и снимать линзы и правильно за ними ухаживать."),
+    ],
+    faq_kicker="Вопросы", faq_h="Частые <em>вопросы</em>", crumb_home="Главная",
+    faq=[
+        ("Какие контактные линзы вы заказываете?", "Любые линзы, доступные в Сербии: Alcon, Johnson & Johnson (Acuvue), CooperVision, Bausch + Lomb — однодневные, двухнедельные, ежемесячные и торические."),
+        ("Сколько ждать линзы?", "Срок зависит от поставщика — сообщим, как только проверим наличие. Торические линзы (при астигматизме) могут идти до 8 недель."),
+        ("Нужно ли платить заранее?", "Нет. Заказ бесплатный, оплата при получении в салоне — наличными или картой."),
+        ("Отправляете ли линзы почтой?", "Нет, линзы забираете сами в Optika Ginter, Trg Republike 25, Нови-Сад."),
+        ("Где найти параметры моих линз?", "На коробке линз или в рецепте: SPH (сфера), BC (базовая кривизна), DIA (диаметр), для торических — ещё CYL и AX."),
+        ("Ношу линзы впервые — что делать?", "Запишитесь в салон: проверим рефракцию, подберём линзы и научим их надевать и снимать."),
+    ],
+)
+
+# Stranica 404 (koren sajta, jezik po putanji)
+E404 = {
+    "sr": dict(h="Stranica nije pronađena", p="Možda je adresa pogrešno upisana ili je stranica premeštena. Pogledajte početnu stranu ili katalog okvira.", home="Početna", frames="Katalog okvira", call="Pozovite nas", title="Stranica nije pronađena | Optika Ginter"),
+    "hu": dict(h="Az oldal nem található", p="Lehet, hogy elírta a címet, vagy az oldal elköltözött. Nézze meg a kezdőlapot vagy a keretkatalógust.", home="Kezdőlap", frames="Keretkatalógus", call="Hívjon minket", title="Az oldal nem található | Optika Ginter"),
+    "en": dict(h="Page not found", p="The address may be mistyped or the page has moved. Try the home page or our frame catalogue.", home="Home", frames="Frame catalogue", call="Call us", title="Page not found | Optika Ginter"),
+    "ru": dict(h="Страница не найдена", p="Возможно, адрес набран с ошибкой или страница переехала. Загляните на главную или в каталог оправ.", home="Главная", frames="Каталог оправ", call="Позвонить", title="Страница не найдена | Optika Ginter"),
+}

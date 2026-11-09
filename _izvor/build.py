@@ -2,7 +2,7 @@
 import json, os, re, shutil, urllib.parse, html as H
 from content import *
 from catalog_content import CAT, PRIV, VALUE_DICT
-from kontaktna_content import KS, KS_LENSES, KS_SLUG, KS_DRAFT, sph_values
+from kontaktna_content import KS, KS_LENSES, KS_SLUG, KS_DRAFT, KS_PREVIEW, E404, sph_values
 from stellest_content import ST, st_prices, ST_PRICE
 from varilux_content import VX, vx_prices
 
@@ -34,8 +34,9 @@ CAT_JS = open(f"{BASE}/catalog.js", encoding="utf-8").read()
 # a rezervaciju šalje Edge funkciji reserve-frame (sajt nema pristup bazi).
 SUPA_URL = "https://flxewreibnkyfoccfjtg.supabase.co"
 SUPA_KEY = "sb_publishable_GtVx_U91nCREZ-fq4yfLLw_NLsvQYGQ"
-SUB_PAGES = ["okviri", "privatnost", "stellest", "progresivne-naocare", KS_SLUG]
-HIDDEN = {KS_SLUG} if KS_DRAFT else set()  # noindex, bez sitemap-a i linkova
+SUB_PAGES = ["okviri", "privatnost", "stellest", "progresivne-naocare", KS_SLUG, KS_PREVIEW]
+HIDDEN = {KS_PREVIEW}  # noindex, bez sitemap-a i linkova
+CL_BRANDS = {"Alcon", "Bausch + Lomb", "Johnson & Johnson", "CooperVision"}  # pločice → /kontaktna-sociva/
 fav = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{P["logo-og"]["vb"]}"><path d="{P["logo-og"]["d"]}"/></svg>'
 # Zajednički fajlovi (assets/): stil, logotipi i favicon se učitavaju jednom i keširaju,
 # umesto da se ugrađuju u svaku stranicu.
@@ -44,9 +45,12 @@ SPRITE = '<svg xmlns="http://www.w3.org/2000/svg">' + "".join(
     for sid, n in [("lg-full", "logo-full"), ("lg-og", "logo-og"), ("lg-hz", "logo-horizontal")]) + "</svg>"
 SITE_CSS = re.sub(r"^\s*<style>\s*|\s*</style>\s*$", "", STYLE)
 
-def services(d, extra=()):
+def services(d, extra=(), ks_link="", ks_more=""):
     out = []
-    items = list(d["services"]); items[3:3] = list(extra[1:]); items[6:6] = list(extra[:1])
+    items = list(d["services"])
+    if ks_link:
+        t0, p0, x0 = items[3]; items[3] = (t0, p0, f'{x0} <a class="link-gold" href="{ks_link}">{ks_more} →</a>')
+    items[3:3] = list(extra[1:]); items[6:6] = list(extra[:1])
     for i, (t, price, txt) in enumerate(items):
         op = " open" if i == 0 else ""
         pr = f'<span class="acc-price">{price}</span>' if price else ""
@@ -132,7 +136,8 @@ def base_vars(lang):
     v = {k: x for k, x in d.items() if isinstance(x, str)}
     v.update({"lang": lang,
         "PHONE_DISPLAY": PHONE_DISPLAY, "PHONE_TEL": PHONE_TEL, "EMAIL": EMAIL, "INSTAGRAM": INSTAGRAM,
-        "INSTAGRAM_HANDLE": INSTAGRAM_HANDLE, "ADDRESS": ADDRESS, "CITY": CITY, "PIB": PIB, "MB": MB})
+        "INSTAGRAM_HANDLE": INSTAGRAM_HANDLE, "ADDRESS": ADDRESS, "CITY": CITY, "PIB": PIB, "MB": MB,
+        "ks_nav": KS[lang]["nav"]})
     for k, n in {"FULL": "logo-full", "OG": "logo-og", "HZ": "logo-horizontal"}.items():
         v["VB_" + k] = P[n]["vb"]; v["D_" + k] = P[n]["d"]; v["AR_" + k] = ar(P[n]["vb"])
     return d, v
@@ -159,9 +164,9 @@ def build(lang):
         **asset_vars(root), "ROOT": root, "HOME": root or "./", "FRAMES_URL": "okviri/", "PRIVACY_URL": "privatnost/",
         "HEAD_SEO": head_seo(lang, d), "SCHEMA": schema(lang, d), "FAQ_SCHEMA": faq_schema(d),
         "LANG_SWITCH": lang_switch(lang, root),
-        "SERVICES": services(d, [stellest_service(lang), vx_service(lang)]), "STELLEST_URL": "stellest/", "VX_URL": "progresivne-naocare/", "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
+        "SERVICES": services(d, [stellest_service(lang), vx_service(lang)], KS_SLUG + "/", KS[lang]["svc_more"]), "KS_URL": KS_SLUG + "/", "STELLEST_URL": "stellest/", "VX_URL": "progresivne-naocare/", "FAQ": faq(d), "WHY": why(d), "TEAM": team(d, root, ALT[lang][1]),
         "FRAMES": "".join(brand_tile(b, root, "okviri/?brend=" + urllib.parse.quote(b)) for b in FRAMES),
-        "LENSES": "".join(brand_tile(b, root) for b in LENSES),
+        "LENSES": "".join(brand_tile(b, root, KS_SLUG + "/" if b in CL_BRANDS else None) for b in LENSES),
         "alt_salon": ALT[lang][0], "H1": d["title"].split(" | ")[0],
     })
     return render(TPL, v)
@@ -485,16 +490,76 @@ KS_CSS = """<style>
 .ks-term .why-mark{ display:block; width:40px; height:1px; background:var(--gold); margin-bottom:16px; }
 .ks-term h3{ font-size:24px; margin-bottom:6px; }
 .ks-term p{ color:var(--ink-soft); font-size:15px; }
+@media(min-width:760px){ .ks-terms-2{ display:grid; grid-template-columns:1fr 1fr; column-gap:48px; } }
+.ks-soon{ background:var(--black); color:var(--white); }
+.ks-soon .kicker{ color:var(--gold-light); }
+.ks-soon .h-sec em{ color:var(--gold-light); }
+.ks-soon p{ color:rgba(255,255,255,.75); max-width:640px; margin-top:22px; font-size:17px; }
+.ks-soon .btn{ color:var(--gold-light); border-color:var(--gold-light); }
+.ks-soon .btn::before{ background:var(--gold-light); }
+.ks-soon .btn:hover{ color:var(--black); }
 </style>"""
 
 def ks_price(n, lang):
     sep = {"sr": ".", "hu": " ", "en": ",", "ru": " "}[lang]
     return f"{n:,}".replace(",", sep) + " RSD"
 
-def ks_page(lang, d, v, root):
+def ks_schema(lang, t, slug):
+    url = f"{DOMAIN}{PATH[lang]}{slug}/"
+    plain = lambda x: re.sub(r"<[^>]+>", "", x)
+    svc = {"@context": "https://schema.org", "@type": "Service", "name": plain(t["p_h1"]), "serviceType": "Contact lenses",
+           "description": t["desc"], "url": url, "areaServed": {"@type": "City", "name": "Novi Sad"},
+           "brand": [{"@type": "Brand", "name": b} for b in sorted(CL_BRANDS)],
+           "provider": {"@type": "Optician", "name": "Optika Ginter", "url": DOMAIN + "/", "telephone": PHONE_TEL,
+                        "address": {"@type": "PostalAddress", "streetAddress": ADDRESS, "addressLocality": "Novi Sad", "postalCode": "21000", "addressCountry": "RS"}}}
+    faq = {"@context": "https://schema.org", "@type": "FAQPage",
+           "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["faq"]]}
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": t["crumb_home"], "item": DOMAIN + PATH[lang]},
+        {"@type": "ListItem", "position": 2, "name": t["nav"], "item": url}]}
+    return "\n".join('<script type="application/ld+json">' + json.dumps(x, ensure_ascii=False) + "</script>" for x in (svc, faq, crumbs))
+
+def ks_page(lang, d, v, root, preview=False):
     t = KS[lang]
     fmt = (lambda x: x) if lang == "en" else (lambda x: x.replace(".", ","))
     rng = lambda a, b: t["sph_range"].format(a=fmt(f"{a:+.2f}"), b=fmt(f"{b:+.2f}"))
+    tel = f"tel:{PHONE_TEL}"
+    terms = "".join(f'<div class="ks-term"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["terms"])
+    faq = "\n".join(f'<div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">{q}</h3><span class="acc-icon"></span></button><div class="acc-panel"><div class="acc-panel-in">{a}</div></div></div>' for q, a in t["faq"])
+    faq_sec = f"""<section class="st-faq"><div class="wrap" style="max-width:1000px">
+  <span class="kicker">{t['faq_kicker']}</span><h2 class="h-sec">{t['faq_h']}</h2>
+  <div class="accordion">{faq}</div>
+</div></section>"""
+    btns = (f'<div class="st-btns"><a href="{tel}" class="btn dark"><span>{t["btn_call"]}<span class="hide-sm"> · {PHONE_DISPLAY}</span></span></a>'
+            f'<a href="../#contacts" class="btn"><span>{t["btn_map"]}</span></a></div>')
+    if not preview:
+        about = "".join(f'<div class="st-tip"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["about"])
+        body = f"""<section class="sub-top"><div class="wrap">
+  <span class="kicker">{t['kicker']}</span>
+  <h1 class="h-sec">{t['p_h1']}</h1>
+  <span class="sub-rule"></span>
+  <p class="lead" style="max-width:720px">{t['p_lead']}</p>
+  {btns}
+</div></section>
+<section class="ks-soon"><div class="wrap">
+  <span class="kicker">{t['soon_kicker']}</span>
+  <h2 class="h-sec">{t['soon_h']}</h2>
+  <p>{t['soon_p']}</p>
+  <div class="st-btns"><a href="{tel}" class="btn"><span>{t['btn_call']} · {PHONE_DISPLAY}</span></a></div>
+</div></section>
+<section><div class="wrap">
+  <span class="kicker">{t['about_kicker']}</span><h2 class="h-sec">{t['about_h']}</h2>
+  <div class="st-tips">{about}</div>
+</div></section>
+<section class="st-panel"><div class="wrap">
+  <span class="kicker">{t['terms_kicker']}</span><h2 class="h-sec">{t['terms_h']}</h2>
+  <div class="ks-terms ks-terms-2" style="margin-top:36px">{terms}</div>
+</div></section>
+{faq_sec}
+{ks_schema(lang, t, KS_SLUG)}"""
+        v.update({"SUB_TITLE": t["title"], "SUB_DESC": t["desc"], "BODY": body, "SUB_SCRIPT": ST_JS,
+                  "SUB_CSS_LINK": v["SUB_CSS_LINK"] + "\n" + ST_CSS + "\n" + KS_CSS})
+        return
     cards = []
     for l in KS_LENSES:
         tags = f'<span class="ks-tag">{t["k_" + l["kind"]]}</span>' + (f'<span class="ks-tag t">{t["toric"]}</span>' if l["toric"] else "")
@@ -514,9 +579,7 @@ def ks_page(lang, d, v, root):
                 f'<div class="rfield"><label class="f" for="ks_{k}_qty">{t["f_qty"]}</label><select id="ks_{k}_qty" name="{k}_qty">{qty}</select></div>'
                 + sel("sph", t["f_sph"]) + sel("bc", t["f_bc"]) + sel("cyl", t["f_cyl"], " ks-t") + sel("ax", t["f_ax"], " ks-t")
                 + '</div></fieldset>')
-    terms = "".join(f'<div class="ks-term"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["terms"])
-    draft = f'<div class="ks-draft">{t["draft"]}</div>' if KS_DRAFT else ""
-    body = f"""{draft}<section class="sub-top"><div class="wrap">
+    body = f"""<div class="ks-draft">{t["draft"]}</div><section class="sub-top"><div class="wrap">
   <span class="kicker">{t['kicker']}</span>
   <h1 class="h-sec">{t['h1']}</h1>
   <span class="sub-rule"></span>
@@ -550,16 +613,83 @@ def ks_page(lang, d, v, root):
     <span class="kicker">{t['terms_kicker']}</span><h2 class="h-sec" style="font-size:clamp(30px,4vw,48px)">{t['terms_h']}</h2>
     <div class="ks-terms" style="margin-top:36px">{terms}</div>
   </div>
-</div></section>"""
+</div></section>
+{faq_sec}"""
     lenses = [{"id": l["id"], "brand": l["brand"], "name": l["name"], "toric": l["toric"], "bc": l["bc"],
                "cyl": l.get("cyl", []), "sph_list": sph_values(*l["sph"])} for l in KS_LENSES]
     tk = {k: x for k, x in t.items() if k.startswith(("e_", "ok"))}
     cfg = {"lang": lang, "fn": SUPA_URL + "/functions/v1/order-contact-lenses", "phone": PHONE_DISPLAY, "phoneTel": PHONE_TEL,
            "t": tk, "lenses": lenses}
     script = ("<script>window.KS_CFG=" + json.dumps(cfg, ensure_ascii=False).replace("</", "<\\/") + ";</script>\n"
-              f'<script src="{root}assets/kontakt.js?v={ASSET_V}"></script>')
+              f'<script src="{root}assets/kontakt.js?v={ASSET_V}"></script>\n' + ST_JS)
     v.update({"SUB_TITLE": t["title"], "SUB_DESC": t["desc"], "BODY": body, "SUB_SCRIPT": script,
               "SUB_CSS_LINK": v["SUB_CSS_LINK"] + "\n" + ST_CSS + "\n" + KS_CSS})
+
+def page_404():
+    """404.html u korenu: tekst po jeziku iz putanje (/hu/, /en/, /ru/), apsolutne putanje."""
+    d = E404["sr"]
+    css = f'<link rel="stylesheet" href="/assets/site.css?v={ASSET_V}">'
+    return f"""<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{d['title']}</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v={ASSET_V}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
+{css}
+<meta name="theme-color" content="#12100D">
+<style>
+html,body{{ height:100%; }}
+body{{ background:var(--black); color:var(--white); display:flex; flex-direction:column; min-height:100vh; }}
+.e-main{{ flex:1; display:grid; place-items:center; padding:48px 24px; }}
+.e-box{{ width:100%; max-width:720px; text-align:center; }}
+.e-logo{{ display:inline-block; color:var(--gold-light); width:min(260px,62vw); }}
+.e-logo svg{{ width:100%; height:auto; aspect-ratio:{ar(P['logo-full']['vb'])}; fill:currentColor; display:block; }}
+.e-num{{ font-family:var(--serif); font-weight:400; font-size:clamp(110px,22vw,220px); line-height:1; color:var(--gold-light); margin-top:48px; letter-spacing:.04em; }}
+.e-rule{{ display:block; width:40px; height:1px; background:var(--gold); margin:28px auto; }}
+.e-box h1{{ font-family:var(--serif); font-weight:400; font-size:clamp(30px,4.4vw,46px); color:var(--white); }}
+.e-box p{{ color:rgba(255,255,255,.72); font-size:17px; max-width:520px; margin:18px auto 0; }}
+.e-btns{{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:40px; }}
+.e-btns .btn{{ color:var(--gold-light); border-color:var(--gold-light); }}
+.e-btns .btn::before{{ background:var(--gold-light); }}
+.e-btns .btn:hover{{ color:var(--black); }}
+@media(max-width:520px){{ .e-btns{{ flex-direction:column; align-items:stretch; max-width:280px; margin-left:auto; margin-right:auto; }} .e-btns .btn{{ justify-content:center; text-align:center; }} }}
+.e-foot{{ border-top:1px solid rgba(210,180,126,.25); padding:22px 24px; text-align:center; font-size:13px; letter-spacing:.08em; color:rgba(255,255,255,.55); }}
+.e-foot a{{ color:var(--gold-light); }}
+</style>
+</head>
+<body>
+<main class="e-main"><div class="e-box">
+  <a class="e-logo" href="/" aria-label="Optika Ginter"><svg viewBox="{P['logo-full']['vb']}"><path d="{P['logo-full']['d']}"/></svg></a>
+  <div class="e-num">404</div>
+  <span class="e-rule"></span>
+  <h1 data-k="h">{d['h']}</h1>
+  <p data-k="p">{d['p']}</p>
+  <div class="e-btns">
+    <a class="btn" href="/" data-href="home"><span data-k="home">{d['home']}</span></a>
+    <a class="btn" href="/okviri/" data-href="frames"><span data-k="frames">{d['frames']}</span></a>
+    <a class="btn" href="tel:{PHONE_TEL}"><span data-k="call">{d['call']}</span></a>
+  </div>
+</div></main>
+<footer class="e-foot">Optika Ginter · {ADDRESS}, Novi Sad · <a style="white-space:nowrap" href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></footer>
+<script>
+(function(){{
+  var T={json.dumps(E404, ensure_ascii=False)};
+  var m=location.pathname.match(/^\\/(hu|en|ru)(\\/|$)/), l=m?m[1]:'sr';
+  if(l==='sr') return;
+  var t=T[l]; document.documentElement.lang=l; document.title=t.title;
+  document.querySelectorAll('[data-k]').forEach(function(e){{ e.textContent=t[e.dataset.k]; }});
+  document.querySelector('[data-href=home]').href='/'+l+'/';
+  document.querySelector('[data-href=frames]').href='/'+l+'/okviri/';
+}})();
+</script>
+</body>
+</html>
+"""
 
 def build_sub(lang, slug):
     d, v = base_vars(lang)
@@ -568,6 +698,7 @@ def build_sub(lang, slug):
               "PRIVACY_URL": "../privatnost/" if slug != "privatnost" else "./",
               "STELLEST_URL": "../stellest/" if slug != "stellest" else "./",
               "VX_URL": "../progresivne-naocare/" if slug != "progresivne-naocare" else "./",
+              "KS_URL": f"../{KS_SLUG}/" if slug != KS_SLUG else "./",
               "FRAMES_ACTIVE": ' class="active" aria-current="page"' if slug == "okviri" else "",
               "LANG_SWITCH": lang_switch(lang, root, slug)})
     if slug == "okviri":
@@ -605,8 +736,8 @@ def build_sub(lang, slug):
         stellest_page(lang, d, v, root)
     elif slug == "progresivne-naocare":
         vx_page(lang, d, v, root)
-    elif slug == KS_SLUG:
-        ks_page(lang, d, v, root)
+    elif slug in (KS_SLUG, KS_PREVIEW):
+        ks_page(lang, d, v, root, preview=slug == KS_PREVIEW)
     else:
         pr = PRIV[lang]
         fmt = lambda t: t.format(ADDRESS=ADDRESS, CITY=CITY, PIB=PIB, MB=MB, EMAIL=EMAIL,
@@ -634,6 +765,7 @@ open(OUT + "/assets/logos.svg", "w", encoding="utf-8").write(SPRITE)
 open(OUT + "/assets/favicon.svg", "w", encoding="utf-8").write(fav)
 open(OUT + "/assets/catalog.css", "w", encoding="utf-8").write(CAT_CSS)
 open(OUT + "/assets/catalog.js", "w", encoding="utf-8").write(CAT_JS)
+open(OUT + "/404.html", "w", encoding="utf-8").write(page_404())
 open(OUT + "/assets/kontakt.js", "w", encoding="utf-8").write(open(f"{BASE}/kontakt.js", encoding="utf-8").read())
 for l in LANGS:
     p = OUT + PATH[l]; os.makedirs(p, exist_ok=True)
@@ -643,7 +775,7 @@ for l in LANGS:
         open(p + slug + "/index.html", "w", encoding="utf-8").write(build_sub(l, slug))
 import datetime
 TODAY = datetime.date.today().isoformat()
-urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc><lastmod>{TODAY}</lastmod>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "progresivne-naocare/", "stellest/", "privatnost/"] for l in LANGS)
+urls = "\n".join(f"  <url><loc>{DOMAIN}{PATH[l]}{s}</loc><lastmod>{TODAY}</lastmod>" + "".join(f'<xhtml:link rel="alternate" hreflang="{a}" href="{DOMAIN}{PATH[a]}{s}"/>' for a in LANGS) + "</url>" for s in ["", "okviri/", "progresivne-naocare/", "stellest/", KS_SLUG + "/", "privatnost/"] for l in LANGS)
 open(OUT + "/sitemap.xml", "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{urls}\n</urlset>\n')
 open(OUT + "/robots.txt", "w").write(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
 print("ok")
