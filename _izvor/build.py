@@ -497,6 +497,7 @@ KS_CSS = """<style>
 .ks-dot{ position:absolute; left:0; top:7px; width:13px; height:13px; border:1px solid var(--gold); background:var(--panel); transform:rotate(45deg); }
 .ks-step:last-child .ks-dot{ background:var(--gold); }
 .ks-step h3{ font-size:26px; margin-bottom:8px; }
+.ks-num{ display:block; font-family:var(--serif); font-size:44px; line-height:1; color:var(--gold-deep); margin:-6px 0 8px; }
 .ks-step p{ color:var(--ink-soft); font-size:15px; max-width:420px; }
 @media(min-width:900px){
   .ks-steps:not(.ks-steps-v){ grid-template-columns:repeat(4,1fr); column-gap:36px; }
@@ -546,7 +547,7 @@ def ks_page(lang, d, v, root, preview=False):
     fmt = (lambda x: x) if lang == "en" else (lambda x: x.replace(".", ","))
     rng = lambda a, b: t["sph_range"].format(a=fmt(f"{a:+.2f}"), b=fmt(f"{b:+.2f}"))
     tel = f"tel:{PHONE_TEL}"
-    steps = "".join(f'<li class="ks-step"><span class="ks-dot"></span><h3>{a}</h3><p>{b}</p></li>' for a, b in t["steps"])
+    steps = "".join(f'<li class="ks-step"><span class="ks-dot"></span><span class="ks-num">{i}</span><h3>{a}</h3><p>{b}</p></li>' for i, (a, b) in enumerate(t["steps"], 1))
     pay = "".join(f'<div class="ks-pay{" is-alt" if i else ""}"><h3>{a}</h3><p>{b}</p></div>' for i, (a, b) in enumerate(t["pay"]))
     how = lambda vert: (f'<ol class="ks-steps{" ks-steps-v" if vert else ""}">{steps}</ol>'
                         f'<span class="kicker ks-pay-k">{t["pay_kicker"]}</span><div class="ks-pays">{pay}</div><p class="ks-pay-note">{t["pay_note"]}</p>')
