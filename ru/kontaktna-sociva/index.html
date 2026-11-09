@@ -121,7 +121,28 @@
 .ks-term .why-mark{ display:block; width:40px; height:1px; background:var(--gold); margin-bottom:16px; }
 .ks-term h3{ font-size:24px; margin-bottom:6px; }
 .ks-term p{ color:var(--ink-soft); font-size:15px; }
-@media(min-width:760px){ .ks-terms-2{ display:grid; grid-template-columns:1fr 1fr; column-gap:48px; } }
+.ks-steps{ list-style:none; margin:48px 0 0; padding:0; display:grid; gap:0; position:relative; }
+.ks-step{ position:relative; padding:0 0 34px 40px; }
+.ks-step::before{ content:''; position:absolute; left:6px; top:14px; bottom:-14px; width:1px; background:var(--gold); }
+.ks-step:last-child::before{ display:none; }
+.ks-dot{ position:absolute; left:0; top:7px; width:13px; height:13px; border:1px solid var(--gold); background:var(--panel); transform:rotate(45deg); }
+.ks-step:last-child .ks-dot{ background:var(--gold); }
+.ks-step h3{ font-size:26px; margin-bottom:8px; }
+.ks-step p{ color:var(--ink-soft); font-size:15px; max-width:420px; }
+@media(min-width:900px){
+  .ks-steps:not(.ks-steps-v){ grid-template-columns:repeat(4,1fr); column-gap:36px; }
+  .ks-steps:not(.ks-steps-v) .ks-step{ padding:34px 0 0; }
+  .ks-steps:not(.ks-steps-v) .ks-step::before{ left:14px; right:-36px; top:6px; bottom:auto; width:auto; height:1px; }
+  .ks-steps:not(.ks-steps-v) .ks-dot{ top:0; }
+}
+.ks-pay-k{ margin:56px 0 18px; }
+.ks-pays{ display:grid; gap:16px; }
+@media(min-width:760px){ .ks-pays{ grid-template-columns:1fr 1fr; } .ks-steps-v ~ .ks-pays{ grid-template-columns:1fr; } }
+.ks-pay{ background:var(--bg); border:1px solid var(--line); padding:26px 28px; }
+.ks-pay.is-alt{ border-color:var(--gold); }
+.ks-pay h3{ font-size:24px; margin-bottom:8px; }
+.ks-pay p{ color:var(--ink-soft); font-size:15px; }
+.ks-pay-note{ color:var(--ink-faint); font-size:14px; margin-top:18px; max-width:760px; }
 @media(min-width:1100px){ .st-tips.vx-3{ grid-template-columns:repeat(3,1fr); } }
 .ks-soon{ background:var(--black); color:var(--white); }
 .ks-soon .kicker{ color:var(--gold-light); }
@@ -198,7 +219,7 @@
 </div></section>
 <section class="st-panel"><div class="wrap">
   <span class="kicker">Условия</span><h2 class="h-sec">Как это <em>работает</em></h2>
-  <div class="ks-terms ks-terms-2" style="margin-top:36px"><div class="ks-term"><span class="why-mark"></span><h3>Заказ и подтверждение</h3><p>Отправьте заказ — мы позвоним, чтобы его подтвердить. У поставщика линзы заказываем только после вашего подтверждения по телефону.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Проверка и срок</h3><p>Проверим наличие линз у поставщика и сообщим срок поставки.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Стандартные линзы</h3><p>Оплата при получении — наличными или картой, без предоплаты.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Торические и редкие линзы</h3><p>Торические линзы и линзы с редкими параметрами заказываем специально для вас — по предоплате в салоне. Если вы уже заказывали у нас линзы, предоплата не нужна. Спасибо за понимание: так мы гарантируем надёжный сервис и честную работу с поставщиками.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Получение</h3><p>Линзы забираете сами в Optika Ginter, Trg Republike 25, Нови-Сад. Доставки нет.</p></div></div>
+  <ol class="ks-steps"><li class="ks-step"><span class="ks-dot"></span><h3>Заказ</h3><p>Отправьте заказ на сайте, позвоните нам или зайдите в салон.</p></li><li class="ks-step"><span class="ks-dot"></span><h3>Подтверждение</h3><p>Мы звоним, чтобы подтвердить заказ. У поставщика заказываем только после вашего подтверждения.</p></li><li class="ks-step"><span class="ks-dot"></span><h3>Поставка</h3><p>Проверяем наличие и сообщаем срок. Торические линзы приходят максимум за 8 недель.</p></li><li class="ks-step"><span class="ks-dot"></span><h3>Получение</h3><p>Сообщим, когда линзы придут, — забираете их в салоне на Trg Republike 25.</p></li></ol><span class="kicker ks-pay-k">Оплата</span><div class="ks-pays"><div class="ks-pay"><h3>Стандартные линзы</h3><p>Оплата при получении — наличными или картой. Без предоплаты.</p></div><div class="ks-pay is-alt"><h3>Торические и редкие линзы</h3><p>Заказываем специально для вас, по предоплате в салоне. Если вы уже заказывали у нас линзы — предоплата не нужна.</p></div></div><p class="ks-pay-note">Спасибо за понимание — так мы гарантируем надёжный сервис и честную работу с поставщиками. Доставки почтой нет.</p>
 </div></section>
 <section class="st-faq"><div class="wrap" style="max-width:1000px">
   <span class="kicker">Вопросы</span><h2 class="h-sec">Частые <em>вопросы</em></h2>

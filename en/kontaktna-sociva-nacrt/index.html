@@ -122,7 +122,28 @@
 .ks-term .why-mark{ display:block; width:40px; height:1px; background:var(--gold); margin-bottom:16px; }
 .ks-term h3{ font-size:24px; margin-bottom:6px; }
 .ks-term p{ color:var(--ink-soft); font-size:15px; }
-@media(min-width:760px){ .ks-terms-2{ display:grid; grid-template-columns:1fr 1fr; column-gap:48px; } }
+.ks-steps{ list-style:none; margin:48px 0 0; padding:0; display:grid; gap:0; position:relative; }
+.ks-step{ position:relative; padding:0 0 34px 40px; }
+.ks-step::before{ content:''; position:absolute; left:6px; top:14px; bottom:-14px; width:1px; background:var(--gold); }
+.ks-step:last-child::before{ display:none; }
+.ks-dot{ position:absolute; left:0; top:7px; width:13px; height:13px; border:1px solid var(--gold); background:var(--panel); transform:rotate(45deg); }
+.ks-step:last-child .ks-dot{ background:var(--gold); }
+.ks-step h3{ font-size:26px; margin-bottom:8px; }
+.ks-step p{ color:var(--ink-soft); font-size:15px; max-width:420px; }
+@media(min-width:900px){
+  .ks-steps:not(.ks-steps-v){ grid-template-columns:repeat(4,1fr); column-gap:36px; }
+  .ks-steps:not(.ks-steps-v) .ks-step{ padding:34px 0 0; }
+  .ks-steps:not(.ks-steps-v) .ks-step::before{ left:14px; right:-36px; top:6px; bottom:auto; width:auto; height:1px; }
+  .ks-steps:not(.ks-steps-v) .ks-dot{ top:0; }
+}
+.ks-pay-k{ margin:56px 0 18px; }
+.ks-pays{ display:grid; gap:16px; }
+@media(min-width:760px){ .ks-pays{ grid-template-columns:1fr 1fr; } .ks-steps-v ~ .ks-pays{ grid-template-columns:1fr; } }
+.ks-pay{ background:var(--bg); border:1px solid var(--line); padding:26px 28px; }
+.ks-pay.is-alt{ border-color:var(--gold); }
+.ks-pay h3{ font-size:24px; margin-bottom:8px; }
+.ks-pay p{ color:var(--ink-soft); font-size:15px; }
+.ks-pay-note{ color:var(--ink-faint); font-size:14px; margin-top:18px; max-width:760px; }
 @media(min-width:1100px){ .st-tips.vx-3{ grid-template-columns:repeat(3,1fr); } }
 .ks-soon{ background:var(--black); color:var(--white); }
 .ks-soon .kicker{ color:var(--gold-light); }
@@ -212,7 +233,7 @@
   </div>
   <div>
     <span class="kicker">Terms</span><h2 class="h-sec" style="font-size:clamp(30px,4vw,48px)">How it <em>works</em></h2>
-    <div class="ks-terms" style="margin-top:36px"><div class="ks-term"><span class="why-mark"></span><h3>Order and confirmation</h3><p>Send your order and we will call you to confirm it. We order from the supplier only after you confirm by phone.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Check and lead time</h3><p>We check availability with the supplier and let you know the delivery time.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Standard lenses</h3><p>Pay on collection — cash or card, no deposit.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Toric and special lenses</h3><p>Toric lenses and lenses with rare parameters are ordered specially for you, with payment in advance in our shop. If you have ordered lenses from us before, no prepayment is needed. Thank you for understanding — this lets us guarantee reliable service and fair cooperation with our suppliers.</p></div><div class="ks-term"><span class="why-mark"></span><h3>Collection</h3><p>Collect your lenses in person at Optika Ginter, Trg Republike 25, Novi Sad. We do not ship.</p></div></div>
+    <ol class="ks-steps ks-steps-v"><li class="ks-step"><span class="ks-dot"></span><h3>Order</h3><p>Send your order on the website, call us or drop by the shop.</p></li><li class="ks-step"><span class="ks-dot"></span><h3>Confirmation</h3><p>We call you to confirm the order. We order from the supplier only after you confirm.</p></li><li class="ks-step"><span class="ks-dot"></span><h3>Delivery</h3><p>We check availability and tell you the lead time. Toric lenses arrive within 8 weeks at most.</p></li><li class="ks-step"><span class="ks-dot"></span><h3>Collection</h3><p>We let you know when the lenses arrive — collect them in our shop at Trg Republike 25.</p></li></ol><span class="kicker ks-pay-k">Payment</span><div class="ks-pays"><div class="ks-pay"><h3>Standard lenses</h3><p>Pay on collection — cash or card. No deposit.</p></div><div class="ks-pay is-alt"><h3>Toric and special lenses</h3><p>Ordered specially for you, with payment in advance in our shop. If you have ordered lenses from us before, no prepayment is needed.</p></div></div><p class="ks-pay-note">Thank you for understanding — this lets us guarantee reliable service and fair cooperation with our suppliers. We do not ship.</p>
   </div>
 </div></section>
 <section class="st-faq"><div class="wrap" style="max-width:1000px">

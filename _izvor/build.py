@@ -490,7 +490,28 @@ KS_CSS = """<style>
 .ks-term .why-mark{ display:block; width:40px; height:1px; background:var(--gold); margin-bottom:16px; }
 .ks-term h3{ font-size:24px; margin-bottom:6px; }
 .ks-term p{ color:var(--ink-soft); font-size:15px; }
-@media(min-width:760px){ .ks-terms-2{ display:grid; grid-template-columns:1fr 1fr; column-gap:48px; } }
+.ks-steps{ list-style:none; margin:48px 0 0; padding:0; display:grid; gap:0; position:relative; }
+.ks-step{ position:relative; padding:0 0 34px 40px; }
+.ks-step::before{ content:''; position:absolute; left:6px; top:14px; bottom:-14px; width:1px; background:var(--gold); }
+.ks-step:last-child::before{ display:none; }
+.ks-dot{ position:absolute; left:0; top:7px; width:13px; height:13px; border:1px solid var(--gold); background:var(--panel); transform:rotate(45deg); }
+.ks-step:last-child .ks-dot{ background:var(--gold); }
+.ks-step h3{ font-size:26px; margin-bottom:8px; }
+.ks-step p{ color:var(--ink-soft); font-size:15px; max-width:420px; }
+@media(min-width:900px){
+  .ks-steps:not(.ks-steps-v){ grid-template-columns:repeat(4,1fr); column-gap:36px; }
+  .ks-steps:not(.ks-steps-v) .ks-step{ padding:34px 0 0; }
+  .ks-steps:not(.ks-steps-v) .ks-step::before{ left:14px; right:-36px; top:6px; bottom:auto; width:auto; height:1px; }
+  .ks-steps:not(.ks-steps-v) .ks-dot{ top:0; }
+}
+.ks-pay-k{ margin:56px 0 18px; }
+.ks-pays{ display:grid; gap:16px; }
+@media(min-width:760px){ .ks-pays{ grid-template-columns:1fr 1fr; } .ks-steps-v ~ .ks-pays{ grid-template-columns:1fr; } }
+.ks-pay{ background:var(--bg); border:1px solid var(--line); padding:26px 28px; }
+.ks-pay.is-alt{ border-color:var(--gold); }
+.ks-pay h3{ font-size:24px; margin-bottom:8px; }
+.ks-pay p{ color:var(--ink-soft); font-size:15px; }
+.ks-pay-note{ color:var(--ink-faint); font-size:14px; margin-top:18px; max-width:760px; }
 @media(min-width:1100px){ .st-tips.vx-3{ grid-template-columns:repeat(3,1fr); } }
 .ks-soon{ background:var(--black); color:var(--white); }
 .ks-soon .kicker{ color:var(--gold-light); }
@@ -525,7 +546,10 @@ def ks_page(lang, d, v, root, preview=False):
     fmt = (lambda x: x) if lang == "en" else (lambda x: x.replace(".", ","))
     rng = lambda a, b: t["sph_range"].format(a=fmt(f"{a:+.2f}"), b=fmt(f"{b:+.2f}"))
     tel = f"tel:{PHONE_TEL}"
-    terms = "".join(f'<div class="ks-term"><span class="why-mark"></span><h3>{a}</h3><p>{b}</p></div>' for a, b in t["terms"])
+    steps = "".join(f'<li class="ks-step"><span class="ks-dot"></span><h3>{a}</h3><p>{b}</p></li>' for a, b in t["steps"])
+    pay = "".join(f'<div class="ks-pay{" is-alt" if i else ""}"><h3>{a}</h3><p>{b}</p></div>' for i, (a, b) in enumerate(t["pay"]))
+    how = lambda vert: (f'<ol class="ks-steps{" ks-steps-v" if vert else ""}">{steps}</ol>'
+                        f'<span class="kicker ks-pay-k">{t["pay_kicker"]}</span><div class="ks-pays">{pay}</div><p class="ks-pay-note">{t["pay_note"]}</p>')
     faq = "\n".join(f'<div class="acc-item"><button class="acc-btn" aria-expanded="false"><h3 class="acc-title">{q}</h3><span class="acc-icon"></span></button><div class="acc-panel"><div class="acc-panel-in">{a}</div></div></div>' for q, a in t["faq"])
     faq_sec = f"""<section class="st-faq"><div class="wrap" style="max-width:1000px">
   <span class="kicker">{t['faq_kicker']}</span><h2 class="h-sec">{t['faq_h']}</h2>
@@ -554,7 +578,7 @@ def ks_page(lang, d, v, root, preview=False):
 </div></section>
 <section class="st-panel"><div class="wrap">
   <span class="kicker">{t['terms_kicker']}</span><h2 class="h-sec">{t['terms_h']}</h2>
-  <div class="ks-terms ks-terms-2" style="margin-top:36px">{terms}</div>
+  {how(False)}
 </div></section>
 {faq_sec}
 {ks_schema(lang, t, KS_SLUG)}"""
@@ -612,7 +636,7 @@ def ks_page(lang, d, v, root, preview=False):
   </div>
   <div>
     <span class="kicker">{t['terms_kicker']}</span><h2 class="h-sec" style="font-size:clamp(30px,4vw,48px)">{t['terms_h']}</h2>
-    <div class="ks-terms" style="margin-top:36px">{terms}</div>
+    {how(True)}
   </div>
 </div></section>
 {faq_sec}"""

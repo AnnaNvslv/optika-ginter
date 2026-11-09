@@ -357,3 +357,45 @@ for _l, _x in _PAY.items():
     _k["terms"] = _x["terms"]; _k["toric_note"] = _x["toric_note"]; _k["soon_p"] = _x["soon_p"]
     _k["about"] = [(_x["toric_about"] if i == 2 else a) for i, a in enumerate(_k["about"])]
     _k["faq"] = [(_x["faq_pay"] if i == 2 else q) for i, q in enumerate(_k["faq"])]
+
+# ── «Kako funkcioniše» kao koraci (bez brojeva — brendbuk) + plaćanje u dve kartice ──
+_STEPS = {
+    "sr": dict(steps=[
+        ("Porudžbina", "Pošaljite porudžbinu na sajtu, pozovite nas ili svratite u salon."),
+        ("Potvrda", "Pozivamo vas da potvrdimo porudžbinu. Kod dobavljača poručujemo tek nakon vaše potvrde."),
+        ("Isporuka", "Proveravamo dostupnost i javljamo rok. Torična sočiva stižu za najviše 8 nedelja."),
+        ("Preuzimanje", "Javljamo vam kad sočiva stignu — preuzimate ih u salonu na Trgu Republike 25."),
+    ], pay_kicker="Plaćanje", pay=[
+        ("Standardna sočiva", "Plaćate pri preuzimanju — gotovinom ili karticom. Bez avansa."),
+        ("Torična i posebna sočiva", "Poručujemo ih posebno za vas, uz uplatu unapred u salonu. Ako ste već poručivali sočiva kod nas — avans nije potreban."),
+    ], pay_note="Hvala na razumevanju — tako garantujemo pouzdanu uslugu i korektnu saradnju sa dobavljačima. Sočiva ne šaljemo poštom."),
+    "hu": dict(steps=[
+        ("Rendelés", "Küldje el a rendelést a weboldalon, hívjon minket, vagy térjen be az üzletbe."),
+        ("Megerősítés", "Felhívjuk, hogy megerősítsük a rendelést. A beszállítótól csak az Ön megerősítése után rendelünk."),
+        ("Szállítás", "Ellenőrizzük az elérhetőséget és jelezzük a határidőt. A tórikus lencsék legfeljebb 8 hét alatt érkeznek."),
+        ("Átvétel", "Szólunk, amikor megérkezett — az üzletben veheti át, Trg Republike 25."),
+    ], pay_kicker="Fizetés", pay=[
+        ("Standard lencsék", "Átvételkor fizet — készpénzzel vagy kártyával. Előleg nélkül."),
+        ("Tórikus és egyedi lencsék", "Kifejezetten Önnek rendeljük, előre fizetéssel az üzletben. Ha már rendelt nálunk lencsét, előleg nem szükséges."),
+    ], pay_note="Köszönjük megértését — így tudunk megbízható szolgáltatást és korrekt beszállítói együttműködést biztosítani. Postán nem küldünk."),
+    "en": dict(steps=[
+        ("Order", "Send your order on the website, call us or drop by the shop."),
+        ("Confirmation", "We call you to confirm the order. We order from the supplier only after you confirm."),
+        ("Delivery", "We check availability and tell you the lead time. Toric lenses arrive within 8 weeks at most."),
+        ("Collection", "We let you know when the lenses arrive — collect them in our shop at Trg Republike 25."),
+    ], pay_kicker="Payment", pay=[
+        ("Standard lenses", "Pay on collection — cash or card. No deposit."),
+        ("Toric and special lenses", "Ordered specially for you, with payment in advance in our shop. If you have ordered lenses from us before, no prepayment is needed."),
+    ], pay_note="Thank you for understanding — this lets us guarantee reliable service and fair cooperation with our suppliers. We do not ship."),
+    "ru": dict(steps=[
+        ("Заказ", "Отправьте заказ на сайте, позвоните нам или зайдите в салон."),
+        ("Подтверждение", "Мы звоним, чтобы подтвердить заказ. У поставщика заказываем только после вашего подтверждения."),
+        ("Поставка", "Проверяем наличие и сообщаем срок. Торические линзы приходят максимум за 8 недель."),
+        ("Получение", "Сообщим, когда линзы придут, — забираете их в салоне на Trg Republike 25."),
+    ], pay_kicker="Оплата", pay=[
+        ("Стандартные линзы", "Оплата при получении — наличными или картой. Без предоплаты."),
+        ("Торические и редкие линзы", "Заказываем специально для вас, по предоплате в салоне. Если вы уже заказывали у нас линзы — предоплата не нужна."),
+    ], pay_note="Спасибо за понимание — так мы гарантируем надёжный сервис и честную работу с поставщиками. Доставки почтой нет."),
+}
+for _l, _x in _STEPS.items():
+    KS[_l].update(_x)
