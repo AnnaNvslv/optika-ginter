@@ -491,6 +491,7 @@ KS_CSS = """<style>
 .ks-term h3{ font-size:24px; margin-bottom:6px; }
 .ks-term p{ color:var(--ink-soft); font-size:15px; }
 @media(min-width:760px){ .ks-terms-2{ display:grid; grid-template-columns:1fr 1fr; column-gap:48px; } }
+@media(min-width:1100px){ .st-tips.vx-3{ grid-template-columns:repeat(3,1fr); } }
 .ks-soon{ background:var(--black); color:var(--white); }
 .ks-soon .kicker{ color:var(--gold-light); }
 .ks-soon .h-sec em{ color:var(--gold-light); }
@@ -549,7 +550,7 @@ def ks_page(lang, d, v, root, preview=False):
 </div></section>
 <section><div class="wrap">
   <span class="kicker">{t['about_kicker']}</span><h2 class="h-sec">{t['about_h']}</h2>
-  <div class="st-tips">{about}</div>
+  <div class="st-tips vx-3">{about}</div>
 </div></section>
 <section class="st-panel"><div class="wrap">
   <span class="kicker">{t['terms_kicker']}</span><h2 class="h-sec">{t['terms_h']}</h2>

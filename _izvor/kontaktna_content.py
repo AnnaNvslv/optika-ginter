@@ -205,7 +205,6 @@ KS["sr"].update(
         ("Jednodnevna", "Svaki dan novi par — najhigijenskije rešenje, bez tečnosti i održavanja."),
         ("Dvonedeljna i mesečna", "Ekonomičan izbor za svakodnevno nošenje. Air Optix obično imamo na stanju."),
         ("Torična", "Sočiva za astigmatizam. Rok isporuke može biti do 8 nedelja."),
-        ("Prvi put u sočivima", "Pomoći ćemo vam da naučite da stavljate i skidate sočiva i da ih pravilno održavate."),
     ],
     faq_kicker="Pitanja", faq_h="Česta <em>pitanja</em>", crumb_home="Početna",
     faq=[
@@ -214,7 +213,6 @@ KS["sr"].update(
         ("Da li plaćam unapred?", "Ne. Porudžbina je besplatna, a sočiva plaćate pri preuzimanju u salonu — gotovinom ili karticom."),
         ("Da li šaljete sočiva poštom?", "Ne, sočiva preuzimate lično u Optici Ginter, Trg Republike 25, Novi Sad."),
         ("Gde da nađem parametre svojih sočiva?", "Na kutiji sočiva ili u receptu: SPH (dioptrija), BC (bazna krivina), DIA (prečnik), a za torična i CYL i AX."),
-        ("Nosim sočiva prvi put — šta da radim?", "Zakažite termin u salonu: proverićemo dioptriju, izabrati sočiva i naučiti vas da ih stavljate i skidate."),
     ],
 )
 KS["hu"].update(
@@ -231,7 +229,6 @@ KS["hu"].update(
         ("Napi lencsék", "Minden nap új pár — a leghigiénikusabb megoldás, folyadék és ápolás nélkül."),
         ("Kéthetes és havi", "Gazdaságos választás mindennapi viselésre. Air Optix általában raktáron van."),
         ("Tórikus", "Lencsék asztigmiára. A szállítási idő akár 8 hét is lehet."),
-        ("Először visel lencsét", "Megtanítjuk a lencse be- és kivételét és a helyes ápolást."),
     ],
     faq_kicker="Kérdések", faq_h="Gyakori <em>kérdések</em>", crumb_home="Kezdőlap",
     faq=[
@@ -240,7 +237,6 @@ KS["hu"].update(
         ("Előre kell fizetni?", "Nem. A rendelés ingyenes, a lencsét átvételkor fizeti az üzletben — készpénzzel vagy kártyával."),
         ("Postán is küldik a lencsét?", "Nem, a lencsét személyesen veheti át az Optika Ginterben, Trg Republike 25, Újvidék."),
         ("Hol találom a lencséim paramétereit?", "A lencse dobozán vagy a recepten: SPH (dioptria), BC (bázisgörbület), DIA (átmérő), tórikusnál CYL és AX is."),
-        ("Először viselek lencsét — mit tegyek?", "Foglaljon időpontot: ellenőrizzük a dioptriát, kiválasztjuk a lencsét, és megtanítjuk a be- és kivételt."),
     ],
 )
 KS["en"].update(
@@ -257,7 +253,6 @@ KS["en"].update(
         ("Daily", "A fresh pair every day — the most hygienic option, no solutions or cleaning."),
         ("Two-weekly and monthly", "An economical choice for everyday wear. Air Optix is usually in stock."),
         ("Toric", "Lenses for astigmatism. Delivery can take up to 8 weeks."),
-        ("First-time wearers", "We will teach you how to put in, remove and care for your lenses."),
     ],
     faq_kicker="Questions", faq_h="Frequently asked <em>questions</em>", crumb_home="Home",
     faq=[
@@ -266,7 +261,6 @@ KS["en"].update(
         ("Do I pay in advance?", "No. Ordering is free and you pay on collection in the shop — cash or card."),
         ("Do you ship lenses?", "No, you collect your lenses in person at Optika Ginter, Trg Republike 25, Novi Sad."),
         ("Where do I find my lens parameters?", "On the lens box or your prescription: SPH (power), BC (base curve), DIA (diameter), and for toric lenses CYL and AX."),
-        ("I am new to contact lenses — what should I do?", "Book an appointment: we check your prescription, choose the lenses and teach you how to put them in and take them out."),
     ],
 )
 KS["ru"].update(
@@ -283,7 +277,6 @@ KS["ru"].update(
         ("Однодневные", "Каждый день новая пара — самый гигиеничный вариант, без растворов и ухода."),
         ("Двухнедельные и ежемесячные", "Экономичный выбор для ежедневного ношения. Air Optix обычно есть в наличии."),
         ("Торические", "Линзы при астигматизме. Срок поставки — до 8 недель."),
-        ("Первые линзы", "Научим надевать и снимать линзы и правильно за ними ухаживать."),
     ],
     faq_kicker="Вопросы", faq_h="Частые <em>вопросы</em>", crumb_home="Главная",
     faq=[
@@ -292,7 +285,6 @@ KS["ru"].update(
         ("Нужно ли платить заранее?", "Нет. Заказ бесплатный, оплата при получении в салоне — наличными или картой."),
         ("Отправляете ли линзы почтой?", "Нет, линзы забираете сами в Optika Ginter, Trg Republike 25, Нови-Сад."),
         ("Где найти параметры моих линз?", "На коробке линз или в рецепте: SPH (сфера), BC (базовая кривизна), DIA (диаметр), для торических — ещё CYL и AX."),
-        ("Ношу линзы впервые — что делать?", "Запишитесь в салон: проверим рефракцию, подберём линзы и научим их надевать и снимать."),
     ],
 )
 
