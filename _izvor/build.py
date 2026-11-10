@@ -26,6 +26,7 @@ P = json.load(open(f"{BASE}/paths.json"))
 def ar(vb):
     _, _, w, h = map(float, vb.split()); return f"{w:.2f}/{h:.2f}"
 STYLE = open(f"{BASE}/base.css", encoding="utf-8").read()
+CF_BEACON = """<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "563f56fe2dbb4471ab8735436126e813"}'></script><!-- End Cloudflare Web Analytics -->"""
 TPL = open(f"{BASE}/page.html", encoding="utf-8").read()
 SUB_TPL = open(f"{BASE}/sub.html", encoding="utf-8").read()
 CAT_CSS = open(f"{BASE}/catalog.css", encoding="utf-8").read()
@@ -707,6 +708,7 @@ body{{ background:var(--black); color:var(--white); display:flex; flex-direction
 .e-foot{{ border-top:1px solid rgba(210,180,126,.25); padding:22px 24px; text-align:center; font-size:13px; letter-spacing:.08em; color:rgba(255,255,255,.55); }}
 .e-foot a{{ color:var(--gold-light); }}
 </style>
+{CF_BEACON}
 </head>
 <body>
 <main class="e-main"><div class="e-box">
