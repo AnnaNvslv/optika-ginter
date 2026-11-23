@@ -399,3 +399,44 @@ _STEPS = {
 }
 for _l, _x in _STEPS.items():
     KS[_l].update(_x)
+
+# ── 23.11.2026: odabir sočiva + Air Optix na stanju (upiti «pregled za kontaktna sočiva novi sad») ──
+_KS_FIT = {
+    "sr": dict(
+        title="Kontaktna sočiva Novi Sad — odabir i porudžbina | Optika Ginter",
+        desc="Odabir kontaktnih sočiva i porudžbina u Novom Sadu. Air Optix na stanju, poručujemo sva sočiva dostupna u Srbiji: jednodnevna, mesečna, torična. Optika Ginter, Trg Republike 25.",
+        p_lead="Pomažemo da izaberete prava kontaktna sočiva i naučimo vas kako da ih nosite. Air Optix imamo na stanju, a poručujemo sva sočiva dostupna u Srbiji — jednodnevna, dvonedeljna, mesečna i torična za astigmatizam. Sočiva preuzimate i plaćate u salonu na Trgu Republike.",
+        fit=("Odabir sočiva", "Proveravamo dioptriju, biramo vrstu i parametre sočiva i učimo vas kako da ih stavljate, skidate i održavate."),
+        stock=("Air Optix na stanju", "Mesečna sočiva Air Optix plus HydraGlyde obično imamo na stanju — možete ih preuzeti odmah."),
+        faq=("Da li radite odabir kontaktnih sočiva?", "Da. Proveravamo dioptriju, biramo sočiva i parametre koji vam odgovaraju i učimo vas kako da ih stavljate i skidate. Zakažite termin telefonom."),
+    ),
+    "hu": dict(
+        title="Kontaktlencse Újvidék — kiválasztás és rendelés | Optika Ginter",
+        desc="Kontaktlencse-kiválasztás és rendelés Újvidéken. Air Optix raktáron, minden Szerbiában kapható lencsét megrendelünk: napi, havi, tórikus. Optika Ginter, Trg Republike 25.",
+        p_lead="Segítünk kiválasztani a megfelelő kontaktlencsét, és megtanítjuk a használatát. Air Optix lencsénk raktáron van, és minden Szerbiában kapható lencsét megrendelünk — napi, kéthetes, havi és tórikus lencséket asztigmiára. A lencséket az üzletben veheti át és fizetheti ki a Trg Republikén.",
+        fit=("Lencse kiválasztása", "Ellenőrizzük a dioptriát, kiválasztjuk a lencse típusát és paramétereit, és megtanítjuk a felhelyezést, levételt és ápolást."),
+        stock=("Air Optix raktáron", "Az Air Optix plus HydraGlyde havi lencse általában raktáron van — azonnal elviheti."),
+        faq=("Segítenek kiválasztani a kontaktlencsét?", "Igen. Ellenőrizzük a dioptriát, kiválasztjuk a megfelelő lencsét és paramétereit, és megtanítjuk a felhelyezést és levételt. Foglaljon időpontot telefonon."),
+    ),
+    "en": dict(
+        title="Contact lenses Novi Sad — fitting and ordering | Optika Ginter",
+        desc="Contact lens fitting and ordering in Novi Sad. Air Optix in stock; we order all lenses available in Serbia: daily, monthly, toric. Optika Ginter, Trg Republike 25.",
+        p_lead="We help you choose the right contact lenses and teach you how to wear them. Air Optix is in stock, and we order all lenses available in Serbia — daily, two-weekly, monthly and toric lenses for astigmatism. You collect and pay for your lenses at our shop on Trg Republike.",
+        fit=("Lens fitting", "We check your prescription, choose the lens type and parameters, and teach you how to insert, remove and care for your lenses."),
+        stock=("Air Optix in stock", "Air Optix plus HydraGlyde monthly lenses are usually in stock — you can take them right away."),
+        faq=("Do you fit contact lenses?", "Yes. We check your prescription, choose the lenses and parameters that suit you, and teach you how to insert and remove them. Book an appointment by phone."),
+    ),
+    "ru": dict(
+        title="Контактные линзы в Нови-Саде — подбор и заказ | Optika Ginter",
+        desc="Подбор и заказ контактных линз в Нови-Саде. Air Optix в наличии, заказываем все линзы, доступные в Сербии: однодневные, месячные, торические. Optika Ginter, Trg Republike 25.",
+        p_lead="Поможем подобрать подходящие контактные линзы и научим ими пользоваться. Air Optix есть в наличии, а заказываем мы все линзы, доступные в Сербии, — однодневные, двухнедельные, месячные и торические для астигматизма. Линзы забираете и оплачиваете в салоне на Trg Republike.",
+        fit=("Подбор линз", "Проверяем рефракцию, подбираем тип и параметры линз и учим надевать, снимать и ухаживать за ними."),
+        stock=("Air Optix в наличии", "Месячные линзы Air Optix plus HydraGlyde обычно есть в наличии — можно забрать сразу."),
+        faq=("Вы подбираете контактные линзы?", "Да. Проверяем рефракцию, подбираем линзы и параметры, которые вам подходят, и учим их надевать и снимать. Запишитесь по телефону."),
+    ),
+}
+for _l, _f in _KS_FIT.items():
+    _t = KS[_l]
+    _t.update(title=_f["title"], desc=_f["desc"], p_lead=_f["p_lead"])
+    _t["about"] = [_f["fit"], _f["stock"]] + [a for a in _t["about"] if "Air Optix" not in a[1] or a == _t["about"][0]]
+    _t["faq"] = [_f["faq"]] + list(_t["faq"])

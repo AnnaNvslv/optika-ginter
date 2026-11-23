@@ -596,7 +596,7 @@ def ks_page(lang, d, v, root, preview=False):
 </div></section>
 <section><div class="wrap">
   <span class="kicker">{t['about_kicker']}</span><h2 class="h-sec">{t['about_h']}</h2>
-  <div class="st-tips vx-3">{about}</div>
+  <div class="st-tips">{about}</div>
 </div></section>
 <section class="st-panel"><div class="wrap">
   <span class="kicker">{t['terms_kicker']}</span><h2 class="h-sec">{t['terms_h']}</h2>
