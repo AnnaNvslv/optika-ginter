@@ -26,7 +26,7 @@ VX["sr"] = dict(
     what_h="Kada su potrebna <em>progresivna</em> stakla",
     what_p=[
         "Posle 40. godine oko postepeno gubi sposobnost da izoštri sliku na blizinu — to je prezbiopija, prirodna promena koja se dešava svima. Telefon se drži sve dalje, slova postaju sitnija, a uz naočare za daljinu potrebne su i naočare za čitanje.",
-        "Progresivno staklo spaja sve u jedno: gornji deo je za daljinu, sredina za računar i razgovor, donji deo za čitanje. Prelaz je postepen i nevidljiv — nema linije kao kod bifokalnih stakala, pa spolja izgledaju kao obične naočare.",
+        "Progresivno staklo spaja sve u jedno (zato se zovu i multifokalna): gornji deo je za daljinu, sredina za računar i razgovor, donji deo za čitanje. Prelaz je postepen i nevidljiv — nema linije kao kod bifokalnih stakala, pa spolja izgledaju kao obične naočare.",
     ],
     zones_kicker="Kako deluje", zones_h="Tri zone u <em>jednom staklu</em>",
     zones=[
@@ -69,6 +69,7 @@ VX["sr"] = dict(
     video_title="Varilux — video",
     faq_kicker="Česta pitanja", faq_h="Pitanja o <em>progresivnim</em> naočarama",
     faq=[
+        ("Šta su progresivne naočare?", "Progresivne (multifokalne) naočare imaju stakla sa tri zone: gornji deo za daljinu, srednji za računar i donji za čitanje. Prelaz je postepen i bez vidljive linije, pa jedne naočare zamenjuju naočare za daljinu i za čitanje."),
         ("Koliko traje navikavanje na progresivna stakla?", "Većini ljudi je potrebno nekoliko dana do dve nedelje. Varilux stakla su dizajnirana za brzo prilagođavanje, a ako se ne naviknete za 60 dana, važi garancija prilagođavanja."),
         ("Koliko koštaju Varilux progresivna stakla?", "Preporučene cene Essilor po staklu (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 od 12.500 RSD, Comfort Max od 22.300 RSD, Physio extensee od 35.700 RSD, XR series od 41.700 RSD. Tačna cena zavisi od dioptrije, materijala i sloja. Okvir se plaća posebno."),
         ("Koja je razlika između Comfort Max i Physio extensee?", "Comfort Max je udobno svestrano staklo sa širokom zonom za čitanje i brzim prilagođavanjem. Physio extensee daje veću oštrinu i kontrast, posebno pri slabom svetlu i za sitna slova. Najčešće preporučujemo jedno od ova dva."),
@@ -144,6 +145,7 @@ VX["hu"] = dict(
     video_title="Varilux — videó",
     faq_kicker="Gyakori kérdések", faq_h="Kérdések a <em>progresszív</em> szemüvegről",
     faq=[
+        ("Mi az a progresszív szemüveg?", "A progresszív (multifokális) szemüveg lencséjének három zónája van: felül távolra, középen számítógéphez, alul olvasáshoz. Az átmenet fokozatos, látható vonal nélkül, így egy szemüveg helyettesíti a távoli és az olvasószemüveget."),
         ("Mennyi idő megszokni a progresszív lencsét?", "A legtöbb embernek néhány nap vagy két hét. A Varilux lencséket gyors megszokásra tervezték, és ha 60 nap alatt nem szokja meg, érvényes a megszokási garancia."),
         ("Mennyibe kerülnek a Varilux progresszív lencsék?", "Az Essilor ajánlott árai lencsénként (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 12 500 RSD-tól, Comfort Max 22 300 RSD-tól, Physio extensee 35 700 RSD-tól, XR series 41 700 RSD-tól. A pontos ár a dioptriától, az anyagtól és a bevonattól függ. A keretet külön kell fizetni."),
         ("Mi a különbség a Comfort Max és a Physio extensee között?", "A Comfort Max kényelmes, sokoldalú lencse széles olvasózónával és gyors megszokással. A Physio extensee nagyobb élességet és kontrasztot ad, különösen gyenge fényben és apró betűknél. Leggyakrabban e kettő egyikét ajánljuk."),
@@ -219,6 +221,7 @@ VX["en"] = dict(
     video_title="Varilux — video",
     faq_kicker="FAQ", faq_h="Questions about <em>progressive</em> glasses",
     faq=[
+        ("What are progressive glasses?", "Progressive (multifocal) glasses have lenses with three zones: the top for distance, the middle for the computer and the bottom for reading. The transition is gradual with no visible line, so one pair replaces both distance and reading glasses."),
         ("How long does it take to get used to progressives?", "For most people, from a few days to two weeks. Varilux lenses are designed for quick adaptation, and if you don't adapt within 60 days, the adaptation guarantee applies."),
         ("How much do Varilux progressive lenses cost?", "Essilor recommended prices per lens (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 from 12,500 RSD, Comfort Max from 22,300 RSD, Physio extensee from 35,700 RSD, XR series from 41,700 RSD. The exact price depends on prescription, material and coating. The frame is paid separately."),
         ("What's the difference between Comfort Max and Physio extensee?", "Comfort Max is a comfortable all-round lens with a wide reading zone and quick adaptation. Physio extensee gives more sharpness and contrast, especially in low light and for small print. We most often recommend one of these two."),
@@ -294,6 +297,7 @@ VX["ru"] = dict(
     video_title="Varilux — видео",
     faq_kicker="Частые вопросы", faq_h="Вопросы о <em>прогрессивных</em> очках",
     faq=[
+        ("Что такое прогрессивные очки?", "Прогрессивные (мультифокальные) очки — это линзы с тремя зонами: верх для дали, середина для компьютера, низ для чтения. Переход плавный и без видимой линии, поэтому одни очки заменяют и очки для дали, и очки для чтения."),
         ("Сколько времени нужно, чтобы привыкнуть к прогрессивным линзам?", "Большинству людей — от нескольких дней до двух недель. Линзы Varilux созданы для быстрой адаптации, а если вы не привыкнете за 60 дней, действует гарантия адаптации."),
         ("Сколько стоят прогрессивные линзы Varilux?", "Рекомендованные цены Essilor за линзу (Orma 1.5, Crizal Easy PRO / Rock): Varilux Liberty 3.0 от 12 500 RSD, Comfort Max от 22 300 RSD, Physio extensee от 35 700 RSD, XR series от 41 700 RSD. Точная цена зависит от рецепта, материала и покрытия. Оправа оплачивается отдельно."),
         ("Чем отличаются Comfort Max и Physio extensee?", "Comfort Max — комфортная универсальная линза с широкой зоной для чтения и быстрой адаптацией. Physio extensee даёт более высокую чёткость и контраст, особенно при слабом освещении и для мелкого шрифта. Чаще всего мы рекомендуем одну из этих двух."),

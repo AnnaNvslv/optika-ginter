@@ -17,8 +17,8 @@ LENSES = ["Essilor", "POL", "Alcon", "Bausch + Lomb", "Johnson & Johnson", "Coop
 C = {}
 
 C["sr"] = dict(
-    title="Optika Novi Sad — Optika Ginter, Trg Republike 25",
-    desc="Porodična optika i optičarska radnja u centru Novog Sada, Trg Republike 25. Besplatna provera dioptrije, izrada naočara od 1 dana, progresivna i Stellest stakla, kontaktna sočiva.",
+    title="Optika Novi Sad centar — Optika Ginter, Trg Republike 25",
+    desc="Optika u centru Novog Sada, Trg Republike 25. Besplatna provera vida, izrada naočara sa dioptrijom od 1 dana, progresivne i Stellest naočare, kontaktna sočiva. Govorimo i ruski.",
     menu="Meni", nav_about="O nama", nav_services="Usluge i cene", nav_team="Tim", nav_faq="Pitanja", nav_contacts="Kontakt",
     hero_tag="Dobar vid može biti dostupan.",
     btn_book="Zakažite termin", btn_call="Pozovite", scroll="Skrolujte",
@@ -30,12 +30,12 @@ C["sr"] = dict(
     svc_kicker="Usluge i cene", svc_h="Sve za vaš <em>vid</em>",
     svc_lead="Cene su orijentacione. Tačnu cenu za vaše naočare dobićete u optici, posle provere dioptrije.",
     services=[
-        ("Provera dioptrije", "besplatno", "Dioptriju proveravamo na licu mesta, recept lekara nije potreban. Preporučujemo da zakažete termin, kako bi optometrista bio slobodan i posvetio vam se u potpunosti."),
-        ("Izrada naočara", "od 1 dana", "Stakla obično stižu za 1 do 5 dana, a naočare su najčešće gotove već sledećeg dana. Izrada u našem okviru je besplatna. Ugradnja stakala u vaš okvir: 500 RSD (okvir klijenta preuzimamo bez garancije)."),
+        ("Provera vida", "besplatno", "Provera vida i dioptrije je besplatna. Dioptriju proveravamo na licu mesta, recept lekara nije potreban. Preporučujemo da zakažete termin, kako bi optometrista bio slobodan i posvetio vam se u potpunosti."),
+        ("Izrada naočara sa dioptrijom", "od 1 dana", "Stakla obično stižu za 1 do 5 dana, a naočare su najčešće gotove već sledećeg dana. Izrada u našem okviru je besplatna. Ugradnja stakala u vaš okvir: 500 RSD (okvir klijenta preuzimamo bez garancije)."),
         ("Složena korekcija", "", "Astigmatizam, prizmatska korekcija, progresivna stakla — biramo i izrađujemo naočare bilo koje složenosti. Rok isporuke složenih stakala može biti nešto duži."),
         ("Kontaktna sočiva", "od 3.000 RSD", "Air Optix imamo na stanju, a poručujemo sva sočiva dostupna u Srbiji."),
-        ("Dečije naočare", "okviri od 4.500 RSD", "Prve dečije naočare izrađujemo po receptu dečijeg oftalmologa. Stakla od 2.000 RSD po paru."),
-        ("Sunčane naočare", "od 7.000 RSD", "INVU, Romeo, a uskoro i Ray-Ban."),
+        ("Dečije naočare", "okviri od 4.500 RSD", "Dečije naočare sa dioptrijom i dečije sunčane naočare. Prve dečije naočare izrađujemo po receptu dečijeg oftalmologa. Stakla od 2.000 RSD po paru."),
+        ("Sunčane naočare", "od 7.000 RSD", "INVU, Romeo, a uskoro i Ray-Ban. Izrađujemo i sunčane naočare sa dioptrijom."),
         ("Servis", "besplatno", "Za naše klijente besplatno: zamena silikonskih podmetača i ispravljanje okvira. Garancija na montažu stakala u okvir je 1 mesec."),
     ],
     pay="Plaćanje: gotovina, kartica, čekovi, na rate, uplata na račun firme.",
@@ -197,8 +197,8 @@ C["en"] = dict(
 )
 
 C["ru"] = dict(
-    title="Optika Ginter — оптика в центре Нови-Сада | Trg Republike 25",
-    desc="Семейная оптика на Trg Republike 25 в Нови-Саде. Бесплатное уточнение диоптрий, очки от 1 дня, контактные линзы, солнцезащитные очки. Ray-Ban, Armani Exchange, Guess.",
+    title="Оптика в Нови-Саде, говорим по-русски | Optika Ginter",
+    desc="Оптика в центре Нови-Сада с русскоговорящим оптометристом, Trg Republike 25. Бесплатная проверка зрения, очки от 1 дня, контактные линзы, солнцезащитные очки. Ray-Ban, Armani Exchange, Guess.",
     menu="Меню", nav_about="О нас", nav_services="Услуги и цены", nav_team="Команда", nav_faq="Вопросы", nav_contacts="Контакты",
     hero_tag="Хорошее зрение может быть доступным.",
     btn_book="Записаться", btn_call="Позвонить", scroll="Листайте",
