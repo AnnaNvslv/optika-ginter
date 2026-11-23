@@ -287,7 +287,7 @@ def stellest_schema(lang, t, pr):
             "name": "Essilor Stellest", "brand": {"@type": "Brand", "name": "Essilor"},
             "description": plain(t["desc"]), "image": f"{DOMAIN}/img/og-stellest.jpg", "url": url,
             "offers": [{"@type": "Offer", "name": plain(name), "price": str(pr[k]["one_num"]), "priceCurrency": "RSD",
-                        "availability": "https://schema.org/InStock", "url": url,
+                        "hasMerchantReturnPolicy": {"@type": "MerchantReturnPolicy", "applicableCountry": "RS", "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"}, "availability": "https://schema.org/InStock", "url": url,
                         "seller": {"@type": "Optician", "name": "Optika Ginter", "url": DOMAIN + "/"}}
                        for k, name, _ in t["price_rows"]]}
     faq = {"@context": "https://schema.org", "@type": "FAQPage",
@@ -381,7 +381,7 @@ def vx_schema(lang, t, pr):
               "brand": {"@type": "Brand", "name": "Varilux"}, "description": plain(txt), "url": url,
               "image": f"{DOMAIN}/img/og-varilux.jpg",
               "offers": {"@type": "Offer", "price": str(pr[k]["one_num"]), "priceCurrency": "RSD", "url": url,
-                         "availability": "https://schema.org/InStock",
+                         "hasMerchantReturnPolicy": {"@type": "MerchantReturnPolicy", "applicableCountry": "RS", "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"}, "availability": "https://schema.org/InStock",
                          "seller": {"@type": "Optician", "name": "Optika Ginter", "url": DOMAIN + "/"}}}
              for k, name, _, txt in t["lines"]]
     faq = {"@context": "https://schema.org", "@type": "FAQPage",
