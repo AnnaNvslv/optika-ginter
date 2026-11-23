@@ -23,10 +23,10 @@ REF = ("Bao J. et al. Spectacle Lenses With Aspherical Lenslets for Myopia Contr
 ST = {}
 
 ST["sr"] = dict(
-    title="Stellest naočare za decu, Novi Sad | Optika Ginter",
-    desc="Essilor Stellest stakla za decu sa kratkovidošću (miopijom) u Novom Sadu. U proseku 67% sporiji napredak miopije. Uvek 10% popusta u Optici Ginter, Trg Republike 25.",
+    title="Stellest stakla za decu — cena, Novi Sad | Optika Ginter",
+    desc="Essilor Stellest stakla za decu sa kratkovidošću: 17.640 RSD po staklu, uvek 10% ispod preporučene cene. U proseku 67% sporiji napredak miopije. Optika Ginter, Novi Sad.",
     kicker="Essilor Stellest · kontrola miopije",
-    h1="Stellest naočare za decu u <em>Novom Sadu</em>",
+    h1="Stellest stakla za decu u <em>Novom Sadu</em>",
     lead="Stellest stakla koriguju kratkovidost i istovremeno usporavaju njeno napredovanje — u proseku za 67% u poređenju sa običnim staklima, kada ih dete nosi 12 sati dnevno.¹ Optika Ginter radi sa Essilor staklima i Stellest izrađuje sa stalnim popustom od 10%.",
     badge="Uvek 10% popusta",
     btn_call="Zakažite termin",

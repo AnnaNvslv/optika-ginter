@@ -14,8 +14,8 @@ def vx_prices(lang):
 VX = {}
 
 VX["sr"] = dict(
-    title="Progresivne naočare Varilux, Novi Sad | Optika Ginter",
-    desc="Varilux progresivna stakla u Novom Sadu: Comfort Max, Physio extensee, Liberty 3.0, XR series. Besplatna provera dioptrije, precizna merenja, garancija prilagođavanja 60 dana. Trg Republike 25.",
+    title="Progresivne naočare Varilux — cene, Novi Sad | Optika Ginter",
+    desc="Cene Varilux progresivnih stakala: Comfort Max od 22.300 RSD, Physio extensee od 35.700 RSD po staklu. Besplatna provera dioptrije, garancija prilagođavanja 60 dana. Novi Sad.",
     kicker="Essilor Varilux · progresivna stakla",
     h1="Progresivne naočare Varilux u <em>Novom Sadu</em>",
     lead="Jedne naočare za daljinu, računar i čitanje — bez stalnog skidanja i menjanja naočara. Radimo sa Varilux staklima, brendom progresivnih stakala broj 1 koji preporučuju stručnjaci za vid u svetu.",

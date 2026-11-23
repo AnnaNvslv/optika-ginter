@@ -17,8 +17,8 @@ LENSES = ["Essilor", "POL", "Alcon", "Bausch + Lomb", "Johnson & Johnson", "Coop
 C = {}
 
 C["sr"] = dict(
-    title="Optika Ginter — optika u centru Novog Sada | Trg Republike 25",
-    desc="Porodična optika na Trgu Republike 25 u Novom Sadu. Besplatna provera dioptrije, izrada naočara od 1 dana, kontaktna sočiva, sunčane naočare. Ray-Ban, Armani Exchange, Guess.",
+    title="Optika Novi Sad — Optika Ginter, Trg Republike 25",
+    desc="Porodična optika i optičarska radnja u centru Novog Sada, Trg Republike 25. Besplatna provera dioptrije, izrada naočara od 1 dana, progresivna i Stellest stakla, kontaktna sočiva.",
     menu="Meni", nav_about="O nama", nav_services="Usluge i cene", nav_team="Tim", nav_faq="Pitanja", nav_contacts="Kontakt",
     hero_tag="Dobar vid može biti dostupan.",
     btn_book="Zakažite termin", btn_call="Pozovite", scroll="Skrolujte",
